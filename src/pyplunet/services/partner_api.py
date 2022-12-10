@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import List, Union
+
+from typing import TYPE_CHECKING, List, Union
 
 from zeep.helpers import serialize_object
 
@@ -10,8 +11,6 @@ from ..models import (
     CustomerPaymentInformation,
     SearchFilter_Customer,
 )
-
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from ..client import PlunetClient

@@ -2,10 +2,12 @@ from typing import Callable, Union
 
 from plunetapi import PlunetAPI
 
+from .exceptions import NoPlunetSession, PlunetAuthFailed, PlunetException
 from .services import (
     DataAdmin30,
     DataCustomer30,
     DataCustomerContact30,
+    DataCustomFields30,
     DataDocument30,
     DataItem30,
     DataJob30,
@@ -17,8 +19,6 @@ from .services import (
     ReportCustomer30,
     ReportJob30,
 )
-
-from .exceptions import NoPlunetSession, PlunetAuthFailed, PlunetException
 
 
 class PlunetClient:
@@ -35,6 +35,7 @@ class PlunetClient:
         self.job = DataJob30(self)
         self.customer = DataCustomer30(self)
         self.customer_contact = DataCustomerContact30(self)
+        self.custom_fields = DataCustomFields30(self)
         self.outgoing_invoice = DataOutgoingInvoice30(self)
         self.report_customer = ReportCustomer30(self)
         self.report_job = ReportJob30(self)

@@ -1,9 +1,8 @@
 from __future__ import annotations
-from typing import List, Union
+
+from typing import TYPE_CHECKING, List, Union
 
 from ..models import SearchFilter_Job
-
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
