@@ -6,7 +6,7 @@ class SearchSelection_Resource(Enum):
     RESOURCE = 1
 
 
-class FolderType(Enum):
+class FolderTypes(Enum):
     CUSTOMER = 19
     INVOICE = 13
     ORDER_FINAL = 12
@@ -124,7 +124,6 @@ class DocumentStatus(Enum):
 
 
 class APIVersion(Enum):
-    Version_10 = "Version_10"
     Version_25 = "Version_25"
     Version_30 = "Version_30"
 
@@ -409,7 +408,6 @@ class ContactPersonStatus(Enum):
 
 class TextModuleUsageArea(Enum):
     CUSTOMER = 1
-    INVOICE = "INVOICE"
     ORDER = 6
     ORDER_CUSTOMER_LOGIN = 19
     ORDER_JOB = 11

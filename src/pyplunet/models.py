@@ -9,9 +9,12 @@ from .enums import (
     ExportedType,
     InvoiceStatusType,
     PayableStatus,
+    QuoteStatusType,
     ResourceType,
     SearchScope,
     SearchSelection_Customer,
+    TextModuleType,
+    TextModuleUsageArea,
     TimeFrameRelation_Invoice,
     TimeFrameRelation_Quote,
     TimeFrameRelation_Request,
@@ -230,3 +233,137 @@ class InvoiceObject(BaseModel):
     subject: Optional[str] = None
     tax: float
     valueDate: datetime
+
+
+class QuoteIN(BaseModel):
+    creationDate: Optional[datetime]
+    currency: Optional[str]
+    customerID: int
+    projectManagerMemo: Optional[str]
+    projectName: str
+    quoteID: Optional[int] = -1
+    referenceNumber: Optional[str]
+    status: QuoteStatusType
+    subject: Optional[str]
+
+    class Config:
+        use_enum_values = True
+
+
+class JobTrackingTimeIN:
+    pass
+
+
+class JobTrackingTimeListIN:
+    pass
+
+
+class JobIN:
+    pass
+
+
+class PriceLineIN:
+    pass
+
+
+class PayableItemIN:
+    pass
+
+
+class Customer:
+    pass
+
+
+class Item:
+    pass
+
+
+class Job:
+    pass
+
+
+class Order:
+    pass
+
+
+class Quote:
+    pass
+
+
+class Request:
+    pass
+
+
+class Resource:
+    pass
+
+
+class SearchFilter_CreditNote:
+    pass
+
+
+class CreditNoteItemIN:
+    pass
+
+
+class IntegerList:
+    pass
+
+
+class TextmoduleIN(BaseModel):
+    dateValue: Optional[datetime]
+    flag: Optional[str]
+    selectedValues: Optional[List[str]]
+    stringValue: Optional[str]
+    textModuleUsageArea: TextModuleUsageArea
+
+    class Config:
+        use_enum_values = True
+
+
+class CustomerIN:
+    pass
+
+
+class PaymentInfo:
+    pass
+
+
+class AddressIN:
+    pass
+
+
+class ItemIN:
+    pass
+
+
+class JobRoundIN:
+    pass
+
+
+class JobRoundRankingMethodList:
+    pass
+
+
+class JobRoundSearchCriteriaIN:
+    pass
+
+
+class InvoiceItemIN:
+    pass
+
+
+class ResourceIN:
+    pass
+
+
+class SearchFilter_Resource:
+    pass
+
+
+class ResourceContactIN:
+    pass
+
+
+class RequestIN:
+    pass
