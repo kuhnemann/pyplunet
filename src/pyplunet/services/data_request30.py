@@ -148,7 +148,15 @@ class DataRequest30:
         :return: IntegerResult
         """
 
-        self.__client.plunet_server.DataRequest30.insert
+        proxy = self.__client.plunet_server.DataRequest30.insert
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=None,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
     def search(
         self, search_filter: Union[SearchFilter_Request, dict]
@@ -1184,7 +1192,15 @@ class DataRequest30:
         :return: IntegerArrayResult
         """
 
-        self.__client.plunet_server.DataRequest30.getAll_Requests
+        proxy = self.__client.plunet_server.DataRequest30.getAll_Requests
+        response_model = IntegerArrayResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=None,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
     def set_price(self, price: float, request_id: int) -> Result:
         """

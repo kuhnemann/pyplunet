@@ -94,7 +94,15 @@ class DataCustomer30:
         :return: IntegerResult
         """
 
-        self.__client.plunet_server.DataCustomer30.insert
+        proxy = self.__client.plunet_server.DataCustomer30.insert
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=None,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
     def search(
         self, search_filter: Union[SearchFilter_Customer, dict]
@@ -405,7 +413,15 @@ class DataCustomer30:
         :return: IntegerArrayResult
         """
 
-        self.__client.plunet_server.DataCustomer30.getAvailableAccountIDList
+        proxy = self.__client.plunet_server.DataCustomer30.getAvailableAccountIDList
+        response_model = IntegerArrayResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=None,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
     def set_date_of_initial_contact(
         self, customer_id: int, date_initial_contact: datetime
@@ -657,7 +673,15 @@ class DataCustomer30:
         :return: IntegerArrayResult
         """
 
-        self.__client.plunet_server.DataCustomer30.getAvailablePaymentMethodList
+        proxy = self.__client.plunet_server.DataCustomer30.getAvailablePaymentMethodList
+        response_model = IntegerArrayResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=None,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
     def deregister_callback_notify(self, event_type: EventType) -> Result:
         """

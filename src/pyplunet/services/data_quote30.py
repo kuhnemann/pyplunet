@@ -95,7 +95,15 @@ class DataQuote30:
         :return: IntegerResult
         """
 
-        self.__client.plunet_server.DataQuote30.insert
+        proxy = self.__client.plunet_server.DataQuote30.insert
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=None,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
     def search(
         self, search_filter: Union[SearchFilter_Quote, dict]
@@ -881,7 +889,15 @@ class DataQuote30:
         :return: TemplateListResult
         """
 
-        self.__client.plunet_server.DataQuote30.getTemplateList
+        proxy = self.__client.plunet_server.DataQuote30.getTemplateList
+        response_model = TemplateListResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=None,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
     def get_quote_document(self, quote_id: int) -> StringResult:
         """

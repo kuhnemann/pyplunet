@@ -149,7 +149,15 @@ class DataOrder30:
         :return: IntegerResult
         """
 
-        self.__client.plunet_server.DataOrder30.insert
+        proxy = self.__client.plunet_server.DataOrder30.insert
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=None,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
     def search(
         self, search_filter: Union[SearchFilter_Order, dict]
@@ -1362,7 +1370,15 @@ class DataOrder30:
         :return: TemplateListResult
         """
 
-        self.__client.plunet_server.DataOrder30.getTemplateList
+        proxy = self.__client.plunet_server.DataOrder30.getTemplateList
+        response_model = TemplateListResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=None,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
     def set_creation_date(self, creation_date: datetime, order_id: int) -> Result:
         """

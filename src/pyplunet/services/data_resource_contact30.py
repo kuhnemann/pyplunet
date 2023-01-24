@@ -65,7 +65,15 @@ class DataResourceContact30:
         :return: IntegerResult
         """
 
-        self.__client.plunet_server.DataResourceContact30.insert
+        proxy = self.__client.plunet_server.DataResourceContact30.insert
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=None,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
     def get_status(self, contact_id: int) -> IntegerResult:
         """

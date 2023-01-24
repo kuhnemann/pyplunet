@@ -32,7 +32,15 @@ class DataAdmin30:
         :return: CurrencyList
         """
 
-        self.__client.plunet_server.DataAdmin30.getSystemCurrencies
+        proxy = self.__client.plunet_server.DataAdmin30.getSystemCurrencies
+        response_model = CurrencyList
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=None,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
     def get_available_document_templates(
         self,
@@ -45,7 +53,15 @@ class DataAdmin30:
         :return: StringArrayResult
         """
 
-        self.__client.plunet_server.DataAdmin30.getAvailableDocumentTemplates
+        proxy = self.__client.plunet_server.DataAdmin30.getAvailableDocumentTemplates
+        response_model = StringArrayResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=None,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
     def get_company_code_list(
         self,
@@ -57,7 +73,15 @@ class DataAdmin30:
         :return: CompanyCodeListResult
         """
 
-        self.__client.plunet_server.DataAdmin30.getCompanyCodeList
+        proxy = self.__client.plunet_server.DataAdmin30.getCompanyCodeList
+        response_model = CompanyCodeListResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=None,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
     def get_domestic_currency(
         self,
@@ -69,7 +93,15 @@ class DataAdmin30:
         :return: StringResult
         """
 
-        self.__client.plunet_server.DataAdmin30.getDomesticCurrency
+        proxy = self.__client.plunet_server.DataAdmin30.getDomesticCurrency
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=None,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
     def get_available_services(self, language_code: str) -> ServiceListResult:
         """
@@ -145,4 +177,12 @@ class DataAdmin30:
         :return: CallbackListResult
         """
 
-        self.__client.plunet_server.DataAdmin30.getListOfRegisteredCallbacks
+        proxy = self.__client.plunet_server.DataAdmin30.getListOfRegisteredCallbacks
+        response_model = CallbackListResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=None,
+            response_model=response_model,
+            unpack_dict=False,
+        )

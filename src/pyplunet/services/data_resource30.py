@@ -402,7 +402,15 @@ class DataResource30:
         :return: IntegerArrayResult
         """
 
-        self.__client.plunet_server.DataResource30.getAvailableAccountIDList
+        proxy = self.__client.plunet_server.DataResource30.getAvailableAccountIDList
+        response_model = IntegerArrayResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=None,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
     def register_callback_notify(
         self,
@@ -548,7 +556,15 @@ class DataResource30:
         :return: IntegerArrayResult
         """
 
-        self.__client.plunet_server.DataResource30.getAvailablePaymentMethodList
+        proxy = self.__client.plunet_server.DataResource30.getAvailablePaymentMethodList
+        response_model = IntegerArrayResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=None,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
     def deregister_callback_notify(self, event_type: EventType) -> Result:
         """

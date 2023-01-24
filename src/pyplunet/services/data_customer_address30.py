@@ -398,7 +398,15 @@ class DataCustomerAddress30:
         :return: IntegerResult
         """
 
-        self.__client.plunet_server.DataCustomerAddress30.getAddressID
+        proxy = self.__client.plunet_server.DataCustomerAddress30.getAddressID
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=None,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
     def set_office(self, external_id: str, address_id: int) -> Result:
         """
