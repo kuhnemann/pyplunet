@@ -1,10 +1,28 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import TYPE_CHECKING, List, Union
+from typing import TYPE_CHECKING, Union
 
-from ..enums import CurrencyType
-from ..models import PayableItemIN, PriceLineIN, SearchFilter_Payable
+from ..enums import TaxType
+from ..models import (
+    BooleanResult,
+    DateResult,
+    DoubleResult,
+    IntegerArrayResult,
+    IntegerResult,
+    PayableItemIN,
+    PayableItemResultList,
+    PriceLineIN,
+    PriceLineListResult,
+    PriceLineResult,
+    PriceUnitListResult,
+    PriceUnitResult,
+    Result,
+    SearchFilter_Payable,
+    StringArrayResult,
+    StringResult,
+    TaxListResult,
+)
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
@@ -14,656 +32,925 @@ class DataPayable30:
     def __init__(self, client: PlunetClient):
         self.__client = client
 
-    def delete_payment_item(self, payment_item_id: int):
+    def search(
+        self, search_filter: Union[SearchFilter_Payable, dict]
+    ) -> IntegerArrayResult:
         """
-        Deletes an payment Item
-
-        :param payment_item_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.deletePaymentItem
-
-        return self.__client.make_request(proxy, payment_item_id, unpack_dict=False)
-
-    def delete_price_line(self, payables_item_id: int, price_line: int):
-        """
-        Deletes an existing PriceLine
-
-        :param payables_item_id: int
-        :param price_line: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.deletePriceLine
-
-        arg = {"payablesItemID": payables_item_id, "priceLine": price_line}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def get_account_statement(self, payables_id: int):
-        """
-        Returns the account statement.
-
-        :param payables_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getAccountStatement
-
-        return self.__client.make_request(proxy, payables_id, unpack_dict=False)
-
-    def get_company_code(self, payables_id: int):
-        """
-        Returns the type dependent company code, related to the specifiedinvoice.
-
-        :param payables_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getCompanyCode
-
-        return self.__client.make_request(proxy, payables_id, unpack_dict=False)
-
-    def get_creditor_account(self, payables_id: int):
-        """
-        Returns the creditor account.
-
-        :param payables_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getCreditorAccount
-
-        return self.__client.make_request(proxy, payables_id, unpack_dict=False)
-
-    def get_currency(self, payables_id: int):
-        """
-        Returns the currency of the payable.
-
-        :param payables_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getCurrency
-
-        return self.__client.make_request(proxy, payables_id, unpack_dict=False)
-
-    def get_expense_account(self, payables_id: int):
-        """
-        Returns the expense account.
-
-        :param payables_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getExpenseAccount
-
-        return self.__client.make_request(proxy, payables_id, unpack_dict=False)
-
-    def get_external_invoice_number(self, payables_id: int):
-        """
-        Returns the revenue account.
-
-        :param payables_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getExternalInvoiceNumber
-
-        return self.__client.make_request(proxy, payables_id, unpack_dict=False)
-
-    def get_invoice_date(self, payables_id: int):
-        """
-        Returns an instance of DateResult, which contains the invoicedate.
-
-        :param payables_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getInvoiceDate
-
-        return self.__client.make_request(proxy, payables_id, unpack_dict=False)
-
-    def get_invoice_tax_types(self, payables_id: int):
-        """
-        Returns a list of all tax types which are used within the transfered invoice.
-
-        :param payables_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getInvoiceTaxTypes
-
-        return self.__client.make_request(proxy, payables_id, unpack_dict=False)
-
-    def get_is_exported(self, payables_id: int):
-        """
-        Returns if the invoice is already exported.
-
-        :param payables_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getIsExported
-
-        return self.__client.make_request(proxy, payables_id, unpack_dict=False)
-
-    def get_memo(self, payables_id: int):
-        """
-        Returns the memo field value
-
-        :param payables_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getMemo
-
-        return self.__client.make_request(proxy, payables_id, unpack_dict=False)
-
-    def get_paid_date(self, payables_id: int):
-        """
-        Retuns the date the invoice is payed.
-
-        :param payables_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getPaidDate
-
-        return self.__client.make_request(proxy, payables_id, unpack_dict=False)
-
-    def get_payable_id(self, item_id: int):
-        """
-        Returns the payable ID the item is related to.
-
-        :param item_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getPayableID
-
-        return self.__client.make_request(proxy, item_id, unpack_dict=False)
-
-    def get_payment_creator_resource_id(self, payables_id: int):
-        """
-        Returns the resourceID of the for the creation responsible resource.
-
-        :param payables_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getPaymentCreatorResourceID
-
-        return self.__client.make_request(proxy, payables_id, unpack_dict=False)
-
-    def get_payment_due_date(self, payables_id: int):
-        """
-        Retuns the date the invoice is payed.
-
-        :param payables_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getPaymentDueDate
-
-        return self.__client.make_request(proxy, payables_id, unpack_dict=False)
-
-    def get_payment_item_list(self, payables_id: int):
-        """
-        Retuns a list of all paymentent relevant items
-
-        :param payables_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getPaymentItemList
-
-        return self.__client.make_request(proxy, payables_id, unpack_dict=False)
-
-    def get_payment_method(self, payables_id: int):
-        """
-        Returns the payment method, represented by its FA value.
-
-        :param payables_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getPaymentMethod
-
-        return self.__client.make_request(proxy, payables_id, unpack_dict=False)
-
-    def get_price_line_list(self, payables_item_id: int):
-        """
-        Returns a list of all job related PriceLine
-
-        :param payables_item_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getPriceLine_List
-
-        return self.__client.make_request(proxy, payables_item_id, unpack_dict=False)
-
-    def get_price_unit_list(self, language_code: str, service: str):
-        """
-        Returns a list of priceUnit related to the specified service.
-
-        :param language_code: str
-        :param service: str
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getPriceUnit_List
-
-        arg = {"languageCode": language_code, "service": service}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def get_price_unit(self, price_unit_id: int, language_code: str):
-        """
-        Returns a PriceUnitResult object.
-
-        :param price_unit_id: int
-        :param language_code: str
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getPriceUnit
-
-        arg = {"PriceUnitID": price_unit_id, "languageCode": language_code}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def get_resource_id(self, payables_id: int):
-        """
-        Returns the resourceID the payment is related to.
-
-        :param payables_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getResourceID
-
-        return self.__client.make_request(proxy, payables_id, unpack_dict=False)
-
-    def get_services_list(self, language_code: str):
-        """
-        Deprecated.Please use DataAdmin30.getAvailableServices(String, String) instead.Returns a list of all available services.
-
-        :param language_code: str
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getServices_List
-
-        return self.__client.make_request(proxy, language_code, unpack_dict=False)
-
-    def get_status(self, payables_id: int):
-        """
-        Returns an instance of IntegerResult, which contains thePayableStatus.
-
-        :param payables_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getStatus
-
-        return self.__client.make_request(proxy, payables_id, unpack_dict=False)
-
-    def get_total_net_amount(self, payables_id: int, currency_type: CurrencyType):
-        """
-        Returns the total net price of the payment,
-
-        :param payables_id: int
-        :param currency_type: CurrencyType
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getTotalNetAmount
-
-        arg = {"payablesID": payables_id, "currencyType": currency_type.value}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def get_total_tax_amount(
-        self, payables_id: int, currency_type: CurrencyType, tax_id: int
-    ):
-        """
-        Returns the total tax price of the payment.
-
-        :param payables_id: int
-        :param currency_type: CurrencyType
-        :param tax_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getTotalTaxAmount
-
-        arg = {
-            "payablesID": payables_id,
-            "currencyType": currency_type.value,
-            "taxID": tax_id,
-        }
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def get_value_date(self, payables_id: int):
-        """
-        Returns an instance of DateResult, which contains the value date.
-
-        :param payables_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.getValueDate
-
-        return self.__client.make_request(proxy, payables_id, unpack_dict=False)
-
-    def insert_payment_item(self, payment_item: Union[PayableItemIN, dict]):
-        """
-        Inserts a new payment item
-
-        :param payment_item: PayableItemIN
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.insertPaymentItem
-
-        if type(payment_item) != PayableItemIN:
-            payment_item = PayableItemIN(**payment_item).dict()
-        else:
-            payment_item = payment_item.dict()
-
-        return self.__client.make_request(proxy, payment_item, unpack_dict=False)
-
-    def insert_price_line(
-        self,
-        payables_item_id: int,
-        price_line: Union[PriceLineIN, dict],
-        create_as_first_item: bool,
-    ):
-        """
-        Inserts a new PriceLine to the specified invoice item
-
-        :param payables_item_id: int
-        :param price_line: PriceLineIN
-        :param create_as_first_item: bool
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.insertPriceLine
-
-        if type(price_line) != PriceLineIN:
-            price_line = PriceLineIN(**price_line).dict()
-        else:
-            price_line = price_line.dict()
-
-        arg = {
-            "payablesItemID": payables_item_id,
-            "priceLine": price_line,
-            "createAsFirstItem": create_as_first_item,
-        }
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def search(self, search_filter: Union[SearchFilter_Payable, dict]):
-        """
+        No description of search in docs.
 
 
         :param search_filter: SearchFilter_Payable
-
-        :return:
+        :return: IntegerArrayResult
         """
 
         proxy = self.__client.plunet_server.DataPayable30.search
+        response_model = IntegerArrayResult
 
         if type(search_filter) != SearchFilter_Payable:
             search_filter = SearchFilter_Payable(**search_filter).dict()
         else:
             search_filter = search_filter.dict()
 
-        return self.__client.make_request(proxy, search_filter, unpack_dict=False)
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=search_filter,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
-    def set_account_statement(self, payables_id: int, accountstatement: str):
+    def get_price_unit_list(
+        self, language_code: str, service: str
+    ) -> PriceUnitListResult:
         """
-        Defines the po number of the related credit note.
+        Returns a list of priceUnit related to the specified service.
+        Possible services can be obtained over DataAdmin30.getAvailableServices(String, String)
 
-        :param payables_id: int
-        :param accountstatement: str
 
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.setAccountStatement
-
-        arg = {"payablesID": payables_id, "accountstatement": accountstatement}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def set_creditor_account(self, account_id: str, payables_id: int):
-        """
-        Defines the creditor account.
-
-        :param account_id: str
-        :param payables_id: int
-
-        :return:
+        :param language_code: str
+        :param service: str
+        :return: PriceUnitListResult
         """
 
-        proxy = self.__client.plunet_server.DataPayable30.setCreditorAccount
+        proxy = self.__client.plunet_server.DataPayable30.getPriceUnit_List
+        response_model = PriceUnitListResult
 
-        arg = {"accountID": account_id, "payablesID": payables_id}
+        arg = {"languageCode": language_code, "service": service}
 
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
 
-    def set_external_invoice_number(self, payables_id: int, external_number: str):
+    def get_price_line_list(self, payables_item_id: int) -> PriceLineListResult:
+        """
+        Returns a list of all job related PriceLine
+
+
+        :param payables_item_id: int
+        :return: PriceLineListResult
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.getPriceLine_List
+        response_model = PriceLineListResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=payables_item_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_external_invoice_number(
+        self, payables_id: int, external_number: str
+    ) -> Result:
         """
         Defines the revenue account.
 
+
         :param payables_id: int
         :param external_number: str
-
-        :return:
+        :return: Result
         """
 
         proxy = self.__client.plunet_server.DataPayable30.setExternalInvoiceNumber
+        response_model = Result
 
         arg = {"payablesID": payables_id, "externalNumber": external_number}
 
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
 
-    def set_invoice_date(self, invoice_date: datetime, payables_id: int):
+    def get_payment_creator_resource_id(self, payables_id: int) -> IntegerResult:
         """
-        Defines the invoice date.
+        Returns the resourceID of the for the creation responsible resource.
 
-        :param invoice_date: datetime
-        :param payables_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.setInvoiceDate
-
-        arg = {"invoiceDate": invoice_date, "payablesID": payables_id}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def set_is_exported(self, payables_id: int, is_exported: bool):
-        """
-        Defines if the invoice is already exported.
 
         :param payables_id: int
-        :param is_exported: bool
-
-        :return:
+        :return: IntegerResult
         """
 
-        proxy = self.__client.plunet_server.DataPayable30.setIsExported
+        proxy = self.__client.plunet_server.DataPayable30.getPaymentCreatorResourceID
+        response_model = IntegerResult
 
-        arg = {"payablesID": payables_id, "isExported": is_exported}
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=payables_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def set_memo(self, payables_id: int, memo: str):
+    def set_creditor_account(self, account_id: str, payables_id: int) -> Result:
         """
-        Defines the memo field value
+        Defines the creditor account.
+
+
+        :param account_id: str
+        :param payables_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.setCreditorAccount
+        response_model = Result
+
+        arg = {"accountID": account_id, "payablesID": payables_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_total_net_amount(self, payables_id: int, currency_tpe: int) -> DoubleResult:
+        """
+        Returns the total net price of the payment,
+
 
         :param payables_id: int
-        :param memo: str
-
-        :return:
+        :param currency_tpe: int
+        :return: DoubleResult
         """
 
-        proxy = self.__client.plunet_server.DataPayable30.setMemo
+        proxy = self.__client.plunet_server.DataPayable30.getTotalNetAmount
+        response_model = DoubleResult
 
-        arg = {"payablesID": payables_id, "memo": memo}
+        arg = {"payablesID": payables_id, "currencyTpe": currency_tpe}
 
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
 
-    def set_paid_date(self, payables_id: int, pai_date: datetime):
+    def get_invoice_tax_types(self, payables_id: int) -> TaxListResult:
+        """
+        Returns a list of all tax types which are used within the transfered invoice..
+        Possible currency codes can be configured over Admin|Settings|Comany Code
+
+
+        :param payables_id: int
+        :return: TaxListResult
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.getInvoiceTaxTypes
+        response_model = TaxListResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=payables_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_payment_due_date(self, payables_id: int) -> DateResult:
+        """
+        Retuns the date the invoice is payed.
+
+
+        :param payables_id: int
+        :return: DateResult
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.getPaymentDueDate
+        response_model = DateResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=payables_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_account_statement(self, payables_id: int, accountstatement: str) -> Result:
+        """
+        Defines the po number of the related credit note.
+
+
+        :param payables_id: int
+        :param accountstatement: str
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.setAccountStatement
+        response_model = Result
+
+        arg = {"payablesID": payables_id, "accountstatement": accountstatement}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_expense_account(self, payables_id: int) -> StringResult:
+        """
+        Returns the expense account.
+
+
+        :param payables_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.getExpenseAccount
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=payables_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_account_statement(self, payables_id: int) -> StringResult:
+        """
+        Returns the account statement.
+
+
+        :param payables_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.getAccountStatement
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=payables_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_payment_item_list(self, payables_id: int) -> PayableItemResultList:
+        """
+        Retuns a list of all paymentent relevant items
+
+
+        :param payables_id: int
+        :return: PayableItemResultList
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.getPaymentItemList
+        response_model = PayableItemResultList
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=payables_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_total_tax_amount(
+        self, payables_id: int, currency_tpe: int, tax_type: TaxType
+    ) -> DoubleResult:
+        """
+        Returns the total tax price of the payment.
+
+
+        :param payables_id: int
+        :param currency_tpe: int
+        :param tax_type: TaxType
+        :return: DoubleResult
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.getTotalTaxAmount
+        response_model = DoubleResult
+
+        arg = {
+            "payablesID": payables_id,
+            "currencyTpe": currency_tpe,
+            "taxType": tax_type.value,
+        }
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def insert_payment_item(
+        self, payment_item_in: Union[PayableItemIN, dict]
+    ) -> IntegerResult:
+        """
+        Inserts a new payment item
+
+
+        :param payment_item_in: PayableItemIN
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.insertPaymentItem
+        response_model = IntegerResult
+
+        if type(payment_item_in) != PayableItemIN:
+            payment_item_in = PayableItemIN(**payment_item_in).dict()
+        else:
+            payment_item_in = payment_item_in.dict()
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=payment_item_in,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_payment_due_date(self, payables_id: int, due_date: datetime) -> Result:
         """
         Defines the date the invoice is payed.
 
-        :param payables_id: int
-        :param pai_date: datetime
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataPayable30.setPaidDate
-
-        arg = {"payablesID": payables_id, "paiDate": pai_date}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def set_payment_due_date(self, payables_id: int, due_date: datetime):
-        """
-        Defines the date the invoice is payed.
 
         :param payables_id: int
         :param due_date: datetime
-
-        :return:
+        :return: Result
         """
 
         proxy = self.__client.plunet_server.DataPayable30.setPaymentDueDate
+        response_model = Result
 
         arg = {"payablesID": payables_id, "dueDate": due_date}
 
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
 
-    def set_status(self, status: int, payables_id: int):
+    def get_creditor_account(self, payables_id: int) -> StringResult:
         """
-        Defines the PayableStatus.
+        Returns the creditor account.
 
-        :param status: int
+
         :param payables_id: int
-
-        :return:
+        :return: StringResult
         """
 
-        proxy = self.__client.plunet_server.DataPayable30.setStatus
+        proxy = self.__client.plunet_server.DataPayable30.getCreditorAccount
+        response_model = StringResult
 
-        arg = {"Status": status, "payablesID": payables_id}
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=payables_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def set_value_date(self, value_date: datetime, payables_id: int):
+    def get_external_invoice_number(self, payables_id: int) -> StringResult:
         """
-        Defines the value date of the currently selected invoice.
+        Returns the revenue account.
 
-        :param value_date: datetime
+
         :param payables_id: int
-
-        :return:
+        :return: StringResult
         """
 
-        proxy = self.__client.plunet_server.DataPayable30.setValueDate
+        proxy = self.__client.plunet_server.DataPayable30.getExternalInvoiceNumber
+        response_model = StringResult
 
-        arg = {"valueDate": value_date, "payablesID": payables_id}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=payables_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
     def update_payment_item(
         self,
-        payment_item: Union[PayableItemIN, dict],
+        payment_item_in: Union[PayableItemIN, dict],
         payment_item_id: int,
-        enabled: bool,
-    ):
+        enable_null_or_empty_values: bool,
+    ) -> Result:
         """
         Updates an existung payment item
 
-        :param payment_item: PayableItemIN
-        :param payment_item_id: int
-        :param enabled: bool
 
-        :return:
+        :param payment_item_in: PayableItemIN
+        :param payment_item_id: int
+        :param enable_null_or_empty_values: bool
+        :return: Result
         """
 
         proxy = self.__client.plunet_server.DataPayable30.updatePaymentItem
+        response_model = Result
 
-        if type(payment_item) != PayableItemIN:
-            payment_item = PayableItemIN(**payment_item).dict()
+        if type(payment_item_in) != PayableItemIN:
+            payment_item_in = PayableItemIN(**payment_item_in).dict()
         else:
-            payment_item = payment_item.dict()
+            payment_item_in = payment_item_in.dict()
 
         arg = {
-            "paymentItem": payment_item,
-            "paymentItemID": payment_item_id,
-            "enabled": enabled,
+            "PaymentItemIN": payment_item_in,
+            "PaymentItemID": payment_item_id,
+            "enableNullOrEmptyValues": enable_null_or_empty_values,
         }
 
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def delete_payment_item(self, payment_item_id: int) -> Result:
+        """
+        Deletes an payment Item
+
+
+        :param payment_item_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.deletePaymentItem
+        response_model = Result
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=payment_item_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_currency(self, payables_id: int) -> StringResult:
+        """
+        Returns the currency of the payable.
+
+
+        :param payables_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.getCurrency
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=payables_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_status(self, payables_id: int) -> IntegerResult:
+        """
+        Returns an instance of IntegerResult, which contains the
+        PayableStatus.
+
+
+        :param payables_id: int
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.getStatus
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=payables_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_status(self, status: int, payables_id: int) -> Result:
+        """
+        Defines the PayableStatus.
+
+
+        :param status: int
+        :param payables_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.setStatus
+        response_model = Result
+
+        arg = {"Status": status, "payablesID": payables_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def set_memo(self, payables_id: int, memo: str) -> Result:
+        """
+        Defines the memo field value
+
+
+        :param payables_id: int
+        :param memo: str
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.setMemo
+        response_model = Result
+
+        arg = {"payablesID": payables_id, "memo": memo}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_memo(self, payables_id: int) -> StringResult:
+        """
+        Returns the memo field value
+
+
+        :param payables_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.getMemo
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=payables_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_invoice_date(self, payables_id: int) -> DateResult:
+        """
+        Returns an instance of DateResult, which contains the invoice
+        date.
+
+
+        :param payables_id: int
+        :return: DateResult
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.getInvoiceDate
+        response_model = DateResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=payables_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_invoice_date(self, invoice_date: datetime, payables_id: int) -> Result:
+        """
+        Defines the invoice date.
+
+
+        :param invoice_date: datetime
+        :param payables_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.setInvoiceDate
+        response_model = Result
+
+        arg = {"invoiceDate": invoice_date, "payablesID": payables_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_value_date(self, payables_id: int) -> DateResult:
+        """
+        Returns an instance of DateResult, which contains the value date.
+
+
+        :param payables_id: int
+        :return: DateResult
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.getValueDate
+        response_model = DateResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=payables_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_value_date(self, value_date: datetime, payables_id: int) -> Result:
+        """
+        Defines the value date of the currently selected invoice.
+
+
+        :param value_date: datetime
+        :param payables_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.setValueDate
+        response_model = Result
+
+        arg = {"valueDate": value_date, "payablesID": payables_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def insert_price_line(
+        self,
+        payables_item_id: int,
+        price_line_in: Union[PriceLineIN, dict],
+        create_as_first_item: bool,
+    ) -> PriceLineResult:
+        """
+        Inserts a new PriceLine to the specified invoice item
+
+
+        :param payables_item_id: int
+        :param price_line_in: PriceLineIN
+        :param create_as_first_item: bool
+        :return: PriceLineResult
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.insertPriceLine
+        response_model = PriceLineResult
+
+        if type(price_line_in) != PriceLineIN:
+            price_line_in = PriceLineIN(**price_line_in).dict()
+        else:
+            price_line_in = price_line_in.dict()
+
+        arg = {
+            "payablesItemID": payables_item_id,
+            "priceLineIN": price_line_in,
+            "createAsFirstItem": create_as_first_item,
+        }
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
 
     def update_price_line(
-        self, payables_item_id: int, price_line: Union[PriceLineIN, dict]
-    ):
+        self, payables_item_id: int, price_line_in: Union[PriceLineIN, dict]
+    ) -> PriceLineResult:
         """
         Updates a existing PriceLine.
 
-        :param payables_item_id: int
-        :param price_line: PriceLineIN
 
-        :return:
+        :param payables_item_id: int
+        :param price_line_in: PriceLineIN
+        :return: PriceLineResult
         """
 
         proxy = self.__client.plunet_server.DataPayable30.updatePriceLine
+        response_model = PriceLineResult
 
-        if type(price_line) != PriceLineIN:
-            price_line = PriceLineIN(**price_line).dict()
+        if type(price_line_in) != PriceLineIN:
+            price_line_in = PriceLineIN(**price_line_in).dict()
         else:
-            price_line = price_line.dict()
+            price_line_in = price_line_in.dict()
 
-        arg = {"payablesItemID": payables_item_id, "priceLine": price_line}
+        arg = {"payablesItemID": payables_item_id, "priceLineIN": price_line_in}
 
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_price_unit(self, price_unit_id: int, language_code: str) -> PriceUnitResult:
+        """
+        Returns a PriceUnitResult object.
+        Possible PriceUnit´s can be obtained over DataItem30.getPriceUnit_List(String, String, String)
+
+
+        :param price_unit_id: int
+        :param language_code: str
+        :return: PriceUnitResult
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.getPriceUnit
+        response_model = PriceUnitResult
+
+        arg = {"PriceUnitID": price_unit_id, "languageCode": language_code}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_services_list(self, language_code: str) -> StringArrayResult:
+        """
+        Deprecated. Please use DataAdmin30.getAvailableServices(String, String) instead.
+        Returns a list of all available services.
+
+
+        :param language_code: str
+        :return: StringArrayResult
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.getServices_List
+        response_model = StringArrayResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=language_code,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def delete_price_line(self, payables_item_id: int, price_line_id: int) -> Result:
+        """
+        Deletes an existing PriceLine
+
+
+        :param payables_item_id: int
+        :param price_line_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.deletePriceLine
+        response_model = Result
+
+        arg = {"payablesItemID": payables_item_id, "priceLineID": price_line_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_payable_id(self, item_id: int) -> IntegerResult:
+        """
+        Returns the payable ID the item is related to.
+
+
+        :param item_id: int
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.getPayableID
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=item_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_paid_date(self, payables_id: int, paid_date: datetime) -> Result:
+        """
+        Defines the date the invoice is payed.
+
+
+        :param payables_id: int
+        :param paid_date: datetime
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.setPaidDate
+        response_model = Result
+
+        arg = {"payablesID": payables_id, "paidDate": paid_date}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def set_is_exported(self, payables_id: int, is_exported: bool) -> Result:
+        """
+        Defines if the invoice is already exported.
+
+
+        :param payables_id: int
+        :param is_exported: bool
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.setIsExported
+        response_model = Result
+
+        arg = {"payablesID": payables_id, "isExported": is_exported}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_is_exported(self, payables_id: int) -> BooleanResult:
+        """
+        Returns if the invoice is already exported.
+
+
+        :param payables_id: int
+        :return: BooleanResult
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.getIsExported
+        response_model = BooleanResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=payables_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_payment_method(self, payables_id: int) -> IntegerResult:
+        """
+        Returns the payment method, represented by its FA value.
+
+        See Admin | Miscellaneous | Payment method | FA value.
+
+
+        :param payables_id: int
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.getPaymentMethod
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=payables_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_company_code(self, payables_id: int) -> IntegerResult:
+        """
+        Returns the type dependent company code, related to the specified
+        invoice.
+
+
+        :param payables_id: int
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.getCompanyCode
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=payables_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_paid_date(self, payables_id: int) -> DateResult:
+        """
+        Retuns the date the invoice is payed.
+
+
+        :param payables_id: int
+        :return: DateResult
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.getPaidDate
+        response_model = DateResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=payables_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_resource_id(self, payables_id: int) -> IntegerResult:
+        """
+        Returns the resourceID the payment is related to.
+
+
+        :param payables_id: int
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataPayable30.getResourceID
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=payables_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )

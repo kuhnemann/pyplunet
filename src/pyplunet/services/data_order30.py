@@ -1,10 +1,26 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import TYPE_CHECKING, List, Union
+from typing import TYPE_CHECKING, Union
 
-from ..enums import EventType, JobActionLink, ProjectType
-from ..models import IntegerList, OrderIN, SearchFilter_Order
+from ..enums import EventType, ProjectType
+from ..models import (
+    BooleanResult,
+    DateResult,
+    DoubleResult,
+    IntegerArrayResult,
+    IntegerList,
+    IntegerResult,
+    LinkListResult,
+    OrderIN,
+    OrderListResult,
+    OrderResult,
+    Result,
+    SearchFilter_Order,
+    StringArrayResult,
+    StringResult,
+    TemplateListResult,
+)
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
@@ -14,41 +30,153 @@ class DataOrder30:
     def __init__(self, client: PlunetClient):
         self.__client = client
 
-    def add_language_combination(
-        self, source_language: str, target_language: str, order_id: int
-    ):
+    def set_property(
+        self, order_id: int, property_name_english: str, property_value_english: str
+    ) -> Result:
         """
-        Adds a language combination to the specified order.
+        Deprecated.
 
-        :param source_language: str
-        :param target_language: str
+
         :param order_id: int
-
-        :return:
+        :param property_name_english: str
+        :param property_value_english: str
+        :return: Result
         """
 
-        proxy = self.__client.plunet_server.DataOrder30.addLanguageCombination
+        proxy = self.__client.plunet_server.DataOrder30.setProperty
+        response_model = Result
 
         arg = {
-            "sourceLanguage": source_language,
-            "targetLanguage": target_language,
             "orderID": order_id,
+            "propertyNameEnglish": property_name_english,
+            "propertyValueEnglish": property_value_english,
         }
 
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
 
-    def check_en15038(self, order_id: int):
+    def get_property(self, order_id: int, property_name_english: str) -> StringResult:
         """
-        Method returns an instance of BooleanResult, which contains the information,whether a project corresponds the EN15038 standard or not.
+        Deprecated.
+
 
         :param order_id: int
-
-        :return:
+        :param property_name_english: str
+        :return: StringResult
         """
 
-        proxy = self.__client.plunet_server.DataOrder30.checkEN15038
+        proxy = self.__client.plunet_server.DataOrder30.getProperty
+        response_model = StringResult
 
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
+        arg = {"orderID": order_id, "propertyNameEnglish": property_name_english}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def update(
+        self, order_in: Union[OrderIN, dict], enable_null_or_empty_values: bool
+    ) -> Result:
+        """
+        Updates the Order by the transfered object.
+        Use EnableNullOrEmptyValues to decide if Null or empty Strings are saved
+        into Plunet or ignored.
+
+
+        :param order_in: OrderIN
+        :param enable_null_or_empty_values: bool
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.update
+        response_model = Result
+
+        if type(order_in) != OrderIN:
+            order_in = OrderIN(**order_in).dict()
+        else:
+            order_in = order_in.dict()
+
+        arg = {
+            "OrderIN": order_in,
+            "enableNullOrEmptyValues": enable_null_or_empty_values,
+        }
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def delete(self, order_id: int) -> Result:
+        """
+        Method to delete an order via ID.
+
+
+        :param order_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.delete
+        response_model = Result
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def insert(
+        self,
+    ) -> IntegerResult:
+        """
+        Method to create a new, empty order.
+        The method will return an instance of
+        IntegerResult, which contains the identifier of the new generated order.
+        Further api calls via this port will maninpulate this order
+        (except methods with an order id as parameter ),
+        until another order is fetched or the session is invalidated.
+
+
+        :return: IntegerResult
+        """
+
+        self.__client.plunet_server.DataOrder30.insert
+
+    def search(
+        self, search_filter: Union[SearchFilter_Order, dict]
+    ) -> IntegerArrayResult:
+        """
+        Search implementation to filter for any existing order based on
+        specific criteria.
+
+
+        :param search_filter: SearchFilter_Order
+        :return: IntegerArrayResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.search
+        response_model = IntegerArrayResult
+
+        if type(search_filter) != SearchFilter_Order:
+            search_filter = SearchFilter_Order(**search_filter).dict()
+        else:
+            search_filter = search_filter.dict()
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=search_filter,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
     def create_link(
         self,
@@ -57,20 +185,21 @@ class DataOrder30:
         project_type: ProjectType,
         is_bidirectional: bool,
         memo: str,
-    ):
+    ) -> Result:
         """
         Creates a link between two orders.
+
 
         :param source_order_id: int
         :param target_id: int
         :param project_type: ProjectType
         :param is_bidirectional: bool
         :param memo: str
-
-        :return:
+        :return: Result
         """
 
         proxy = self.__client.plunet_server.DataOrder30.createLink
+        response_model = Result
 
         arg = {
             "sourceOrderId": source_order_id,
@@ -80,286 +209,73 @@ class DataOrder30:
             "memo": memo,
         }
 
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
 
-    def create_order_confirmation(self, template: str, format_id: int, order_id: int):
+    def set_delivery_deadline(
+        self, delivery_deadline: datetime, order_id: int
+    ) -> Result:
         """
-        Method creates the order confirmation as rtf-file and returns an instance of StringResult,which contains the network path where the file is located.
+        Sets the delivery deadline for the currently selected project.
 
-        :param template: str
-        :param format_id: int
+
+        :param delivery_deadline: datetime
         :param order_id: int
-
-        :return:
+        :return: Result
         """
 
-        proxy = self.__client.plunet_server.DataOrder30.createOrderConfirmation
+        proxy = self.__client.plunet_server.DataOrder30.setDeliveryDeadline
+        response_model = Result
 
-        arg = {"template": template, "formatId": format_id, "orderID": order_id}
+        arg = {"deliveryDeadline": delivery_deadline, "orderID": order_id}
 
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
 
-    def delete(self, order_id: int):
-        """
-        Method to delete an order via ID.
-
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.delete
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def deregister_callback_notify(self, event_type: EventType):
-        """
-        Deletes an registered notify request.
-
-        :param event_type: EventType
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.deregisterCallback_Notify
-
-        return self.__client.make_request(proxy, event_type.value, unpack_dict=False)
-
-    def deregister_callback_observer(self, order_id: int):
-        """
-        Deletes an observer.
-
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.deregisterCallback_Observer
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_action_link(
-        self, order_id: int, user_id: int, action_link_type: JobActionLink
-    ):
-        """
-        Method to obtain any kind of order related action link.
-
-        :param order_id: int
-        :param user_id: int
-        :param action_link_type: JobActionLink
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getActionLink
-
-        arg = {
-            "orderID": order_id,
-            "userID": user_id,
-            "actionLinkType": action_link_type.value,
-        }
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def get_creation_date(self, order_id: int):
-        """
-        Returns an instance of DateResult, which contains the creation date.
-
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getCreationDate
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_currency(self, order_id: int):
-        """
-        Returns an instance of StringResult, which contains the currency.
-
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getCurrency
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_customer_contact_id(self, order_id: int):
-        """
-        Returns an instance of IntegerResult, which contains the customer contact id.
-
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getCustomerContactID
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_customer_id(self, order_id: int):
-        """
-        Returns an instance of IntegerResult, which contains the customer id.
-
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getCustomerID
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_delivery_comment(self, order_id: int):
-        """
-        Method returns an instance of StringResult, which contains the delivery comment.
-
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getDeliveryComment
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_delivery_deadline(self, order_id: int):
+    def get_delivery_deadline(self, order_id: int) -> DateResult:
         """
         Returns an instance of DateResult, which contains the delivery deadline.
 
-        :param order_id: int
 
-        :return:
+        :param order_id: int
+        :return: DateResult
         """
 
         proxy = self.__client.plunet_server.DataOrder30.getDeliveryDeadline
+        response_model = DateResult
 
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_documents_within_final_folder(self, order_id: int):
-        """
-        Deprecated.Please use DataDocument30.getFileList(String, int, int) with Folder Type = 12 insteadfor compatibility reasons with DataDocument30.Returns an instance of StringArrayResult, which contains a list of networkpaths to all documents located in the final folder.Info: For content based file up/download please use DataDocument30
-
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getDocuments_Within_FinalFolder
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_documents_within_reference_folder_by_language(
-        self, language: str, order_id: int
-    ):
-        """
-        Deprecated.Please use DataDocument30.getFileList(String, int, int) with Folder Type = 5 insteadfor compatibility reasons with DataDocument30.Returns an instance of StringArrayResult, which contains a list of networkpaths to the reference files, which are connected to a specific language.Info: For content based file up/download please use DataDocument30
-
-        :param language: str
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = (
-            self.__client.plunet_server.DataOrder30.getDocuments_Within_ReferenceFolder_ByLanguage
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
         )
 
-        arg = {"language": language, "orderID": order_id}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def get_documents_within_reference_folder(self, order_id: int):
-        """
-        Deprecated.Please use DataDocument30.getFileList(String, int, int) with Folder Type = 5 insteadfor compatibility reasons with DataDocument30.Returns an instance of StringArrayResult, which contains a list of networkpaths to the reference files.Info: For content based file up/download please use DataDocument30
-
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = (
-            self.__client.plunet_server.DataOrder30.getDocuments_Within_ReferenceFolder
-        )
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_documents_within_source_folder_by_language(
-        self, language: str, order_id: int
-    ):
-        """
-        Deprecated.Please use DataDocument30.getFileList(String, int, int) with Folder Type = 6 insteadfor compatibility reasons with DataDocument30.Returns an instance of StringArrayResult, which contains a list of networkpaths to source files, connected to a specific language.Info: For content based file up/download please use DataDocument30
-
-        :param language: str
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = (
-            self.__client.plunet_server.DataOrder30.getDocuments_Within_SourceFolder_ByLanguage
-        )
-
-        arg = {"language": language, "orderID": order_id}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def get_documents_within_source_folder(self, order_id: int):
-        """
-        Deprecated.Please use DataDocument30.getFileList(String, int, int) with Folder Type = 6 insteadfor compatibility reasons with DataDocument30.Returns an instance of StringArrayResult, which contains a listof network paths to source files.Info: For content based file up/download please use DataDocument30
-
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getDocuments_Within_SourceFolder
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_en15038_requested(self, order_id: int):
-        """
-        Method returns an instance of BooleanResult, which contains the information,whether the client requests the EN15038 standard.
-
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getEN15038Requested
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_external_id(self, order_id: int):
-        """
-        Method returns the ExternalID by orderID
-
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getExternalID
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_item_status(
+    def add_language_combination(
         self, source_language: str, target_language: str, order_id: int
-    ):
+    ) -> IntegerResult:
         """
-        Method returns the status of a project item associated to a specific language combination.
+        Adds a language combination to the specified order.
+        All language descriptions were expected in English language or as ISO-Code.
+        Returns an instance of Result.
+
 
         :param source_language: str
         :param target_language: str
         :param order_id: int
-
-        :return:
+        :return: IntegerResult
         """
 
-        proxy = self.__client.plunet_server.DataOrder30.getItemStatus
+        proxy = self.__client.plunet_server.DataOrder30.addLanguageCombination
+        response_model = IntegerResult
 
         arg = {
             "sourceLanguage": source_language,
@@ -367,584 +283,390 @@ class DataOrder30:
             "orderID": order_id,
         }
 
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
 
-    def get_language_combination(self, order_id: int):
+    def set_en15038_requested(self, is_en15038: bool, order_id: int) -> Result:
         """
-        Returns an instance of StringArrayResult which contains a list.
+        Method to mark a project, that the clients wants the project to correspond to the EN 10538 standard.
+
+
+        :param is_en15038: bool
+        :param order_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.setEN15038Requested
+        response_model = Result
+
+        arg = {"isEN15038": is_en15038, "orderID": order_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_en15038_requested(self, order_id: int) -> BooleanResult:
+        """
+        Method returns an instance of BooleanResult, which contains the information,
+        whether the client requests the EN15038 standard.
+
 
         :param order_id: int
-
-        :return:
+        :return: BooleanResult
         """
 
-        proxy = self.__client.plunet_server.DataOrder30.getLanguageCombination
+        proxy = self.__client.plunet_server.DataOrder30.getEN15038Requested
+        response_model = BooleanResult
 
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
-    def get_links(self, order_id: int, project_type: ProjectType):
+    def create_order_confirmation(
+        self, template: str, format_id: int, order_id: int
+    ) -> StringResult:
         """
-        Outputs all incoming and outgoing links for an order.
+        Method creates the order confirmation as rtf-file and returns an instance of StringResult,
+        which contains the network path where the file is located.
+
+
+        :param template: str
+        :param format_id: int
+        :param order_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.createOrderConfirmation
+        response_model = StringResult
+
+        arg = {"template": template, "formatId": format_id, "orderID": order_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def set_currency_and_rate(
+        self, order_id: int, currency_iso_code: str, rate: float
+    ) -> Result:
+        """
+        Method to change the currency and rate for the current project.
+        The rate refers to the default currency / domestic currency,
+        which is configured in the admin section of the Plunet BusinessManager.
+        Changing the currency / rate will cause a recalculation of item prices.
+
 
         :param order_id: int
-        :param project_type: ProjectType
-
-        :return:
+        :param currency_iso_code: str
+        :param rate: float
+        :return: Result
         """
 
-        proxy = self.__client.plunet_server.DataOrder30.getLinks
+        proxy = self.__client.plunet_server.DataOrder30.setCurrencyAndRate
+        response_model = Result
 
-        arg = {"orderId": order_id, "projectType": project_type.value}
+        arg = {"orderID": order_id, "currencyIsoCode": currency_iso_code, "rate": rate}
 
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
 
-    def get_master_project_id(self, order_id: int):
-        """
-        Method to get the MasterProjectID of the specified order.
-
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getMasterProjectID
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_order_closing_date(self, order_id: int):
-        """
-        Method returns an instance of DateResult, which contains the order closing date.
-
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getOrderClosingDate
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_order_confirmations(self, order_id: int):
-        """
-        Returns an instance of StringArrayResult, which contains a list of relativenetwork paths to all existing order confirmation documents.
-
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getOrderConfirmations
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_order_date(self, order_id: int):
-        """
-        Get the order date.
-
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getOrderDate
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_order_id(self, display_no: str):
-        """
-        Method returns an instance of IntegerResult, which contains an order ID.
-
-        :param display_no: str
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getOrderID
-
-        return self.__client.make_request(proxy, display_no, unpack_dict=False)
-
-    def get_order_no_for_view(self, order_id: int):
-        """
-        Returns an instance of StringResult, which contains the formatted order number.
-
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getOrderNo_for_View
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_order_object(self, order_id: int):
-        """
-        Method returns an instance of OrderResult, which contains an instance of Order.
-
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getOrderObject
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_order_object2(self, order_number: str):
-        """
-        Method returns an instance of OrderResult, which contains an instance of Order.
-
-        :param order_number: str
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getOrderObject2
-
-        return self.__client.make_request(proxy, order_number, unpack_dict=False)
-
-    def get_order_object_list(self, order_id_list: Union[IntegerList, dict]):
+    def get_order_object_list(
+        self, order_id_list: Union[IntegerList, dict]
+    ) -> OrderListResult:
         """
         Method returns an instance of OrderListResult, which contains a list of order objects.
 
-        :param order_id_list: IntegerList
 
-        :return:
+        :param order_id_list: IntegerList
+        :return: OrderListResult
         """
 
         proxy = self.__client.plunet_server.DataOrder30.getOrderObjectList
+        response_model = OrderListResult
 
         if type(order_id_list) != IntegerList:
             order_id_list = IntegerList(**order_id_list).dict()
         else:
             order_id_list = order_id_list.dict()
 
-        return self.__client.make_request(proxy, order_id_list, unpack_dict=False)
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id_list,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
-    def get_project_category(self, system_language_code: str, order_id: int):
+    def get_documents_within_source_folder(self, order_id: int) -> StringArrayResult:
         """
-        Get the name (in the language specified) of the project category ofthe order.
+        Deprecated. Please use DataDocument30.getFileList(String, int, int) with Folder Type = 6 instead
+        for compatibility reasons with DataDocument30.
 
-        :param system_language_code: str
+        Returns an instance of StringArrayResult, which contains a list
+        of network paths to source files.
+        Info: For content based file up/download please use DataDocument30
+
+
         :param order_id: int
-
-        :return:
+        :return: StringArrayResult
         """
 
-        proxy = self.__client.plunet_server.DataOrder30.getProjectCategory
+        proxy = self.__client.plunet_server.DataOrder30.getDocuments_Within_SourceFolder
+        response_model = StringArrayResult
 
-        arg = {"systemLanguageCode": system_language_code, "orderID": order_id}
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
+    def get_order_confirmations(self, order_id: int) -> StringArrayResult:
+        """
+        Returns an instance of StringArrayResult, which contains a list of relative
+        network paths to all existing order confirmation documents.
+        Info: For content based file up/download please use DataDocument30
 
-    def get_projectmanager_id(self, order_id: int):
+
+        :param order_id: int
+        :return: StringArrayResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.getOrderConfirmations
+        response_model = StringArrayResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_documents_within_final_folder(self, order_id: int) -> StringArrayResult:
+        """
+        Deprecated. Please use DataDocument30.getFileList(String, int, int) with Folder Type = 12 instead
+        for compatibility reasons with DataDocument30.
+
+        Returns an instance of StringArrayResult, which contains a list of network
+        paths to all documents located in the final folder.
+        Info: For content based file up/download please use DataDocument30
+
+
+        :param order_id: int
+        :return: StringArrayResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.getDocuments_Within_FinalFolder
+        response_model = StringArrayResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_order_closing_date(self, order_id: int) -> DateResult:
+        """
+        Method returns an instance of DateResult, which contains the order closing date.
+
+
+        :param order_id: int
+        :return: DateResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.getOrderClosingDate
+        response_model = DateResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_delivery_comment(self, order_id: int) -> StringResult:
+        """
+        Method returns an instance of StringResult, which contains the delivery comment.
+
+
+        :param order_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.getDeliveryComment
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_order_no_for_view(self, order_id: int) -> StringResult:
+        """
+        Returns an instance of StringResult, which contains the formatted order number.
+
+
+        :param order_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.getOrderNo_for_View
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_projectmanager_id(self, order_id: int) -> IntegerResult:
         """
         Returns an instance of IntegerResult, which contains the resource id.
 
-        :param order_id: int
 
-        :return:
+        :param order_id: int
+        :return: IntegerResult
         """
 
         proxy = self.__client.plunet_server.DataOrder30.getProjectmanagerID
+        response_model = IntegerResult
 
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
-    def get_project_manager_memo(self, order_id: int):
+    def set_projectmanager_id(self, resource_id: int, order_id: int) -> Result:
         """
-        Method returns project-manager memo for order by orderID.
+        Sets the resourceID of the project manager for defined order.
+
+
+        :param resource_id: int
+        :param order_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.setProjectmanagerID
+        response_model = Result
+
+        arg = {"resourceID": resource_id, "orderID": order_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_language_combination(self, order_id: int) -> StringArrayResult:
+        """
+        Returns an instance of StringArrayResult which contains a list.
+
 
         :param order_id: int
-
-        :return:
+        :return: StringArrayResult
         """
 
-        proxy = self.__client.plunet_server.DataOrder30.getProjectManagerMemo
+        proxy = self.__client.plunet_server.DataOrder30.getLanguageCombination
+        response_model = StringArrayResult
 
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
-    def get_project_name(self, order_id: int):
+    def set_reference_number(self, order_id: int, reference: str) -> Result:
         """
-        Returns an instance of String Result, which contains the project name.
+        Method set reference number for order by orderID.
+
 
         :param order_id: int
-
-        :return:
+        :param reference: str
+        :return: Result
         """
 
-        proxy = self.__client.plunet_server.DataOrder30.getProjectName
+        proxy = self.__client.plunet_server.DataOrder30.setReferenceNumber
+        response_model = Result
 
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
+        arg = {"orderID": order_id, "reference": reference}
 
-    def get_project_status(self, order_id: int):
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_project_category(
+        self, system_language_code: str, order_id: int
+    ) -> StringResult:
         """
-        Returns an instance of IntegerResult, which contains the ArchivStatus.
+        Get the name (in the language specified) of the project category of
+        the order.
 
+        For a full list of your project categories, see Admin | Miscellaneous |
+        Project category.
+
+
+        :param system_language_code: str
         :param order_id: int
-
-        :return:
+        :return: StringResult
         """
 
-        proxy = self.__client.plunet_server.DataOrder30.getProjectStatus
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_property(self, order_id: int, property_name_english: str):
-        """
-        Deprecated.
-
-        :param order_id: int
-        :param property_name_english: str
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getProperty
-
-        arg = {"orderID": order_id, "propertyNameEnglish": property_name_english}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def get_rate(self, order_id: int):
-        """
-        Returns an instance of DoubleResult, which contains the rate.
-
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getRate
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_reference_number(self, order_id: int):
-        """
-        Method returns the reference number by order ID.
-
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getReferenceNumber
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_request_id(self, order_id: int):
-        """
-        Returns an instance of IntegerResult, which contains the requestId.
-
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getRequestId
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_subject(self, order_id: int):
-        """
-        Returns an instance of StringResult, which contains the subject.
-
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getSubject
-
-        return self.__client.make_request(proxy, order_id, unpack_dict=False)
-
-    def get_template_list(
-        self,
-    ):
-        """
-        Method returns an instance of TemplateListResult, which contains a listof template objects which can be accessed by the user.
-
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.getTemplateList
-
-    def insert_by_template(self, order: Union[OrderIN, dict], template_id: int):
-        """
-        Method to create a order depending on the transfered templateID and OrderIN object.
-
-        :param order: OrderIN
-        :param template_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.insert_byTemplate
-
-        if type(order) != OrderIN:
-            order = OrderIN(**order).dict()
-        else:
-            order = order.dict()
-
-        arg = {"order": order, "templateID": template_id}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def insert(
-        self,
-    ):
-        """
-        Method to create a new, empty order.
-
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.insert
-
-    def insert2(self, order: Union[OrderIN, dict]):
-        """
-        Method to create a order depending on the transfered object.
-
-        :param order: OrderIN
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.insert2
-
-        if type(order) != OrderIN:
-            order = OrderIN(**order).dict()
-        else:
-            order = order.dict()
-
-        return self.__client.make_request(proxy, order, unpack_dict=False)
-
-    def register_callback_notify(
-        self,
-        server_authentication_string: str,
-        server_address: str,
-        event_type: EventType,
-    ):
-        """
-        Register to get notified when the specified EventType occursfor any order.
-
-        :param server_authentication_string: str
-        :param server_address: str
-        :param event_type: EventType
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.registerCallback_Notify
-
-        arg = {
-            "ServerAuthenticationString": server_authentication_string,
-            "ServerAddress": server_address,
-            "EventType": event_type.value,
-        }
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def register_callback_observer(
-        self, server_authentication_string: str, server_address: str, order_id: int
-    ):
-        """
-        Register to observe a specific object for any supportedEventType.
-
-        :param server_authentication_string: str
-        :param server_address: str
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.registerCallback_Observer
-
-        arg = {
-            "ServerAuthenticationString": server_authentication_string,
-            "ServerAddress": server_address,
-            "OrderID": order_id,
-        }
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def search(self, search_filter: Union[SearchFilter_Order, dict]):
-        """
-        Search implementation to filter for any existing order based onspecific criteria.
-
-        :param search_filter: SearchFilter_Order
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.search
-
-        if type(search_filter) != SearchFilter_Order:
-            search_filter = SearchFilter_Order(**search_filter).dict()
-        else:
-            search_filter = search_filter.dict()
-
-        return self.__client.make_request(proxy, search_filter, unpack_dict=False)
-
-    def set_creation_date(self, creation_date: datetime, order_id: int):
-        """
-        Sets the creation date for the currently selected project.
-
-        :param creation_date: datetime
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.setCreationDate
-
-        arg = {"creationDate": creation_date, "orderID": order_id}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def set_currency_and_rate(self, order_id: int, currency_iso_code: str, rate: float):
-        """
-        Method to change the currency and rate for the current project.
-
-        :param order_id: int
-        :param currency_iso_code: str
-        :param rate: float
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.setCurrencyAndRate
-
-        arg = {"orderID": order_id, "currencyIsoCode": currency_iso_code, "rate": rate}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def set_customer_contact_id(self, customer_contact_id: int, order_id: int):
-        """
-        Sets the customer contact ID for the currently selected project.
-
-        :param customer_contact_id: int
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.setCustomerContactID
-
-        arg = {"customerContactID": customer_contact_id, "orderID": order_id}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def set_customer_id(self, customer_id: int, order_id: int):
-        """
-        Sets the customerID for the currently selected project.
-
-        :param customer_id: int
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.setCustomerID
-
-        arg = {"customerID": customer_id, "orderID": order_id}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def set_delivery_deadline(self, delivery_deadline: datetime, order_id: int):
-        """
-        Sets the delivery deadline for the currently selected project.
-
-        :param delivery_deadline: datetime
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.setDeliveryDeadline
-
-        arg = {"deliveryDeadline": delivery_deadline, "orderID": order_id}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def set_en15038_requested(self, is_en15038: bool, order_id: int):
-        """
-        Method to mark a project, that the clients wants the project to correspond to the EN 10538 standard.
-
-        :param is_en15038: bool
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.setEN15038Requested
-
-        arg = {"isEN15038": is_en15038, "orderID": order_id}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def set_external_id(self, order_id: int, external_id: str):
-        """
-        Method set ExternalID of Order by orderID
-
-        :param order_id: int
-        :param external_id: str
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.setExternalID
-
-        arg = {"orderID": order_id, "externalID": external_id}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def set_master_project_id(self, order_id: int, master_project_id: int):
-        """
-        Method to set the MasterProjectID of the specified order.
-
-        :param order_id: int
-        :param master_project_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.setMasterProjectID
-
-        arg = {"orderID": order_id, "MasterProjectID": master_project_id}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def set_order_date(self, order_date: datetime, order_id: int):
-        """
-        Set the order date.
-
-        :param order_date: datetime
-        :param order_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.setOrderDate
-
-        arg = {"orderDate": order_date, "orderID": order_id}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
+        proxy = self.__client.plunet_server.DataOrder30.getProjectCategory
+        response_model = StringResult
+
+        arg = {"systemLanguageCode": system_language_code, "orderID": order_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
 
     def set_project_category(
         self, project_category: str, system_language_code: str, order_id: int
-    ):
+    ) -> Result:
         """
         Set the the project category of the order, specified by its name.
+
+
+        For a full list of your project categories, see Admin | Miscellaneous |
+        Project category.
+
 
         :param project_category: str
         :param system_language_code: str
         :param order_id: int
-
-        :return:
+        :return: Result
         """
 
         proxy = self.__client.plunet_server.DataOrder30.setProjectCategory
+        response_model = Result
 
         arg = {
             "projectCategory": project_category,
@@ -952,160 +674,974 @@ class DataOrder30:
             "orderID": order_id,
         }
 
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
 
-    def set_projectmanager_id(self, resource_id: int, order_id: int):
+    def get_reference_number(self, order_id: int) -> StringResult:
         """
-        Sets the resourceID of the project manager for defined order.
+        Method returns the reference number by order ID.
 
-        :param resource_id: int
+
         :param order_id: int
-
-        :return:
+        :return: StringResult
         """
 
-        proxy = self.__client.plunet_server.DataOrder30.setProjectmanagerID
+        proxy = self.__client.plunet_server.DataOrder30.getReferenceNumber
+        response_model = StringResult
 
-        arg = {"resourceID": resource_id, "orderID": order_id}
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
+    def get_project_manager_memo(self, order_id: int) -> StringResult:
+        """
+        Method returns project-manager memo for order by orderID.
 
-    def set_project_manager_memo(self, order_id: int, memo: str):
+
+        :param order_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.getProjectManagerMemo
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def insert_by_template(
+        self, order_in: Union[OrderIN, dict], template_id: int
+    ) -> IntegerResult:
+        """
+        Method to create a order depending on the transfered templateID and OrderIN object.
+        (object values will overwrite information set by the template)
+        #setOrderID(int) will be ignored as it
+        will be auto generated by the system.
+
+
+        :param order_in: OrderIN
+        :param template_id: int
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.insert_byTemplate
+        response_model = IntegerResult
+
+        if type(order_in) != OrderIN:
+            order_in = OrderIN(**order_in).dict()
+        else:
+            order_in = order_in.dict()
+
+        arg = {"OrderIN": order_in, "TemplateID": template_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def set_master_project_id(self, order_id: int, master_project_id: int) -> Result:
+        """
+        Method to set the MasterProjectID of the specified order.
+
+
+        :param order_id: int
+        :param master_project_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.setMasterProjectID
+        response_model = Result
+
+        arg = {"orderID": order_id, "MasterProjectID": master_project_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_master_project_id(self, order_id: int) -> IntegerResult:
+        """
+        Method to get the MasterProjectID of the specified order.
+
+
+        :param order_id: int
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.getMasterProjectID
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_project_manager_memo(self, order_id: int, memo: str) -> Result:
         """
         Method set the project-manager Memo for order by orderID.
 
+
         :param order_id: int
         :param memo: str
-
-        :return:
+        :return: Result
         """
 
         proxy = self.__client.plunet_server.DataOrder30.setProjectManagerMemo
+        response_model = Result
 
         arg = {"orderID": order_id, "memo": memo}
 
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
 
-    def set_project_name(self, name: str, order_id: int):
+    def get_currency(self, order_id: int) -> StringResult:
         """
-        Sets the project name for the currently selected project.
+        Returns an instance of StringResult, which contains the currency.
+
+
+        :param order_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.getCurrency
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_documents_within_source_folder_by_language(
+        self, language: str, order_id: int
+    ) -> StringArrayResult:
+        """
+        Deprecated. Please use DataDocument30.getFileList(String, int, int) with Folder Type = 6 instead
+        for compatibility reasons with DataDocument30.
+
+        Returns an instance of StringArrayResult, which contains a list of network
+        paths to source files, connected to a specific language.
+        Info: For content based file up/download please use DataDocument30
+
+
+        :param language: str
+        :param order_id: int
+        :return: StringArrayResult
+        """
+
+        proxy = (
+            self.__client.plunet_server.DataOrder30.getDocuments_Within_SourceFolder_ByLanguage
+        )
+        response_model = StringArrayResult
+
+        arg = {"language": language, "orderID": order_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_documents_within_reference_folder(self, order_id: int) -> StringArrayResult:
+        """
+        Deprecated. Please use DataDocument30.getFileList(String, int, int) with Folder Type = 5 instead
+        for compatibility reasons with DataDocument30.
+
+        Returns an instance of StringArrayResult, which contains a list of network
+        paths to the reference files.
+        Info: For content based file up/download please use DataDocument30
+
+
+        :param order_id: int
+        :return: StringArrayResult
+        """
+
+        proxy = (
+            self.__client.plunet_server.DataOrder30.getDocuments_Within_ReferenceFolder
+        )
+        response_model = StringArrayResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_documents_within_reference_folder_by_language(
+        self, language: str, order_id: int
+    ) -> StringArrayResult:
+        """
+        Deprecated. Please use DataDocument30.getFileList(String, int, int) with Folder Type = 5 instead
+        for compatibility reasons with DataDocument30.
+
+        Returns an instance of StringArrayResult, which contains a list of network
+        paths to the reference files, which are connected to a specific language.
+        Info: For content based file up/download please use DataDocument30
+
+
+        :param language: str
+        :param order_id: int
+        :return: StringArrayResult
+        """
+
+        proxy = (
+            self.__client.plunet_server.DataOrder30.getDocuments_Within_ReferenceFolder_ByLanguage
+        )
+        response_model = StringArrayResult
+
+        arg = {"language": language, "orderID": order_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_customer_contact_id(self, order_id: int) -> IntegerResult:
+        """
+        Returns an instance of IntegerResult, which contains the customer contact id.
+
+
+        :param order_id: int
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.getCustomerContactID
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_customer_contact_id(
+        self, customer_contact_id: int, order_id: int
+    ) -> Result:
+        """
+        Sets the customer contact ID for the currently selected project.
+
+
+        :param customer_contact_id: int
+        :param order_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.setCustomerContactID
+        response_model = Result
+
+        arg = {"customerContactID": customer_contact_id, "orderID": order_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def deregister_callback_observer(self, order_id: int) -> Result:
+        """
+        Deletes an observer.
+        (observer can only deleted by the user who has created them)
+
+
+        :param order_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.deregisterCallback_Observer
+        response_model = Result
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def register_callback_notify(
+        self,
+        server_authentication_string: str,
+        server_address: str,
+        event_type: EventType,
+    ) -> Result:
+        """
+        Register to get notified when the specified EventType occurs
+        for any order.
+
+        If the EventType occurs PBM will call the callback web service,
+        which is hosted within your environment. Please check
+        CallbackOrder30 for the exact specification for this service.
+        (each user can only create one notifier per event)
+
+
+        The  must match one of the following formats:
+
+        http://mypath
+        http://mypath/
+        http://mypath/subfolder?wsdl
+
+        In the first two cases, the address will be autocompleted by appending
+        the corresponding directory &#34;CallbackOrder30?wsdl&#34;.
+
+        A list of all registered callbacks can be accessed with
+        DataAdmin30.getListOfRegisteredCallbacks(String)
+
+
+        :param server_authentication_string: str
+        :param server_address: str
+        :param event_type: EventType
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.registerCallback_Notify
+        response_model = Result
+
+        arg = {
+            "ServerAuthenticationString": server_authentication_string,
+            "ServerAddress": server_address,
+            "EventType": event_type.value,
+        }
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def deregister_callback_notify(self, event_type: EventType) -> Result:
+        """
+        Deletes an registered notify request.
+        Notify requests can only be deleted by the user who has created them
+
+
+        :param event_type: EventType
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.deregisterCallback_Notify
+        response_model = Result
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=event_type.value,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def register_callback_observer(
+        self, server_authentication_string: str, server_address: str, order_id: int
+    ) -> Result:
+        """
+        Register to observe a specific object for any supported
+        EventType.
+
+        As soon as any supported event occurs, PBM will call the callback web
+        service, which is hosted within your environment. Please check
+        CallbackOrder30 for the exact specification for this service.
+        (each user can only create one observer per id)
+
+
+        The  must match one of the following formats:
+
+        http://mypath
+        http://mypath/
+        http://mypath/subfolder?wsdl
+
+        In the first two cases, the address will be autocompleted by appending
+        the corresponding directory &#34;CallbackOrder30?wsdl&#34;.
+
+        A list of all registered callbacks can be accessed with
+        DataAdmin30.getListOfRegisteredCallbacks(String)
+
+
+        :param server_authentication_string: str
+        :param server_address: str
+        :param order_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.registerCallback_Observer
+        response_model = Result
+
+        arg = {
+            "ServerAuthenticationString": server_authentication_string,
+            "ServerAddress": server_address,
+            "OrderID": order_id,
+        }
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_project_name(self, order_id: int) -> StringResult:
+        """
+        Returns an instance of String Result, which contains the project name.
+
+
+        :param order_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.getProjectName
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_project_name(self, name: str, order_id: int) -> Result:
+        """
+        Sets the project name for the currently selected project. Returns an instance of Result.
+
 
         :param name: str
         :param order_id: int
-
-        :return:
+        :return: Result
         """
 
         proxy = self.__client.plunet_server.DataOrder30.setProjectName
+        response_model = Result
 
         arg = {"name": name, "orderID": order_id}
 
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
 
-    def set_project_status(self, order_id: int, status: int):
+    def get_request_id(self, order_id: int) -> IntegerResult:
         """
-        Method allows to set the ArchivStatus to ARCHIVED(3).
+        Returns an instance of IntegerResult, which contains the requestId.
+
 
         :param order_id: int
-        :param status: int
-
-        :return:
+        :return: IntegerResult
         """
 
-        proxy = self.__client.plunet_server.DataOrder30.setProjectStatus
+        proxy = self.__client.plunet_server.DataOrder30.getRequestId
+        response_model = IntegerResult
 
-        arg = {"orderID": order_id, "status": status}
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def set_property(
-        self, order_id: int, property_name_english: str, property_value_english: str
-    ):
+    def get_subject(self, order_id: int) -> StringResult:
         """
-        Deprecated.
+        Returns an instance of StringResult, which contains the subject.
+
 
         :param order_id: int
-        :param property_name_english: str
-        :param property_value_english: str
-
-        :return:
+        :return: StringResult
         """
 
-        proxy = self.__client.plunet_server.DataOrder30.setProperty
+        proxy = self.__client.plunet_server.DataOrder30.getSubject
+        response_model = StringResult
 
-        arg = {
-            "orderID": order_id,
-            "propertyNameEnglish": property_name_english,
-            "propertyValueEnglish": property_value_english,
-        }
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def set_reference_number(self, order_id: int, reference: str):
-        """
-        Method set reference number for order by orderID.
-
-        :param order_id: int
-        :param reference: str
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.setReferenceNumber
-
-        arg = {"orderID": order_id, "reference": reference}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def set_request_id(self, order_id: int, request_id: int):
-        """
-        Method to set the project related request ID.
-
-        :param order_id: int
-        :param request_id: int
-
-        :return:
-        """
-
-        proxy = self.__client.plunet_server.DataOrder30.setRequestID
-
-        arg = {"orderID": order_id, "requestID": request_id}
-
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
-
-    def set_subject(self, subject: str, order_id: int):
+    def set_subject(self, subject: str, order_id: int) -> Result:
         """
         Sets the subject for the currently selected project.
 
+
         :param subject: str
         :param order_id: int
-
-        :return:
+        :return: Result
         """
 
         proxy = self.__client.plunet_server.DataOrder30.setSubject
+        response_model = Result
 
         arg = {"subject": subject, "orderID": order_id}
 
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
 
-    def update(self, order: Union[OrderIN, dict], enabled: bool):
+    def get_creation_date(self, order_id: int) -> DateResult:
         """
-        Updates the Order by the transfered object.
+        Returns an instance of DateResult, which contains the creation date.
 
-        :param order: OrderIN
-        :param enabled: bool
 
-        :return:
+        :param order_id: int
+        :return: DateResult
         """
 
-        proxy = self.__client.plunet_server.DataOrder30.update
+        proxy = self.__client.plunet_server.DataOrder30.getCreationDate
+        response_model = DateResult
 
-        if type(order) != OrderIN:
-            order = OrderIN(**order).dict()
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_request_id(self, order_id: int, request_id: int) -> Result:
+        """
+        Method to set the project related request ID.
+
+
+        :param order_id: int
+        :param request_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.setRequestID
+        response_model = Result
+
+        arg = {"orderID": order_id, "requestID": request_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_order_object2(self, order_number: str) -> OrderResult:
+        """
+        Method returns an instance of OrderResult, which contains an instance of Order.
+
+
+        :param order_number: str
+        :return: OrderResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.getOrderObject2
+        response_model = OrderResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_number,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_order_object(self, order_id: int) -> OrderResult:
+        """
+        Method returns an instance of OrderResult, which contains an instance of Order.
+
+
+        :param order_id: int
+        :return: OrderResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.getOrderObject
+        response_model = OrderResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_item_status(
+        self, source_language: str, target_language: str, order_id: int
+    ) -> IntegerResult:
+        """
+        Method returns the status of a project item associated to a specific language combination.
+
+
+        :param source_language: str
+        :param target_language: str
+        :param order_id: int
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.getItemStatus
+        response_model = IntegerResult
+
+        arg = {
+            "sourceLanguage": source_language,
+            "targetLanguage": target_language,
+            "orderID": order_id,
+        }
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def check_en15038(self, order_id: int) -> BooleanResult:
+        """
+        Method returns an instance of BooleanResult, which contains the information,
+        whether a project corresponds the EN15038 standard or not.
+
+
+        :param order_id: int
+        :return: BooleanResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.checkEN15038
+        response_model = BooleanResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_rate(self, order_id: int) -> DoubleResult:
+        """
+        Returns an instance of DoubleResult, which contains the rate.
+
+
+        :param order_id: int
+        :return: DoubleResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.getRate
+        response_model = DoubleResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_template_list(
+        self,
+    ) -> TemplateListResult:
+        """
+        Method returns an instance of TemplateListResult, which contains a list
+        of template objects which can be accessed by the user.
+
+
+        :return: TemplateListResult
+        """
+
+        self.__client.plunet_server.DataOrder30.getTemplateList
+
+    def set_creation_date(self, creation_date: datetime, order_id: int) -> Result:
+        """
+        Sets the creation date for the currently selected project.
+
+
+        :param creation_date: datetime
+        :param order_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.setCreationDate
+        response_model = Result
+
+        arg = {"creationDate": creation_date, "orderID": order_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_links(self, order_id: int, project_type: ProjectType) -> LinkListResult:
+        """
+        Outputs all incoming and outgoing links for an order.
+
+
+        :param order_id: int
+        :param project_type: ProjectType
+        :return: LinkListResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.getLinks
+        response_model = LinkListResult
+
+        arg = {"orderId": order_id, "projectType": project_type.value}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_project_status(self, order_id: int) -> IntegerResult:
+        """
+        Returns an instance of IntegerResult, which contains the ArchivStatus.
+
+
+        :param order_id: int
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.getProjectStatus
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_project_status(self, order_id: int, project_status: int) -> Result:
+        """
+        Method allows to set the ArchivStatus to ARCHIVED(3).
+        Other status changes are not supported due to underlying automated workflows.
+        Please note that the current status must be either COMPLETED(6) or COMPLETED_ARCHIVABLE(2).
+
+
+        :param order_id: int
+        :param project_status: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.setProjectStatus
+        response_model = Result
+
+        arg = {"orderID": order_id, "projectStatus": project_status}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_order_date(self, order_id: int) -> DateResult:
+        """
+        Get the order date.
+
+
+        :param order_id: int
+        :return: DateResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.getOrderDate
+        response_model = DateResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_action_link(
+        self, order_id: int, user_id: int, action_link_type: int
+    ) -> StringResult:
+        """
+        Method to obtain any kind of order related action link.
+
+
+        :param order_id: int
+        :param user_id: int
+        :param action_link_type: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.getActionLink
+        response_model = StringResult
+
+        arg = {
+            "orderID": order_id,
+            "userID": user_id,
+            "actionLinkType": action_link_type,
+        }
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def set_order_date(self, order_date: datetime, order_id: int) -> Result:
+        """
+        Set the order date.
+
+
+        :param order_date: datetime
+        :param order_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.setOrderDate
+        response_model = Result
+
+        arg = {"orderDate": order_date, "orderID": order_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def insert2(self, order_in: Union[OrderIN, dict]) -> IntegerResult:
+        """
+        Method to create a order depending on the transfered object.
+
+
+        :param order_in: OrderIN
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.insert2
+        response_model = IntegerResult
+
+        if type(order_in) != OrderIN:
+            order_in = OrderIN(**order_in).dict()
         else:
-            order = order.dict()
+            order_in = order_in.dict()
 
-        arg = {"order": order, "enabled": enabled}
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_in,
+            response_model=response_model,
+            unpack_dict=False,
+        )
 
-        return self.__client.make_request(proxy, arg, unpack_dict=True)
+    def set_external_id(self, order_id: int, external_id: str) -> Result:
+        """
+        Method set ExternalID of Order by orderID
+
+
+        :param order_id: int
+        :param external_id: str
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.setExternalID
+        response_model = Result
+
+        arg = {"orderID": order_id, "externalID": external_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_external_id(self, order_id: int) -> StringResult:
+        """
+        Method returns the ExternalID by orderID
+
+
+        :param order_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.getExternalID
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_customer_id(self, customer_id: int, order_id: int) -> Result:
+        """
+        Sets the customerID for the currently selected project.
+
+
+        :param customer_id: int
+        :param order_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.setCustomerID
+        response_model = Result
+
+        arg = {"customerID": customer_id, "orderID": order_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_order_id(self, display_no: str) -> IntegerResult:
+        """
+        Method returns an instance of IntegerResult, which contains an order ID.
+
+
+        :param display_no: str
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.getOrderID
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=display_no,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_customer_id(self, order_id: int) -> IntegerResult:
+        """
+        Returns an instance of IntegerResult, which contains the customer id.
+
+
+        :param order_id: int
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataOrder30.getCustomerID
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=order_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )

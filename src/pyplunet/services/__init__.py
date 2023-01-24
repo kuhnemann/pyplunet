@@ -1,10 +1,3 @@
-from .callback_customer30 import CallbackCustomer30
-from .callback_item30 import CallbackItem30
-from .callback_job30 import CallbackJob30
-from .callback_order30 import CallbackOrder30
-from .callback_quote30 import CallbackQuote30
-from .callback_request30 import CallbackRequest30
-from .callback_resource30 import CallbackResource30
 from .data_admin30 import DataAdmin30
 from .data_credit_note30 import DataCreditNote30
 from .data_custom_fields30 import DataCustomFields30
@@ -51,11 +44,4 @@ __all__ = [
     RequestDocText30,
     DataUser30,
     DataCustomFields30,
-    CallbackItem30,
-    CallbackQuote30,
-    CallbackOrder30,
-    CallbackRequest30,
-    CallbackResource30,
-    CallbackCustomer30,
-    CallbackJob30,
 ]

@@ -1,16 +1,15 @@
-from typing import Callable, Union
+from typing import Callable, Optional, Union
 
 from plunetapi import PlunetAPI
+from zeep.helpers import serialize_object
 
-from .exceptions import NoPlunetSession, PlunetAuthFailed, PlunetException
+from .exceptions import (
+    PLUNET_ERRORS,
+    NoPlunetSession,
+    PlunetAuthFailed,
+    PlunetClientError,
+)
 from .services import (
-    CallbackCustomer30,
-    CallbackItem30,
-    CallbackJob30,
-    CallbackOrder30,
-    CallbackQuote30,
-    CallbackRequest30,
-    CallbackResource30,
     DataAdmin30,
     DataCreditNote30,
     DataCustomer30,
@@ -37,9 +36,9 @@ from .services import (
 
 
 class PlunetClient:
-    def __init__(self, base_url=None):
+    def __init__(self, base_url=None, uuid: Optional[str] = None):
         self.plunet_server = PlunetAPI(base_url=base_url)
-        self.uuid = None
+        self.uuid = uuid
         self.payable = DataPayable30(self)
         self.resource_contact = DataResourceContact30(self)
         self.customer_address = DataCustomerAddress30(self)
@@ -62,13 +61,6 @@ class PlunetClient:
         self.report_customer = ReportCustomer30(self)
         self.report_job = ReportJob30(self)
         self.request_doc_text = RequestDocText30(self)
-        self.callback_item = CallbackItem30(self)
-        self.callback_quote = CallbackQuote30(self)
-        self.callback_order = CallbackOrder30(self)
-        self.callback_request = CallbackRequest30(self)
-        self.callback_resource = CallbackResource30(self)
-        self.callback_customer = CallbackCustomer30(self)
-        self.callback_job = CallbackJob30(self)
 
     def login(self, username, password) -> None:
         uuid = self.plunet_server.PlunetAPI.login(username, password)
@@ -87,6 +79,7 @@ class PlunetClient:
         self,
         operation_proxy: Callable,
         argument: Union[dict, str, int, list, None],
+        response_model: Callable,
         unpack_dict: bool = False,
     ):
         if self.uuid is None:
@@ -100,30 +93,14 @@ class PlunetClient:
             result = operation_proxy(self.uuid)
 
         if result.statusCode != 0:
-            raise PlunetException(result.statusMessage)
+            raise PLUNET_ERRORS.get(
+                result.statusCode,
+                PlunetClientError(
+                    f"Error calling Plunet (could not map status code to error type). Result: {result}"
+                ),
+            )
         else:
             try:
-                return result.data
-            except:
-                return
-
-    def make_download(
-        self,
-        operation_proxy: Callable,
-        argument: Union[dict, str, int, list],
-        unpack_dict: bool = False,
-    ):
-        if self.uuid is None:
-            raise NoPlunetSession("You have no active Plunet session. Please log in.")
-
-        if unpack_dict is True:
-            result = operation_proxy(self.uuid, **argument)
-        else:
-            result = operation_proxy(self.uuid, argument)
-        if result.statusCode != 0:
-            raise Exception(result.statusMessage)
-        else:
-            try:
-                return result.fileContent
-            except:
-                return result
+                return response_model(**serialize_object(result))
+            except Exception:
+                raise PlunetClientError(f"Unable to parse result: {result}")
