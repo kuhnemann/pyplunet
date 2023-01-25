@@ -8,10 +8,10 @@ from src.pyplunet.exceptions import PlunetAPIError
 
 from src.pyplunet.models import (
         Result,
-        IntegerArrayResult,
         AddressIN,
         IntegerResult,
-        StringResult
+        StringResult,
+        IntegerArrayResult
 )
 
 
@@ -53,6 +53,8 @@ def get_test_set() -> test_set_DataResourceAddress30:
             country= ,
             address_type= 
     )
+
+
 def test_DataResourceAddress30_update(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
     try:
         resp = pc.resource_address.update(
@@ -61,9 +63,12 @@ def test_DataResourceAddress30_update(pc: PlunetClient, test_set: test_set_DataR
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_update failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataResourceAddress30_update was successful.")
+
+
 
 
 def test_DataResourceAddress30_delete(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -73,9 +78,12 @@ def test_DataResourceAddress30_delete(pc: PlunetClient, test_set: test_set_DataR
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_delete failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataResourceAddress30_delete was successful.")
+
+
 
 
 def test_DataResourceAddress30_get_state(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -85,9 +93,12 @@ def test_DataResourceAddress30_get_state(pc: PlunetClient, test_set: test_set_Da
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_get_state failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataResourceAddress30_get_state was successful.")
+
+
 
 
 def test_DataResourceAddress30_insert(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -97,9 +108,12 @@ def test_DataResourceAddress30_insert(pc: PlunetClient, test_set: test_set_DataR
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_insert failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataResourceAddress30_insert was successful.")
+
+
 
 
 def test_DataResourceAddress30_get_country(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -109,9 +123,12 @@ def test_DataResourceAddress30_get_country(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_get_country failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataResourceAddress30_get_country was successful.")
+
+
 
 
 def test_DataResourceAddress30_set_state(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -122,9 +139,12 @@ def test_DataResourceAddress30_set_state(pc: PlunetClient, test_set: test_set_Da
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_set_state failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataResourceAddress30_set_state was successful.")
+
+
 
 
 def test_DataResourceAddress30_get_description(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -134,9 +154,12 @@ def test_DataResourceAddress30_get_description(pc: PlunetClient, test_set: test_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_get_description failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataResourceAddress30_get_description was successful.")
+
+
 
 
 def test_DataResourceAddress30_set_description(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -147,9 +170,12 @@ def test_DataResourceAddress30_set_description(pc: PlunetClient, test_set: test_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_set_description failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataResourceAddress30_set_description was successful.")
+
+
 
 
 def test_DataResourceAddress30_get_name1(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -159,9 +185,12 @@ def test_DataResourceAddress30_get_name1(pc: PlunetClient, test_set: test_set_Da
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_get_name1 failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataResourceAddress30_get_name1 was successful.")
+
+
 
 
 def test_DataResourceAddress30_set_name2(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -172,9 +201,12 @@ def test_DataResourceAddress30_set_name2(pc: PlunetClient, test_set: test_set_Da
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_set_name2 failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataResourceAddress30_set_name2 was successful.")
+
+
 
 
 def test_DataResourceAddress30_insert2(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -185,9 +217,12 @@ def test_DataResourceAddress30_insert2(pc: PlunetClient, test_set: test_set_Data
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_insert2 failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataResourceAddress30_insert2 was successful.")
+
+
 
 
 def test_DataResourceAddress30_set_name1(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -198,9 +233,12 @@ def test_DataResourceAddress30_set_name1(pc: PlunetClient, test_set: test_set_Da
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_set_name1 failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataResourceAddress30_set_name1 was successful.")
+
+
 
 
 def test_DataResourceAddress30_get_name2(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -210,9 +248,12 @@ def test_DataResourceAddress30_get_name2(pc: PlunetClient, test_set: test_set_Da
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_get_name2 failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataResourceAddress30_get_name2 was successful.")
+
+
 
 
 def test_DataResourceAddress30_get_all_addresses(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -222,9 +263,12 @@ def test_DataResourceAddress30_get_all_addresses(pc: PlunetClient, test_set: tes
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_get_all_addresses failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerArrayResult
+    print(f"test_DataResourceAddress30_get_all_addresses was successful.")
+
+
 
 
 def test_DataResourceAddress30_get_address_id(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -234,9 +278,12 @@ def test_DataResourceAddress30_get_address_id(pc: PlunetClient, test_set: test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_get_address_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataResourceAddress30_get_address_id was successful.")
+
+
 
 
 def test_DataResourceAddress30_set_office(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -247,9 +294,12 @@ def test_DataResourceAddress30_set_office(pc: PlunetClient, test_set: test_set_D
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_set_office failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataResourceAddress30_set_office was successful.")
+
+
 
 
 def test_DataResourceAddress30_get_office(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -259,9 +309,12 @@ def test_DataResourceAddress30_get_office(pc: PlunetClient, test_set: test_set_D
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_get_office failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataResourceAddress30_get_office was successful.")
+
+
 
 
 def test_DataResourceAddress30_set_street2(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -272,9 +325,12 @@ def test_DataResourceAddress30_set_street2(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_set_street2 failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataResourceAddress30_set_street2 was successful.")
+
+
 
 
 def test_DataResourceAddress30_get_street2(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -284,9 +340,12 @@ def test_DataResourceAddress30_get_street2(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_get_street2 failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataResourceAddress30_get_street2 was successful.")
+
+
 
 
 def test_DataResourceAddress30_set_zip(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -297,9 +356,12 @@ def test_DataResourceAddress30_set_zip(pc: PlunetClient, test_set: test_set_Data
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_set_zip failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataResourceAddress30_set_zip was successful.")
+
+
 
 
 def test_DataResourceAddress30_get_street(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -309,9 +371,12 @@ def test_DataResourceAddress30_get_street(pc: PlunetClient, test_set: test_set_D
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_get_street failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataResourceAddress30_get_street was successful.")
+
+
 
 
 def test_DataResourceAddress30_set_street(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -322,9 +387,12 @@ def test_DataResourceAddress30_set_street(pc: PlunetClient, test_set: test_set_D
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_set_street failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataResourceAddress30_set_street was successful.")
+
+
 
 
 def test_DataResourceAddress30_set_city(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -335,9 +403,12 @@ def test_DataResourceAddress30_set_city(pc: PlunetClient, test_set: test_set_Dat
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_set_city failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataResourceAddress30_set_city was successful.")
+
+
 
 
 def test_DataResourceAddress30_set_country(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -348,9 +419,12 @@ def test_DataResourceAddress30_set_country(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_set_country failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataResourceAddress30_set_country was successful.")
+
+
 
 
 def test_DataResourceAddress30_get_city(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -360,9 +434,12 @@ def test_DataResourceAddress30_get_city(pc: PlunetClient, test_set: test_set_Dat
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_get_city failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataResourceAddress30_get_city was successful.")
+
+
 
 
 def test_DataResourceAddress30_get_zip(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -372,9 +449,12 @@ def test_DataResourceAddress30_get_zip(pc: PlunetClient, test_set: test_set_Data
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_get_zip failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataResourceAddress30_get_zip was successful.")
+
+
 
 
 def test_DataResourceAddress30_get_address_type(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -384,9 +464,12 @@ def test_DataResourceAddress30_get_address_type(pc: PlunetClient, test_set: test
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_get_address_type failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataResourceAddress30_get_address_type was successful.")
+
+
 
 
 def test_DataResourceAddress30_set_address_type(pc: PlunetClient, test_set: test_set_DataResourceAddress30):
@@ -397,9 +480,10 @@ def test_DataResourceAddress30_set_address_type(pc: PlunetClient, test_set: test
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataResourceAddress30_set_address_type failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataResourceAddress30_set_address_type was successful.")
 
 
 

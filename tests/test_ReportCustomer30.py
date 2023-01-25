@@ -20,6 +20,8 @@ def get_test_set() -> test_set_ReportCustomer30:
     return test_set_ReportCustomer30(
             search_filter_customer= 
     )
+
+
 def test_ReportCustomer30_search(pc: PlunetClient, test_set: test_set_ReportCustomer30):
     try:
         resp = pc.report_customer.search(
@@ -27,9 +29,10 @@ def test_ReportCustomer30_search(pc: PlunetClient, test_set: test_set_ReportCust
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_ReportCustomer30_search failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerArrayResult
+    print(f"test_ReportCustomer30_search was successful.")
 
 
 

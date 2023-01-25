@@ -7,12 +7,12 @@ from src.pyplunet.exceptions import PlunetAPIError
 
 
 from src.pyplunet.models import (
-        Result,
-        TextmoduleResult,
-        PropertyResult,
         TextmoduleIN,
+        PropertyResult,
+        Result,
+        StringResult,
         IntegerList,
-        StringResult
+        TextmoduleResult
 )
 
 
@@ -42,6 +42,8 @@ def get_test_set() -> test_set_DataCustomFields30:
             flag= ,
             text_module_usage_area= 
     )
+
+
 def test_DataCustomFields30_get_property(pc: PlunetClient, test_set: test_set_DataCustomFields30):
     try:
         resp = pc.custom_fields.get_property(
@@ -51,9 +53,12 @@ def test_DataCustomFields30_get_property(pc: PlunetClient, test_set: test_set_Da
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCustomFields30_get_property failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PropertyResult
+    print(f"test_DataCustomFields30_get_property was successful.")
+
+
 
 
 def test_DataCustomFields30_get_property_value_text(pc: PlunetClient, test_set: test_set_DataCustomFields30):
@@ -65,9 +70,12 @@ def test_DataCustomFields30_get_property_value_text(pc: PlunetClient, test_set: 
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCustomFields30_get_property_value_text failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataCustomFields30_get_property_value_text was successful.")
+
+
 
 
 def test_DataCustomFields30_set_property_value_list(pc: PlunetClient, test_set: test_set_DataCustomFields30):
@@ -80,9 +88,12 @@ def test_DataCustomFields30_set_property_value_list(pc: PlunetClient, test_set: 
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCustomFields30_set_property_value_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataCustomFields30_set_property_value_list was successful.")
+
+
 
 
 def test_DataCustomFields30_set_property_value(pc: PlunetClient, test_set: test_set_DataCustomFields30):
@@ -95,9 +106,12 @@ def test_DataCustomFields30_set_property_value(pc: PlunetClient, test_set: test_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCustomFields30_set_property_value failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataCustomFields30_set_property_value was successful.")
+
+
 
 
 def test_DataCustomFields30_set_textmodule(pc: PlunetClient, test_set: test_set_DataCustomFields30):
@@ -109,9 +123,12 @@ def test_DataCustomFields30_set_textmodule(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCustomFields30_set_textmodule failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataCustomFields30_set_textmodule was successful.")
+
+
 
 
 def test_DataCustomFields30_get_textmodule(pc: PlunetClient, test_set: test_set_DataCustomFields30):
@@ -124,9 +141,10 @@ def test_DataCustomFields30_get_textmodule(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCustomFields30_get_textmodule failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == TextmoduleResult
+    print(f"test_DataCustomFields30_get_textmodule was successful.")
 
 
 

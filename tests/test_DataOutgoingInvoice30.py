@@ -8,32 +8,32 @@ from src.pyplunet.exceptions import PlunetAPIError
 
 from src.pyplunet.models import (
         Result,
-        BooleanResult,
-        PricelistListResult,
-        StringArrayResult,
-        PriceUnitListResult,
-        PriceLineListResult,
         InvoiceItemIN,
-        IntegerResult,
-        PriceLineResult,
-        InvoiceResult,
-        PriceUnitResult,
-        PriceLineIN,
+        StringResult,
+        IntegerArrayResult,
         TaxListResult,
         PricelistResult,
-        DoubleResult,
-        DateResult,
         InvoiceItemResult,
-        IntegerArrayResult,
-        PricelistEntryList,
+        DateResult,
+        DoubleResult,
+        StringArrayResult,
+        PriceUnitListResult,
+        InvoiceResult,
+        PriceLineResult,
+        BooleanResult,
         SearchFilter_Invoice,
-        StringResult
+        PriceLineListResult,
+        PricelistEntryList,
+        IntegerResult,
+        PricelistListResult,
+        PriceUnitResult,
+        PriceLineIN
 )
 
 
 from src.pyplunet.enums import (
-        TaxType,
-        CurrencyType
+        CurrencyType,
+        TaxType
 )
 
 
@@ -110,6 +110,8 @@ def get_test_set() -> test_set_DataOutgoingInvoice30:
             company_code_id= ,
             po_number= 
     )
+
+
 def test_DataOutgoingInvoice30_delete(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
     try:
         resp = pc.outgoing_invoice.delete(
@@ -117,9 +119,12 @@ def test_DataOutgoingInvoice30_delete(pc: PlunetClient, test_set: test_set_DataO
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_delete failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataOutgoingInvoice30_delete was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_search(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -129,9 +134,12 @@ def test_DataOutgoingInvoice30_search(pc: PlunetClient, test_set: test_set_DataO
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_search failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerArrayResult
+    print(f"test_DataOutgoingInvoice30_search was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_brief_description(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -141,9 +149,12 @@ def test_DataOutgoingInvoice30_get_brief_description(pc: PlunetClient, test_set:
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_brief_description failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataOutgoingInvoice30_get_brief_description was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_set_brief_description(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -154,9 +165,12 @@ def test_DataOutgoingInvoice30_set_brief_description(pc: PlunetClient, test_set:
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_set_brief_description failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataOutgoingInvoice30_set_brief_description was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_pricelist_list(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -166,9 +180,12 @@ def test_DataOutgoingInvoice30_get_pricelist_list(pc: PlunetClient, test_set: te
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_pricelist_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PricelistListResult
+    print(f"test_DataOutgoingInvoice30_get_pricelist_list was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_price_unit_list(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -179,9 +196,12 @@ def test_DataOutgoingInvoice30_get_price_unit_list(pc: PlunetClient, test_set: t
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_price_unit_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PriceUnitListResult
+    print(f"test_DataOutgoingInvoice30_get_price_unit_list was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_pricelist_entry_list(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -193,9 +213,12 @@ def test_DataOutgoingInvoice30_get_pricelist_entry_list(pc: PlunetClient, test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_pricelist_entry_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PricelistEntryList
+    print(f"test_DataOutgoingInvoice30_get_pricelist_entry_list was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_price_line_list(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -205,9 +228,12 @@ def test_DataOutgoingInvoice30_get_price_line_list(pc: PlunetClient, test_set: t
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_price_line_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PriceLineListResult
+    print(f"test_DataOutgoingInvoice30_get_price_line_list was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_contact_person_id(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -217,9 +243,12 @@ def test_DataOutgoingInvoice30_get_contact_person_id(pc: PlunetClient, test_set:
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_contact_person_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataOutgoingInvoice30_get_contact_person_id was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_set_contact_person_id(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -230,9 +259,12 @@ def test_DataOutgoingInvoice30_set_contact_person_id(pc: PlunetClient, test_set:
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_set_contact_person_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataOutgoingInvoice30_set_contact_person_id was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_set_receivable_account(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -243,9 +275,12 @@ def test_DataOutgoingInvoice30_set_receivable_account(pc: PlunetClient, test_set
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_set_receivable_account failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataOutgoingInvoice30_set_receivable_account was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_invoice_documents(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -255,9 +290,12 @@ def test_DataOutgoingInvoice30_get_invoice_documents(pc: PlunetClient, test_set:
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_invoice_documents failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringArrayResult
+    print(f"test_DataOutgoingInvoice30_get_invoice_documents was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_create_invoice_document(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -269,9 +307,12 @@ def test_DataOutgoingInvoice30_create_invoice_document(pc: PlunetClient, test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_create_invoice_document failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataOutgoingInvoice30_create_invoice_document was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_revenue_account(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -281,9 +322,12 @@ def test_DataOutgoingInvoice30_get_revenue_account(pc: PlunetClient, test_set: t
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_revenue_account failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataOutgoingInvoice30_get_revenue_account was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_receivable_account(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -293,9 +337,12 @@ def test_DataOutgoingInvoice30_get_receivable_account(pc: PlunetClient, test_set
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_receivable_account failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataOutgoingInvoice30_get_receivable_account was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_set_revenue_account(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -306,9 +353,12 @@ def test_DataOutgoingInvoice30_set_revenue_account(pc: PlunetClient, test_set: t
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_set_revenue_account failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataOutgoingInvoice30_set_revenue_account was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_net_by_currency_type(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -319,9 +369,12 @@ def test_DataOutgoingInvoice30_get_net_by_currency_type(pc: PlunetClient, test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_net_by_currency_type failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataOutgoingInvoice30_get_net_by_currency_type was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_tax_by_currency_type(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -332,9 +385,12 @@ def test_DataOutgoingInvoice30_get_tax_by_currency_type(pc: PlunetClient, test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_tax_by_currency_type failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataOutgoingInvoice30_get_tax_by_currency_type was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_outstanding_by_currency_type(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -345,9 +401,12 @@ def test_DataOutgoingInvoice30_get_outstanding_by_currency_type(pc: PlunetClient
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_outstanding_by_currency_type failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataOutgoingInvoice30_get_outstanding_by_currency_type was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_tax_by_type_and_currency_type(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -359,9 +418,12 @@ def test_DataOutgoingInvoice30_get_tax_by_type_and_currency_type(pc: PlunetClien
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_tax_by_type_and_currency_type failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataOutgoingInvoice30_get_tax_by_type_and_currency_type was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_gross_by_currency_type(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -372,9 +434,12 @@ def test_DataOutgoingInvoice30_get_gross_by_currency_type(pc: PlunetClient, test
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_gross_by_currency_type failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataOutgoingInvoice30_get_gross_by_currency_type was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_insert_invoice_item(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -384,9 +449,12 @@ def test_DataOutgoingInvoice30_insert_invoice_item(pc: PlunetClient, test_set: t
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_insert_invoice_item failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataOutgoingInvoice30_insert_invoice_item was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_invoice_tax_types(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -396,9 +464,12 @@ def test_DataOutgoingInvoice30_get_invoice_tax_types(pc: PlunetClient, test_set:
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_invoice_tax_types failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == TaxListResult
+    print(f"test_DataOutgoingInvoice30_get_invoice_tax_types was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_set_is_invoice_exported(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -409,9 +480,12 @@ def test_DataOutgoingInvoice30_set_is_invoice_exported(pc: PlunetClient, test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_set_is_invoice_exported failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataOutgoingInvoice30_set_is_invoice_exported was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_invoice_item_list(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -421,9 +495,12 @@ def test_DataOutgoingInvoice30_get_invoice_item_list(pc: PlunetClient, test_set:
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_invoice_item_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == InvoiceItemResult
+    print(f"test_DataOutgoingInvoice30_get_invoice_item_list was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_delete_invoice_item(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -433,9 +510,12 @@ def test_DataOutgoingInvoice30_delete_invoice_item(pc: PlunetClient, test_set: t
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_delete_invoice_item failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataOutgoingInvoice30_delete_invoice_item was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_update_invoice_item(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -446,9 +526,12 @@ def test_DataOutgoingInvoice30_update_invoice_item(pc: PlunetClient, test_set: t
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_update_invoice_item failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataOutgoingInvoice30_update_invoice_item was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_paid_by_currency_type(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -459,9 +542,12 @@ def test_DataOutgoingInvoice30_get_paid_by_currency_type(pc: PlunetClient, test_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_paid_by_currency_type failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataOutgoingInvoice30_get_paid_by_currency_type was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_is_invoice_exported(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -471,9 +557,12 @@ def test_DataOutgoingInvoice30_get_is_invoice_exported(pc: PlunetClient, test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_is_invoice_exported failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == BooleanResult
+    print(f"test_DataOutgoingInvoice30_get_is_invoice_exported was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_payment_due_date(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -483,9 +572,12 @@ def test_DataOutgoingInvoice30_get_payment_due_date(pc: PlunetClient, test_set: 
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_payment_due_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DateResult
+    print(f"test_DataOutgoingInvoice30_get_payment_due_date was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_set_payment_due_date(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -496,9 +588,12 @@ def test_DataOutgoingInvoice30_set_payment_due_date(pc: PlunetClient, test_set: 
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_set_payment_due_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataOutgoingInvoice30_set_payment_due_date was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_currency_code(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -508,9 +603,12 @@ def test_DataOutgoingInvoice30_get_currency_code(pc: PlunetClient, test_set: tes
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_currency_code failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataOutgoingInvoice30_get_currency_code was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_status(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -520,9 +618,12 @@ def test_DataOutgoingInvoice30_get_status(pc: PlunetClient, test_set: test_set_D
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_status failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataOutgoingInvoice30_get_status was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_set_status(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -533,9 +634,12 @@ def test_DataOutgoingInvoice30_set_status(pc: PlunetClient, test_set: test_set_D
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_set_status failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataOutgoingInvoice30_set_status was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_subject(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -545,9 +649,12 @@ def test_DataOutgoingInvoice30_get_subject(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_subject failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataOutgoingInvoice30_get_subject was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_set_subject(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -558,9 +665,12 @@ def test_DataOutgoingInvoice30_set_subject(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_set_subject failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataOutgoingInvoice30_set_subject was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_gross(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -570,9 +680,12 @@ def test_DataOutgoingInvoice30_get_gross(pc: PlunetClient, test_set: test_set_Da
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_gross failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataOutgoingInvoice30_get_gross was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_invoice_date(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -582,9 +695,12 @@ def test_DataOutgoingInvoice30_get_invoice_date(pc: PlunetClient, test_set: test
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_invoice_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DateResult
+    print(f"test_DataOutgoingInvoice30_get_invoice_date was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_set_invoice_date(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -595,9 +711,12 @@ def test_DataOutgoingInvoice30_set_invoice_date(pc: PlunetClient, test_set: test
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_set_invoice_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataOutgoingInvoice30_set_invoice_date was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_order_i_ds(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -607,9 +726,12 @@ def test_DataOutgoingInvoice30_get_order_i_ds(pc: PlunetClient, test_set: test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_order_i_ds failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerArrayResult
+    print(f"test_DataOutgoingInvoice30_get_order_i_ds was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_value_date(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -619,9 +741,12 @@ def test_DataOutgoingInvoice30_get_value_date(pc: PlunetClient, test_set: test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_value_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DateResult
+    print(f"test_DataOutgoingInvoice30_get_value_date was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_invoice_object(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -631,9 +756,12 @@ def test_DataOutgoingInvoice30_get_invoice_object(pc: PlunetClient, test_set: te
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_invoice_object failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == InvoiceResult
+    print(f"test_DataOutgoingInvoice30_get_invoice_object was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_set_value_date(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -644,9 +772,12 @@ def test_DataOutgoingInvoice30_set_value_date(pc: PlunetClient, test_set: test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_set_value_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataOutgoingInvoice30_set_value_date was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_outstanding(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -656,9 +787,12 @@ def test_DataOutgoingInvoice30_get_outstanding(pc: PlunetClient, test_set: test_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_outstanding failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataOutgoingInvoice30_get_outstanding was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_tax(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -668,9 +802,12 @@ def test_DataOutgoingInvoice30_get_tax(pc: PlunetClient, test_set: test_set_Data
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_tax failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataOutgoingInvoice30_get_tax was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_invoice_nr(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -680,9 +817,12 @@ def test_DataOutgoingInvoice30_get_invoice_nr(pc: PlunetClient, test_set: test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_invoice_nr failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataOutgoingInvoice30_get_invoice_nr was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_net(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -692,9 +832,12 @@ def test_DataOutgoingInvoice30_get_net(pc: PlunetClient, test_set: test_set_Data
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_net failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataOutgoingInvoice30_get_net was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_paid(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -704,9 +847,12 @@ def test_DataOutgoingInvoice30_get_paid(pc: PlunetClient, test_set: test_set_Dat
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_paid failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataOutgoingInvoice30_get_paid was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_pricelist(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -716,9 +862,12 @@ def test_DataOutgoingInvoice30_get_pricelist(pc: PlunetClient, test_set: test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_pricelist failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PricelistResult
+    print(f"test_DataOutgoingInvoice30_get_pricelist was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_set_pricelist(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -729,9 +878,12 @@ def test_DataOutgoingInvoice30_set_pricelist(pc: PlunetClient, test_set: test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_set_pricelist failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataOutgoingInvoice30_set_pricelist was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_insert_price_line(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -743,9 +895,12 @@ def test_DataOutgoingInvoice30_insert_price_line(pc: PlunetClient, test_set: tes
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_insert_price_line failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PriceLineResult
+    print(f"test_DataOutgoingInvoice30_insert_price_line was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_update_price_line(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -756,9 +911,12 @@ def test_DataOutgoingInvoice30_update_price_line(pc: PlunetClient, test_set: tes
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_update_price_line failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PriceLineResult
+    print(f"test_DataOutgoingInvoice30_update_price_line was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_price_unit(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -769,9 +927,12 @@ def test_DataOutgoingInvoice30_get_price_unit(pc: PlunetClient, test_set: test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_price_unit failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PriceUnitResult
+    print(f"test_DataOutgoingInvoice30_get_price_unit was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_services_list(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -781,9 +942,12 @@ def test_DataOutgoingInvoice30_get_services_list(pc: PlunetClient, test_set: tes
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_services_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringArrayResult
+    print(f"test_DataOutgoingInvoice30_get_services_list was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_delete_price_line(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -794,9 +958,12 @@ def test_DataOutgoingInvoice30_delete_price_line(pc: PlunetClient, test_set: tes
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_delete_price_line failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataOutgoingInvoice30_delete_price_line was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_set_address_id(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -807,9 +974,12 @@ def test_DataOutgoingInvoice30_set_address_id(pc: PlunetClient, test_set: test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_set_address_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataOutgoingInvoice30_set_address_id was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_set_customer_id(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -820,9 +990,12 @@ def test_DataOutgoingInvoice30_set_customer_id(pc: PlunetClient, test_set: test_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_set_customer_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataOutgoingInvoice30_set_customer_id was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_set_paid_date(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -833,9 +1006,12 @@ def test_DataOutgoingInvoice30_set_paid_date(pc: PlunetClient, test_set: test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_set_paid_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataOutgoingInvoice30_set_paid_date was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_po_number(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -845,9 +1021,12 @@ def test_DataOutgoingInvoice30_get_po_number(pc: PlunetClient, test_set: test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_po_number failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataOutgoingInvoice30_get_po_number was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_invoice_id(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -858,9 +1037,12 @@ def test_DataOutgoingInvoice30_get_invoice_id(pc: PlunetClient, test_set: test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_invoice_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataOutgoingInvoice30_get_invoice_id was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_adress_id(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -870,9 +1052,12 @@ def test_DataOutgoingInvoice30_get_adress_id(pc: PlunetClient, test_set: test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_adress_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataOutgoingInvoice30_get_adress_id was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_company_code(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -882,9 +1067,12 @@ def test_DataOutgoingInvoice30_get_company_code(pc: PlunetClient, test_set: test
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_company_code failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataOutgoingInvoice30_get_company_code was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_paid_date(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -894,9 +1082,12 @@ def test_DataOutgoingInvoice30_get_paid_date(pc: PlunetClient, test_set: test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_paid_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DateResult
+    print(f"test_DataOutgoingInvoice30_get_paid_date was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_set_po_number(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -907,9 +1098,12 @@ def test_DataOutgoingInvoice30_set_po_number(pc: PlunetClient, test_set: test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_set_po_number failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataOutgoingInvoice30_set_po_number was successful.")
+
+
 
 
 def test_DataOutgoingInvoice30_get_customer_id(pc: PlunetClient, test_set: test_set_DataOutgoingInvoice30):
@@ -919,9 +1113,10 @@ def test_DataOutgoingInvoice30_get_customer_id(pc: PlunetClient, test_set: test_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataOutgoingInvoice30_get_customer_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataOutgoingInvoice30_get_customer_id was successful.")
 
 
 

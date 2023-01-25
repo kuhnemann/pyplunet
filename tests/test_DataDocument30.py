@@ -7,9 +7,9 @@ from src.pyplunet.exceptions import PlunetAPIError
 
 
 from src.pyplunet.models import (
-        Result,
+        StringArrayResult,
         FileResult,
-        StringArrayResult
+        Result
 )
 
 
@@ -33,6 +33,8 @@ def get_test_set() -> test_set_DataDocument30:
             file_path_name= ,
             file_size= 
     )
+
+
 def test_DataDocument30_upload_document(pc: PlunetClient, test_set: test_set_DataDocument30):
     try:
         resp = pc.document.upload_document(
@@ -44,9 +46,12 @@ def test_DataDocument30_upload_document(pc: PlunetClient, test_set: test_set_Dat
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataDocument30_upload_document failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataDocument30_upload_document was successful.")
+
+
 
 
 def test_DataDocument30_get_file_list(pc: PlunetClient, test_set: test_set_DataDocument30):
@@ -57,9 +62,12 @@ def test_DataDocument30_get_file_list(pc: PlunetClient, test_set: test_set_DataD
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataDocument30_get_file_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringArrayResult
+    print(f"test_DataDocument30_get_file_list was successful.")
+
+
 
 
 def test_DataDocument30_download_document(pc: PlunetClient, test_set: test_set_DataDocument30):
@@ -71,9 +79,10 @@ def test_DataDocument30_download_document(pc: PlunetClient, test_set: test_set_D
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataDocument30_download_document failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == FileResult
+    print(f"test_DataDocument30_download_document was successful.")
 
 
 

@@ -7,33 +7,33 @@ from src.pyplunet.exceptions import PlunetAPIError
 
 
 from src.pyplunet.models import (
-        Result,
-        PricelistListResult,
-        StringArrayResult,
-        PriceUnitListResult,
-        PriceLineListResult,
-        JobTrackingTimeListIN,
-        JobListResult,
-        IntegerResult,
-        JobTrackingTimeResult,
-        PriceLineResult,
         JobIN,
-        JobMetricResult,
-        PriceUnitResult,
-        PriceLineIN,
+        Result,
+        StringResult,
         PricelistResult,
+        JobTrackingTimeListIN,
         DateResult,
-        JobResult,
-        JobTrackingTimeIN,
+        StringArrayResult,
+        JobMetricResult,
+        PriceUnitListResult,
+        JobListResult,
+        PriceLineResult,
+        JobTrackingTimeResult,
+        PriceLineListResult,
         PricelistEntryList,
-        StringResult
+        IntegerResult,
+        PricelistListResult,
+        JobTrackingTimeIN,
+        PriceUnitResult,
+        JobResult,
+        PriceLineIN
 )
 
 
 from src.pyplunet.enums import (
+        ProjectType,
         CatType,
         CurrencyType,
-        ProjectType,
         EventType
 )
 
@@ -129,6 +129,8 @@ def get_test_set() -> test_set_DataJob30:
             status= ,
             due_date= 
     )
+
+
 def test_DataJob30_update(pc: PlunetClient, test_set: test_set_DataJob30):
     try:
         resp = pc.job.update(
@@ -137,9 +139,12 @@ def test_DataJob30_update(pc: PlunetClient, test_set: test_set_DataJob30):
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_update failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_update was successful.")
+
+
 
 
 def test_DataJob30_insert(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -151,9 +156,12 @@ def test_DataJob30_insert(pc: PlunetClient, test_set: test_set_DataJob30):
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_insert failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataJob30_insert was successful.")
+
+
 
 
 def test_DataJob30_get_comment(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -164,9 +172,12 @@ def test_DataJob30_get_comment(pc: PlunetClient, test_set: test_set_DataJob30):
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_comment failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataJob30_get_comment was successful.")
+
+
 
 
 def test_DataJob30_set_comment(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -178,9 +189,12 @@ def test_DataJob30_set_comment(pc: PlunetClient, test_set: test_set_DataJob30):
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_set_comment failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_set_comment was successful.")
+
+
 
 
 def test_DataJob30_set_cat_report(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -195,9 +209,12 @@ def test_DataJob30_set_cat_report(pc: PlunetClient, test_set: test_set_DataJob30
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_set_cat_report failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_set_cat_report was successful.")
+
+
 
 
 def test_DataJob30_set_cat_report2(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -213,9 +230,12 @@ def test_DataJob30_set_cat_report2(pc: PlunetClient, test_set: test_set_DataJob3
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_set_cat_report2 failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_set_cat_report2 was successful.")
+
+
 
 
 def test_DataJob30_get_pricelist_list(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -226,9 +246,12 @@ def test_DataJob30_get_pricelist_list(pc: PlunetClient, test_set: test_set_DataJ
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_pricelist_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PricelistListResult
+    print(f"test_DataJob30_get_pricelist_list was successful.")
+
+
 
 
 def test_DataJob30_get_price_unit_list(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -239,9 +262,12 @@ def test_DataJob30_get_price_unit_list(pc: PlunetClient, test_set: test_set_Data
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_price_unit_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PriceUnitListResult
+    print(f"test_DataJob30_get_price_unit_list was successful.")
+
+
 
 
 def test_DataJob30_get_pricelist_entry_list(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -253,9 +279,12 @@ def test_DataJob30_get_pricelist_entry_list(pc: PlunetClient, test_set: test_set
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_pricelist_entry_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PricelistEntryList
+    print(f"test_DataJob30_get_pricelist_entry_list was successful.")
+
+
 
 
 def test_DataJob30_get_price_line_list(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -266,9 +295,12 @@ def test_DataJob30_get_price_line_list(pc: PlunetClient, test_set: test_set_Data
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_price_line_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PriceLineListResult
+    print(f"test_DataJob30_get_price_line_list was successful.")
+
+
 
 
 def test_DataJob30_get_contact_person_id(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -279,9 +311,12 @@ def test_DataJob30_get_contact_person_id(pc: PlunetClient, test_set: test_set_Da
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_contact_person_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataJob30_get_contact_person_id was successful.")
+
+
 
 
 def test_DataJob30_add_job_tracking_times_list(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -293,9 +328,12 @@ def test_DataJob30_add_job_tracking_times_list(pc: PlunetClient, test_set: test_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_add_job_tracking_times_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_add_job_tracking_times_list was successful.")
+
+
 
 
 def test_DataJob30_get_job_list_for_view(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -306,9 +344,12 @@ def test_DataJob30_get_job_list_for_view(pc: PlunetClient, test_set: test_set_Da
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_job_list_for_view failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == JobListResult
+    print(f"test_DataJob30_get_job_list_for_view was successful.")
+
+
 
 
 def test_DataJob30_set_contact_person_id(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -320,9 +361,12 @@ def test_DataJob30_set_contact_person_id(pc: PlunetClient, test_set: test_set_Da
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_set_contact_person_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_set_contact_person_id was successful.")
+
+
 
 
 def test_DataJob30_set_resource_contact_person_id(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -334,9 +378,12 @@ def test_DataJob30_set_resource_contact_person_id(pc: PlunetClient, test_set: te
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_set_resource_contact_person_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_set_resource_contact_person_id was successful.")
+
+
 
 
 def test_DataJob30_get_download_url_source_data(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -348,9 +395,12 @@ def test_DataJob30_get_download_url_source_data(pc: PlunetClient, test_set: test
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_download_url_source_data failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataJob30_get_download_url_source_data was successful.")
+
+
 
 
 def test_DataJob30_get_item_independent_jobs(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -361,9 +411,12 @@ def test_DataJob30_get_item_independent_jobs(pc: PlunetClient, test_set: test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_item_independent_jobs failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == JobListResult
+    print(f"test_DataJob30_get_item_independent_jobs was successful.")
+
+
 
 
 def test_DataJob30_get_job_list_of_item_for_view(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -374,9 +427,12 @@ def test_DataJob30_get_job_list_of_item_for_view(pc: PlunetClient, test_set: tes
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_job_list_of_item_for_view failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == JobListResult
+    print(f"test_DataJob30_get_job_list_of_item_for_view was successful.")
+
+
 
 
 def test_DataJob30_get_job_type_short_name(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -387,9 +443,12 @@ def test_DataJob30_get_job_type_short_name(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_job_type_short_name failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataJob30_get_job_type_short_name was successful.")
+
+
 
 
 def test_DataJob30_get_job_tracking_times_list(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -400,9 +459,12 @@ def test_DataJob30_get_job_tracking_times_list(pc: PlunetClient, test_set: test_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_job_tracking_times_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == JobTrackingTimeResult
+    print(f"test_DataJob30_get_job_tracking_times_list was successful.")
+
+
 
 
 def test_DataJob30_add_job_tracking_time(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -414,9 +476,12 @@ def test_DataJob30_add_job_tracking_time(pc: PlunetClient, test_set: test_set_Da
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_add_job_tracking_time failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_add_job_tracking_time was successful.")
+
+
 
 
 def test_DataJob30_get_price_line_list_by_currency_type(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -428,9 +493,12 @@ def test_DataJob30_get_price_line_list_by_currency_type(pc: PlunetClient, test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_price_line_list_by_currency_type failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PriceLineListResult
+    print(f"test_DataJob30_get_price_line_list_by_currency_type was successful.")
+
+
 
 
 def test_DataJob30_get_job_type_long_name(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -441,9 +509,12 @@ def test_DataJob30_get_job_type_long_name(pc: PlunetClient, test_set: test_set_D
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_job_type_long_name failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataJob30_get_job_type_long_name was successful.")
+
+
 
 
 def test_DataJob30_get_resource_contact_person_id(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -454,9 +525,12 @@ def test_DataJob30_get_resource_contact_person_id(pc: PlunetClient, test_set: te
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_resource_contact_person_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataJob30_get_resource_contact_person_id was successful.")
+
+
 
 
 def test_DataJob30_get_currency(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -467,9 +541,12 @@ def test_DataJob30_get_currency(pc: PlunetClient, test_set: test_set_DataJob30):
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_currency failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataJob30_get_currency was successful.")
+
+
 
 
 def test_DataJob30_get_description(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -480,9 +557,12 @@ def test_DataJob30_get_description(pc: PlunetClient, test_set: test_set_DataJob3
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_description failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataJob30_get_description was successful.")
+
+
 
 
 def test_DataJob30_set_description(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -494,9 +574,12 @@ def test_DataJob30_set_description(pc: PlunetClient, test_set: test_set_DataJob3
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_set_description failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_set_description was successful.")
+
+
 
 
 def test_DataJob30_set_item_id(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -508,9 +591,12 @@ def test_DataJob30_set_item_id(pc: PlunetClient, test_set: test_set_DataJob30):
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_set_item_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_set_item_id was successful.")
+
+
 
 
 def test_DataJob30_deregister_callback_observer(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -521,9 +607,12 @@ def test_DataJob30_deregister_callback_observer(pc: PlunetClient, test_set: test
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_deregister_callback_observer failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_deregister_callback_observer was successful.")
+
+
 
 
 def test_DataJob30_register_callback_notify(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -535,9 +624,12 @@ def test_DataJob30_register_callback_notify(pc: PlunetClient, test_set: test_set
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_register_callback_notify failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_register_callback_notify was successful.")
+
+
 
 
 def test_DataJob30_deregister_callback_notify(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -547,9 +639,12 @@ def test_DataJob30_deregister_callback_notify(pc: PlunetClient, test_set: test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_deregister_callback_notify failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_deregister_callback_notify was successful.")
+
+
 
 
 def test_DataJob30_register_callback_observer(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -562,9 +657,12 @@ def test_DataJob30_register_callback_observer(pc: PlunetClient, test_set: test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_register_callback_observer failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_register_callback_observer was successful.")
+
+
 
 
 def test_DataJob30_get_creation_date(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -575,9 +673,12 @@ def test_DataJob30_get_creation_date(pc: PlunetClient, test_set: test_set_DataJo
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_creation_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DateResult
+    print(f"test_DataJob30_get_creation_date was successful.")
+
+
 
 
 def test_DataJob30_get_delivery_date(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -588,9 +689,12 @@ def test_DataJob30_get_delivery_date(pc: PlunetClient, test_set: test_set_DataJo
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_delivery_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DateResult
+    print(f"test_DataJob30_get_delivery_date was successful.")
+
+
 
 
 def test_DataJob30_get_pricelist(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -601,9 +705,12 @@ def test_DataJob30_get_pricelist(pc: PlunetClient, test_set: test_set_DataJob30)
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_pricelist failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PricelistResult
+    print(f"test_DataJob30_get_pricelist was successful.")
+
+
 
 
 def test_DataJob30_set_pricelist(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -615,9 +722,12 @@ def test_DataJob30_set_pricelist(pc: PlunetClient, test_set: test_set_DataJob30)
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_set_pricelist failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_set_pricelist was successful.")
+
+
 
 
 def test_DataJob30_insert_price_line(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -630,9 +740,12 @@ def test_DataJob30_insert_price_line(pc: PlunetClient, test_set: test_set_DataJo
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_insert_price_line failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PriceLineResult
+    print(f"test_DataJob30_insert_price_line was successful.")
+
+
 
 
 def test_DataJob30_update_price_line(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -644,9 +757,12 @@ def test_DataJob30_update_price_line(pc: PlunetClient, test_set: test_set_DataJo
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_update_price_line failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PriceLineResult
+    print(f"test_DataJob30_update_price_line was successful.")
+
+
 
 
 def test_DataJob30_get_price_unit(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -657,9 +773,12 @@ def test_DataJob30_get_price_unit(pc: PlunetClient, test_set: test_set_DataJob30
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_price_unit failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PriceUnitResult
+    print(f"test_DataJob30_get_price_unit was successful.")
+
+
 
 
 def test_DataJob30_get_services_list(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -669,9 +788,12 @@ def test_DataJob30_get_services_list(pc: PlunetClient, test_set: test_set_DataJo
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_services_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringArrayResult
+    print(f"test_DataJob30_get_services_list was successful.")
+
+
 
 
 def test_DataJob30_get_action_link(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -684,9 +806,12 @@ def test_DataJob30_get_action_link(pc: PlunetClient, test_set: test_set_DataJob3
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_action_link failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataJob30_get_action_link was successful.")
+
+
 
 
 def test_DataJob30_delete_price_line(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -698,9 +823,12 @@ def test_DataJob30_delete_price_line(pc: PlunetClient, test_set: test_set_DataJo
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_delete_price_line failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_delete_price_line was successful.")
+
+
 
 
 def test_DataJob30_insert3(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -711,9 +839,12 @@ def test_DataJob30_insert3(pc: PlunetClient, test_set: test_set_DataJob30):
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_insert3 failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataJob30_insert3 was successful.")
+
+
 
 
 def test_DataJob30_get_job_metrics(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -725,9 +856,12 @@ def test_DataJob30_get_job_metrics(pc: PlunetClient, test_set: test_set_DataJob3
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_job_metrics failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == JobMetricResult
+    print(f"test_DataJob30_get_job_metrics was successful.")
+
+
 
 
 def test_DataJob30_get_due_date(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -738,9 +872,12 @@ def test_DataJob30_get_due_date(pc: PlunetClient, test_set: test_set_DataJob30):
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_due_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DateResult
+    print(f"test_DataJob30_get_due_date was successful.")
+
+
 
 
 def test_DataJob30_assign_job(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -752,9 +889,12 @@ def test_DataJob30_assign_job(pc: PlunetClient, test_set: test_set_DataJob30):
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_assign_job failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_assign_job was successful.")
+
+
 
 
 def test_DataJob30_set_price_liste_id(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -766,9 +906,12 @@ def test_DataJob30_set_price_liste_id(pc: PlunetClient, test_set: test_set_DataJ
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_set_price_liste_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_set_price_liste_id was successful.")
+
+
 
 
 def test_DataJob30_set_start_date(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -780,9 +923,12 @@ def test_DataJob30_set_start_date(pc: PlunetClient, test_set: test_set_DataJob30
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_set_start_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_set_start_date was successful.")
+
+
 
 
 def test_DataJob30_get_job_for_view(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -793,9 +939,12 @@ def test_DataJob30_get_job_for_view(pc: PlunetClient, test_set: test_set_DataJob
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_job_for_view failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == JobResult
+    print(f"test_DataJob30_get_job_for_view was successful.")
+
+
 
 
 def test_DataJob30_delete_job(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -806,9 +955,12 @@ def test_DataJob30_delete_job(pc: PlunetClient, test_set: test_set_DataJob30):
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_delete_job failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_delete_job was successful.")
+
+
 
 
 def test_DataJob30_get_payable_id(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -819,9 +971,12 @@ def test_DataJob30_get_payable_id(pc: PlunetClient, test_set: test_set_DataJob30
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_payable_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataJob30_get_payable_id was successful.")
+
+
 
 
 def test_DataJob30_get_delivery_note(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -832,9 +987,12 @@ def test_DataJob30_get_delivery_note(pc: PlunetClient, test_set: test_set_DataJo
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_delivery_note failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataJob30_get_delivery_note was successful.")
+
+
 
 
 def test_DataJob30_set_delivery_note(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -846,9 +1004,12 @@ def test_DataJob30_set_delivery_note(pc: PlunetClient, test_set: test_set_DataJo
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_set_delivery_note failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_set_delivery_note was successful.")
+
+
 
 
 def test_DataJob30_set_job_status(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -860,9 +1021,12 @@ def test_DataJob30_set_job_status(pc: PlunetClient, test_set: test_set_DataJob30
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_set_job_status failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_set_job_status was successful.")
+
+
 
 
 def test_DataJob30_get_job_number(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -873,9 +1037,12 @@ def test_DataJob30_get_job_number(pc: PlunetClient, test_set: test_set_DataJob30
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_job_number failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataJob30_get_job_number was successful.")
+
+
 
 
 def test_DataJob30_run_automatic_job(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -886,9 +1053,12 @@ def test_DataJob30_run_automatic_job(pc: PlunetClient, test_set: test_set_DataJo
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_run_automatic_job failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_run_automatic_job was successful.")
+
+
 
 
 def test_DataJob30_set_due_date(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -900,9 +1070,12 @@ def test_DataJob30_set_due_date(pc: PlunetClient, test_set: test_set_DataJob30):
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_set_due_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_set_due_date was successful.")
+
+
 
 
 def test_DataJob30_insert2(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -915,9 +1088,12 @@ def test_DataJob30_insert2(pc: PlunetClient, test_set: test_set_DataJob30):
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_insert2 failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataJob30_insert2 was successful.")
+
+
 
 
 def test_DataJob30_set_resource_id(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -929,9 +1105,12 @@ def test_DataJob30_set_resource_id(pc: PlunetClient, test_set: test_set_DataJob3
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_set_resource_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJob30_set_resource_id was successful.")
+
+
 
 
 def test_DataJob30_get_resource_id(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -942,9 +1121,10 @@ def test_DataJob30_get_resource_id(pc: PlunetClient, test_set: test_set_DataJob3
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJob30_get_resource_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataJob30_get_resource_id was successful.")
 
 
 

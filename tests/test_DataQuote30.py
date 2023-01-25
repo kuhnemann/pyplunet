@@ -8,17 +8,17 @@ from src.pyplunet.exceptions import PlunetAPIError
 
 from src.pyplunet.models import (
         Result,
-        IntegerArrayResult,
-        QuoteListResult,
-        TemplateListResult,
-        SearchFilter_Quote,
         QuoteIN,
-        QuoteResult,
-        DoubleResult,
-        DateResult,
         IntegerResult,
+        StringResult,
+        TemplateListResult,
+        DateResult,
+        QuoteResult,
         IntegerList,
-        StringResult
+        IntegerArrayResult,
+        DoubleResult,
+        SearchFilter_Quote,
+        QuoteListResult
 )
 
 
@@ -93,6 +93,8 @@ def get_test_set() -> test_set_DataQuote30:
             customer_id= ,
             display_no= 
     )
+
+
 def test_DataQuote30_update(pc: PlunetClient, test_set: test_set_DataQuote30):
     try:
         resp = pc.quote.update(
@@ -101,9 +103,12 @@ def test_DataQuote30_update(pc: PlunetClient, test_set: test_set_DataQuote30):
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_update failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataQuote30_update was successful.")
+
+
 
 
 def test_DataQuote30_delete(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -113,9 +118,12 @@ def test_DataQuote30_delete(pc: PlunetClient, test_set: test_set_DataQuote30):
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_delete failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataQuote30_delete was successful.")
+
+
 
 
 def test_DataQuote30_insert(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -124,9 +132,12 @@ def test_DataQuote30_insert(pc: PlunetClient, test_set: test_set_DataQuote30):
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_insert failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataQuote30_insert was successful.")
+
+
 
 
 def test_DataQuote30_search(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -136,9 +147,12 @@ def test_DataQuote30_search(pc: PlunetClient, test_set: test_set_DataQuote30):
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_search failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerArrayResult
+    print(f"test_DataQuote30_search was successful.")
+
+
 
 
 def test_DataQuote30_add_language_combination(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -150,9 +164,12 @@ def test_DataQuote30_add_language_combination(pc: PlunetClient, test_set: test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_add_language_combination failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataQuote30_add_language_combination was successful.")
+
+
 
 
 def test_DataQuote30_get_projectmanager_id(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -162,9 +179,12 @@ def test_DataQuote30_get_projectmanager_id(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_projectmanager_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataQuote30_get_projectmanager_id was successful.")
+
+
 
 
 def test_DataQuote30_set_projectmanager_id(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -175,9 +195,12 @@ def test_DataQuote30_set_projectmanager_id(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_set_projectmanager_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataQuote30_set_projectmanager_id was successful.")
+
+
 
 
 def test_DataQuote30_set_reference_number(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -188,9 +211,12 @@ def test_DataQuote30_set_reference_number(pc: PlunetClient, test_set: test_set_D
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_set_reference_number failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataQuote30_set_reference_number was successful.")
+
+
 
 
 def test_DataQuote30_get_project_category(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -201,9 +227,12 @@ def test_DataQuote30_get_project_category(pc: PlunetClient, test_set: test_set_D
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_project_category failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataQuote30_get_project_category was successful.")
+
+
 
 
 def test_DataQuote30_set_project_category(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -215,9 +244,12 @@ def test_DataQuote30_set_project_category(pc: PlunetClient, test_set: test_set_D
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_set_project_category failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataQuote30_set_project_category was successful.")
+
+
 
 
 def test_DataQuote30_create_quote_document(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -229,9 +261,12 @@ def test_DataQuote30_create_quote_document(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_create_quote_document failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataQuote30_create_quote_document was successful.")
+
+
 
 
 def test_DataQuote30_get_order_id_first_item(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -241,9 +276,12 @@ def test_DataQuote30_get_order_id_first_item(pc: PlunetClient, test_set: test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_order_id_first_item failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataQuote30_get_order_id_first_item was successful.")
+
+
 
 
 def test_DataQuote30_get_quote_object_list(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -253,9 +291,12 @@ def test_DataQuote30_get_quote_object_list(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_quote_object_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == QuoteListResult
+    print(f"test_DataQuote30_get_quote_object_list was successful.")
+
+
 
 
 def test_DataQuote30_get_quote_no_for_view(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -265,9 +306,12 @@ def test_DataQuote30_get_quote_no_for_view(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_quote_no_for_view failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataQuote30_get_quote_no_for_view was successful.")
+
+
 
 
 def test_DataQuote30_get_reference_number(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -277,9 +321,12 @@ def test_DataQuote30_get_reference_number(pc: PlunetClient, test_set: test_set_D
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_reference_number failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataQuote30_get_reference_number was successful.")
+
+
 
 
 def test_DataQuote30_get_project_manager_memo(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -289,9 +336,12 @@ def test_DataQuote30_get_project_manager_memo(pc: PlunetClient, test_set: test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_project_manager_memo failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataQuote30_get_project_manager_memo was successful.")
+
+
 
 
 def test_DataQuote30_insert_by_template(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -302,9 +352,12 @@ def test_DataQuote30_insert_by_template(pc: PlunetClient, test_set: test_set_Dat
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_insert_by_template failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataQuote30_insert_by_template was successful.")
+
+
 
 
 def test_DataQuote30_set_project_manager_memo(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -315,9 +368,12 @@ def test_DataQuote30_set_project_manager_memo(pc: PlunetClient, test_set: test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_set_project_manager_memo failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataQuote30_set_project_manager_memo was successful.")
+
+
 
 
 def test_DataQuote30_get_currency(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -327,9 +383,12 @@ def test_DataQuote30_get_currency(pc: PlunetClient, test_set: test_set_DataQuote
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_currency failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataQuote30_get_currency was successful.")
+
+
 
 
 def test_DataQuote30_get_status(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -339,9 +398,12 @@ def test_DataQuote30_get_status(pc: PlunetClient, test_set: test_set_DataQuote30
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_status failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataQuote30_get_status was successful.")
+
+
 
 
 def test_DataQuote30_set_status(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -352,9 +414,12 @@ def test_DataQuote30_set_status(pc: PlunetClient, test_set: test_set_DataQuote30
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_set_status failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataQuote30_set_status was successful.")
+
+
 
 
 def test_DataQuote30_get_customer_contact_id(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -364,9 +429,12 @@ def test_DataQuote30_get_customer_contact_id(pc: PlunetClient, test_set: test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_customer_contact_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataQuote30_get_customer_contact_id was successful.")
+
+
 
 
 def test_DataQuote30_set_customer_contact_id(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -377,9 +445,12 @@ def test_DataQuote30_set_customer_contact_id(pc: PlunetClient, test_set: test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_set_customer_contact_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataQuote30_set_customer_contact_id was successful.")
+
+
 
 
 def test_DataQuote30_deregister_callback_observer(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -389,9 +460,12 @@ def test_DataQuote30_deregister_callback_observer(pc: PlunetClient, test_set: te
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_deregister_callback_observer failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataQuote30_deregister_callback_observer was successful.")
+
+
 
 
 def test_DataQuote30_register_callback_notify(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -403,9 +477,12 @@ def test_DataQuote30_register_callback_notify(pc: PlunetClient, test_set: test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_register_callback_notify failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataQuote30_register_callback_notify was successful.")
+
+
 
 
 def test_DataQuote30_deregister_callback_notify(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -415,9 +492,12 @@ def test_DataQuote30_deregister_callback_notify(pc: PlunetClient, test_set: test
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_deregister_callback_notify failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataQuote30_deregister_callback_notify was successful.")
+
+
 
 
 def test_DataQuote30_register_callback_observer(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -429,9 +509,12 @@ def test_DataQuote30_register_callback_observer(pc: PlunetClient, test_set: test
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_register_callback_observer failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataQuote30_register_callback_observer was successful.")
+
+
 
 
 def test_DataQuote30_get_project_name(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -441,9 +524,12 @@ def test_DataQuote30_get_project_name(pc: PlunetClient, test_set: test_set_DataQ
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_project_name failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataQuote30_get_project_name was successful.")
+
+
 
 
 def test_DataQuote30_set_project_name(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -454,9 +540,12 @@ def test_DataQuote30_set_project_name(pc: PlunetClient, test_set: test_set_DataQ
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_set_project_name failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataQuote30_set_project_name was successful.")
+
+
 
 
 def test_DataQuote30_get_request_id(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -466,9 +555,12 @@ def test_DataQuote30_get_request_id(pc: PlunetClient, test_set: test_set_DataQuo
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_request_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataQuote30_get_request_id was successful.")
+
+
 
 
 def test_DataQuote30_get_subject(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -478,9 +570,12 @@ def test_DataQuote30_get_subject(pc: PlunetClient, test_set: test_set_DataQuote3
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_subject failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataQuote30_get_subject was successful.")
+
+
 
 
 def test_DataQuote30_set_subject(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -491,9 +586,12 @@ def test_DataQuote30_set_subject(pc: PlunetClient, test_set: test_set_DataQuote3
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_set_subject failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataQuote30_set_subject was successful.")
+
+
 
 
 def test_DataQuote30_get_creation_date(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -503,9 +601,12 @@ def test_DataQuote30_get_creation_date(pc: PlunetClient, test_set: test_set_Data
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_creation_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DateResult
+    print(f"test_DataQuote30_get_creation_date was successful.")
+
+
 
 
 def test_DataQuote30_set_request_id(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -516,9 +617,12 @@ def test_DataQuote30_set_request_id(pc: PlunetClient, test_set: test_set_DataQuo
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_set_request_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataQuote30_set_request_id was successful.")
+
+
 
 
 def test_DataQuote30_get_rate(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -528,9 +632,12 @@ def test_DataQuote30_get_rate(pc: PlunetClient, test_set: test_set_DataQuote30):
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_rate failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataQuote30_get_rate was successful.")
+
+
 
 
 def test_DataQuote30_get_template_list(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -539,9 +646,12 @@ def test_DataQuote30_get_template_list(pc: PlunetClient, test_set: test_set_Data
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_template_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == TemplateListResult
+    print(f"test_DataQuote30_get_template_list was successful.")
+
+
 
 
 def test_DataQuote30_get_quote_document(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -551,9 +661,12 @@ def test_DataQuote30_get_quote_document(pc: PlunetClient, test_set: test_set_Dat
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_quote_document failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataQuote30_get_quote_document was successful.")
+
+
 
 
 def test_DataQuote30_get_quote_object2(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -563,9 +676,12 @@ def test_DataQuote30_get_quote_object2(pc: PlunetClient, test_set: test_set_Data
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_quote_object2 failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == QuoteResult
+    print(f"test_DataQuote30_get_quote_object2 was successful.")
+
+
 
 
 def test_DataQuote30_get_quote_object(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -575,9 +691,12 @@ def test_DataQuote30_get_quote_object(pc: PlunetClient, test_set: test_set_DataQ
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_quote_object failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == QuoteResult
+    print(f"test_DataQuote30_get_quote_object was successful.")
+
+
 
 
 def test_DataQuote30_set_creation_date(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -588,9 +707,12 @@ def test_DataQuote30_set_creation_date(pc: PlunetClient, test_set: test_set_Data
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_set_creation_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataQuote30_set_creation_date was successful.")
+
+
 
 
 def test_DataQuote30_get_project_status(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -600,9 +722,12 @@ def test_DataQuote30_get_project_status(pc: PlunetClient, test_set: test_set_Dat
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_project_status failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataQuote30_get_project_status was successful.")
+
+
 
 
 def test_DataQuote30_set_project_status(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -613,9 +738,12 @@ def test_DataQuote30_set_project_status(pc: PlunetClient, test_set: test_set_Dat
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_set_project_status failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataQuote30_set_project_status was successful.")
+
+
 
 
 def test_DataQuote30_request_order(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -625,9 +753,12 @@ def test_DataQuote30_request_order(pc: PlunetClient, test_set: test_set_DataQuot
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_request_order failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataQuote30_request_order was successful.")
+
+
 
 
 def test_DataQuote30_request_quote(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -637,9 +768,12 @@ def test_DataQuote30_request_quote(pc: PlunetClient, test_set: test_set_DataQuot
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_request_quote failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataQuote30_request_quote was successful.")
+
+
 
 
 def test_DataQuote30_insert2(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -649,9 +783,12 @@ def test_DataQuote30_insert2(pc: PlunetClient, test_set: test_set_DataQuote30):
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_insert2 failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataQuote30_insert2 was successful.")
+
+
 
 
 def test_DataQuote30_set_external_id(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -662,9 +799,12 @@ def test_DataQuote30_set_external_id(pc: PlunetClient, test_set: test_set_DataQu
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_set_external_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataQuote30_set_external_id was successful.")
+
+
 
 
 def test_DataQuote30_get_external_id(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -674,9 +814,12 @@ def test_DataQuote30_get_external_id(pc: PlunetClient, test_set: test_set_DataQu
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_external_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataQuote30_get_external_id was successful.")
+
+
 
 
 def test_DataQuote30_set_customer_id(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -687,9 +830,12 @@ def test_DataQuote30_set_customer_id(pc: PlunetClient, test_set: test_set_DataQu
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_set_customer_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataQuote30_set_customer_id was successful.")
+
+
 
 
 def test_DataQuote30_get_quote_id(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -699,9 +845,12 @@ def test_DataQuote30_get_quote_id(pc: PlunetClient, test_set: test_set_DataQuote
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_quote_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataQuote30_get_quote_id was successful.")
+
+
 
 
 def test_DataQuote30_get_customer_id(pc: PlunetClient, test_set: test_set_DataQuote30):
@@ -711,9 +860,10 @@ def test_DataQuote30_get_customer_id(pc: PlunetClient, test_set: test_set_DataQu
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataQuote30_get_customer_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataQuote30_get_customer_id was successful.")
 
 
 

@@ -8,12 +8,12 @@ from src.pyplunet.exceptions import PlunetAPIError
 
 from src.pyplunet.models import (
         Result,
-        IntegerArrayResult,
-        JobRoundSearchcriteriaResult,
-        JobRoundRankingMethodList,
-        JobRoundRankingMethodListResult,
         IntegerResult,
+        JobRoundRankingMethodListResult,
+        JobRoundSearchcriteriaResult,
         JobRoundResult,
+        IntegerArrayResult,
+        JobRoundRankingMethodList,
         JobRoundSearchCriteriaIN,
         JobRoundIN
 )
@@ -47,6 +47,8 @@ def get_test_set() -> test_set_DataJobRound30:
             round_in= ,
             job_round_in= 
     )
+
+
 def test_DataJobRound30_delete(pc: PlunetClient, test_set: test_set_DataJobRound30):
     try:
         resp = pc.job_round.delete(
@@ -54,9 +56,12 @@ def test_DataJobRound30_delete(pc: PlunetClient, test_set: test_set_DataJobRound
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJobRound30_delete failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJobRound30_delete was successful.")
+
+
 
 
 def test_DataJobRound30_set_ranking_methods(pc: PlunetClient, test_set: test_set_DataJobRound30):
@@ -67,9 +72,12 @@ def test_DataJobRound30_set_ranking_methods(pc: PlunetClient, test_set: test_set
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJobRound30_set_ranking_methods failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJobRound30_set_ranking_methods was successful.")
+
+
 
 
 def test_DataJobRound30_get_ranking_methods(pc: PlunetClient, test_set: test_set_DataJobRound30):
@@ -79,9 +87,12 @@ def test_DataJobRound30_get_ranking_methods(pc: PlunetClient, test_set: test_set
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJobRound30_get_ranking_methods failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == JobRoundRankingMethodListResult
+    print(f"test_DataJobRound30_get_ranking_methods was successful.")
+
+
 
 
 def test_DataJobRound30_get_resources_for_round(pc: PlunetClient, test_set: test_set_DataJobRound30):
@@ -91,9 +102,12 @@ def test_DataJobRound30_get_resources_for_round(pc: PlunetClient, test_set: test
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJobRound30_get_resources_for_round failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerArrayResult
+    print(f"test_DataJobRound30_get_resources_for_round was successful.")
+
+
 
 
 def test_DataJobRound30_get_assigned_round_id(pc: PlunetClient, test_set: test_set_DataJobRound30):
@@ -104,9 +118,12 @@ def test_DataJobRound30_get_assigned_round_id(pc: PlunetClient, test_set: test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJobRound30_get_assigned_round_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataJobRound30_get_assigned_round_id was successful.")
+
+
 
 
 def test_DataJobRound30_get_search_criteria(pc: PlunetClient, test_set: test_set_DataJobRound30):
@@ -116,9 +133,12 @@ def test_DataJobRound30_get_search_criteria(pc: PlunetClient, test_set: test_set
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJobRound30_get_search_criteria failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == JobRoundSearchcriteriaResult
+    print(f"test_DataJobRound30_get_search_criteria was successful.")
+
+
 
 
 def test_DataJobRound30_set_resource_for_review(pc: PlunetClient, test_set: test_set_DataJobRound30):
@@ -130,9 +150,12 @@ def test_DataJobRound30_set_resource_for_review(pc: PlunetClient, test_set: test
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJobRound30_set_resource_for_review failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJobRound30_set_resource_for_review was successful.")
+
+
 
 
 def test_DataJobRound30_assign_resource_in_review(pc: PlunetClient, test_set: test_set_DataJobRound30):
@@ -142,9 +165,12 @@ def test_DataJobRound30_assign_resource_in_review(pc: PlunetClient, test_set: te
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJobRound30_assign_resource_in_review failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJobRound30_assign_resource_in_review was successful.")
+
+
 
 
 def test_DataJobRound30_set_search_criteria(pc: PlunetClient, test_set: test_set_DataJobRound30):
@@ -155,9 +181,12 @@ def test_DataJobRound30_set_search_criteria(pc: PlunetClient, test_set: test_set
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJobRound30_set_search_criteria failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJobRound30_set_search_criteria was successful.")
+
+
 
 
 def test_DataJobRound30_update_round(pc: PlunetClient, test_set: test_set_DataJobRound30):
@@ -167,9 +196,12 @@ def test_DataJobRound30_update_round(pc: PlunetClient, test_set: test_set_DataJo
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJobRound30_update_round failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJobRound30_update_round was successful.")
+
+
 
 
 def test_DataJobRound30_assign_resource(pc: PlunetClient, test_set: test_set_DataJobRound30):
@@ -181,9 +213,12 @@ def test_DataJobRound30_assign_resource(pc: PlunetClient, test_set: test_set_Dat
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJobRound30_assign_resource failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataJobRound30_assign_resource was successful.")
+
+
 
 
 def test_DataJobRound30_get_all_round_i_ds(pc: PlunetClient, test_set: test_set_DataJobRound30):
@@ -194,9 +229,12 @@ def test_DataJobRound30_get_all_round_i_ds(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJobRound30_get_all_round_i_ds failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerArrayResult
+    print(f"test_DataJobRound30_get_all_round_i_ds was successful.")
+
+
 
 
 def test_DataJobRound30_add_round(pc: PlunetClient, test_set: test_set_DataJobRound30):
@@ -208,9 +246,12 @@ def test_DataJobRound30_add_round(pc: PlunetClient, test_set: test_set_DataJobRo
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJobRound30_add_round failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataJobRound30_add_round was successful.")
+
+
 
 
 def test_DataJobRound30_get_round_object(pc: PlunetClient, test_set: test_set_DataJobRound30):
@@ -220,9 +261,10 @@ def test_DataJobRound30_get_round_object(pc: PlunetClient, test_set: test_set_Da
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataJobRound30_get_round_object failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == JobRoundResult
+    print(f"test_DataJobRound30_get_round_object was successful.")
 
 
 

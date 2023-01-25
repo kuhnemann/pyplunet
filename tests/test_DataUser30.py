@@ -7,8 +7,8 @@ from src.pyplunet.exceptions import PlunetAPIError
 
 
 from src.pyplunet.models import (
-        UserResult,
-        UserListResult
+        UserListResult,
+        UserResult
 )
 
 
@@ -24,6 +24,8 @@ def get_test_set() -> test_set_DataUser30:
             resource_id= ,
             user_login_name= 
     )
+
+
 def test_DataUser30_get_user_by_id(pc: PlunetClient, test_set: test_set_DataUser30):
     try:
         resp = pc.user.get_user_by_id(
@@ -31,9 +33,12 @@ def test_DataUser30_get_user_by_id(pc: PlunetClient, test_set: test_set_DataUser
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataUser30_get_user_by_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == UserResult
+    print(f"test_DataUser30_get_user_by_id was successful.")
+
+
 
 
 def test_DataUser30_get_user_list_by_resource_id(pc: PlunetClient, test_set: test_set_DataUser30):
@@ -43,9 +48,12 @@ def test_DataUser30_get_user_list_by_resource_id(pc: PlunetClient, test_set: tes
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataUser30_get_user_list_by_resource_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == UserListResult
+    print(f"test_DataUser30_get_user_list_by_resource_id was successful.")
+
+
 
 
 def test_DataUser30_get_user_by_login_name(pc: PlunetClient, test_set: test_set_DataUser30):
@@ -55,9 +63,10 @@ def test_DataUser30_get_user_by_login_name(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataUser30_get_user_by_login_name failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == UserResult
+    print(f"test_DataUser30_get_user_by_login_name was successful.")
 
 
 

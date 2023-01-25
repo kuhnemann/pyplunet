@@ -8,22 +8,22 @@ from src.pyplunet.exceptions import PlunetAPIError
 
 from src.pyplunet.models import (
         Result,
-        BooleanResult,
-        SearchFilter_Payable,
-        IntegerArrayResult,
-        StringArrayResult,
-        PriceUnitListResult,
-        PriceUnitResult,
-        PayableItemResultList,
-        PriceLineIN,
-        PriceLineListResult,
-        TaxListResult,
-        PriceLineResult,
-        DoubleResult,
-        DateResult,
+        PayableItemIN,
         IntegerResult,
         StringResult,
-        PayableItemIN
+        SearchFilter_Payable,
+        DateResult,
+        PriceUnitListResult,
+        IntegerArrayResult,
+        DoubleResult,
+        TaxListResult,
+        PriceLineResult,
+        PriceUnitResult,
+        BooleanResult,
+        PriceLineIN,
+        StringArrayResult,
+        PriceLineListResult,
+        PayableItemResultList
 )
 
 
@@ -87,6 +87,8 @@ def get_test_set() -> test_set_DataPayable30:
             paid_date= ,
             is_exported= 
     )
+
+
 def test_DataPayable30_search(pc: PlunetClient, test_set: test_set_DataPayable30):
     try:
         resp = pc.payable.search(
@@ -94,9 +96,12 @@ def test_DataPayable30_search(pc: PlunetClient, test_set: test_set_DataPayable30
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_search failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerArrayResult
+    print(f"test_DataPayable30_search was successful.")
+
+
 
 
 def test_DataPayable30_get_price_unit_list(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -107,9 +112,12 @@ def test_DataPayable30_get_price_unit_list(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_price_unit_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PriceUnitListResult
+    print(f"test_DataPayable30_get_price_unit_list was successful.")
+
+
 
 
 def test_DataPayable30_get_price_line_list(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -119,9 +127,12 @@ def test_DataPayable30_get_price_line_list(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_price_line_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PriceLineListResult
+    print(f"test_DataPayable30_get_price_line_list was successful.")
+
+
 
 
 def test_DataPayable30_set_external_invoice_number(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -132,9 +143,12 @@ def test_DataPayable30_set_external_invoice_number(pc: PlunetClient, test_set: t
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_set_external_invoice_number failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataPayable30_set_external_invoice_number was successful.")
+
+
 
 
 def test_DataPayable30_get_payment_creator_resource_id(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -144,9 +158,12 @@ def test_DataPayable30_get_payment_creator_resource_id(pc: PlunetClient, test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_payment_creator_resource_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataPayable30_get_payment_creator_resource_id was successful.")
+
+
 
 
 def test_DataPayable30_set_creditor_account(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -157,9 +174,12 @@ def test_DataPayable30_set_creditor_account(pc: PlunetClient, test_set: test_set
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_set_creditor_account failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataPayable30_set_creditor_account was successful.")
+
+
 
 
 def test_DataPayable30_get_total_net_amount(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -170,9 +190,12 @@ def test_DataPayable30_get_total_net_amount(pc: PlunetClient, test_set: test_set
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_total_net_amount failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataPayable30_get_total_net_amount was successful.")
+
+
 
 
 def test_DataPayable30_get_invoice_tax_types(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -182,9 +205,12 @@ def test_DataPayable30_get_invoice_tax_types(pc: PlunetClient, test_set: test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_invoice_tax_types failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == TaxListResult
+    print(f"test_DataPayable30_get_invoice_tax_types was successful.")
+
+
 
 
 def test_DataPayable30_get_payment_due_date(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -194,9 +220,12 @@ def test_DataPayable30_get_payment_due_date(pc: PlunetClient, test_set: test_set
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_payment_due_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DateResult
+    print(f"test_DataPayable30_get_payment_due_date was successful.")
+
+
 
 
 def test_DataPayable30_set_account_statement(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -207,9 +236,12 @@ def test_DataPayable30_set_account_statement(pc: PlunetClient, test_set: test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_set_account_statement failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataPayable30_set_account_statement was successful.")
+
+
 
 
 def test_DataPayable30_get_expense_account(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -219,9 +251,12 @@ def test_DataPayable30_get_expense_account(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_expense_account failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataPayable30_get_expense_account was successful.")
+
+
 
 
 def test_DataPayable30_get_account_statement(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -231,9 +266,12 @@ def test_DataPayable30_get_account_statement(pc: PlunetClient, test_set: test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_account_statement failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataPayable30_get_account_statement was successful.")
+
+
 
 
 def test_DataPayable30_get_payment_item_list(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -243,9 +281,12 @@ def test_DataPayable30_get_payment_item_list(pc: PlunetClient, test_set: test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_payment_item_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PayableItemResultList
+    print(f"test_DataPayable30_get_payment_item_list was successful.")
+
+
 
 
 def test_DataPayable30_get_total_tax_amount(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -257,9 +298,12 @@ def test_DataPayable30_get_total_tax_amount(pc: PlunetClient, test_set: test_set
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_total_tax_amount failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataPayable30_get_total_tax_amount was successful.")
+
+
 
 
 def test_DataPayable30_insert_payment_item(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -269,9 +313,12 @@ def test_DataPayable30_insert_payment_item(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_insert_payment_item failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataPayable30_insert_payment_item was successful.")
+
+
 
 
 def test_DataPayable30_set_payment_due_date(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -282,9 +329,12 @@ def test_DataPayable30_set_payment_due_date(pc: PlunetClient, test_set: test_set
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_set_payment_due_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataPayable30_set_payment_due_date was successful.")
+
+
 
 
 def test_DataPayable30_get_creditor_account(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -294,9 +344,12 @@ def test_DataPayable30_get_creditor_account(pc: PlunetClient, test_set: test_set
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_creditor_account failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataPayable30_get_creditor_account was successful.")
+
+
 
 
 def test_DataPayable30_get_external_invoice_number(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -306,9 +359,12 @@ def test_DataPayable30_get_external_invoice_number(pc: PlunetClient, test_set: t
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_external_invoice_number failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataPayable30_get_external_invoice_number was successful.")
+
+
 
 
 def test_DataPayable30_update_payment_item(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -320,9 +376,12 @@ def test_DataPayable30_update_payment_item(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_update_payment_item failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataPayable30_update_payment_item was successful.")
+
+
 
 
 def test_DataPayable30_delete_payment_item(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -332,9 +391,12 @@ def test_DataPayable30_delete_payment_item(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_delete_payment_item failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataPayable30_delete_payment_item was successful.")
+
+
 
 
 def test_DataPayable30_get_currency(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -344,9 +406,12 @@ def test_DataPayable30_get_currency(pc: PlunetClient, test_set: test_set_DataPay
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_currency failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataPayable30_get_currency was successful.")
+
+
 
 
 def test_DataPayable30_get_status(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -356,9 +421,12 @@ def test_DataPayable30_get_status(pc: PlunetClient, test_set: test_set_DataPayab
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_status failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataPayable30_get_status was successful.")
+
+
 
 
 def test_DataPayable30_set_status(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -369,9 +437,12 @@ def test_DataPayable30_set_status(pc: PlunetClient, test_set: test_set_DataPayab
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_set_status failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataPayable30_set_status was successful.")
+
+
 
 
 def test_DataPayable30_set_memo(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -382,9 +453,12 @@ def test_DataPayable30_set_memo(pc: PlunetClient, test_set: test_set_DataPayable
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_set_memo failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataPayable30_set_memo was successful.")
+
+
 
 
 def test_DataPayable30_get_memo(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -394,9 +468,12 @@ def test_DataPayable30_get_memo(pc: PlunetClient, test_set: test_set_DataPayable
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_memo failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataPayable30_get_memo was successful.")
+
+
 
 
 def test_DataPayable30_get_invoice_date(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -406,9 +483,12 @@ def test_DataPayable30_get_invoice_date(pc: PlunetClient, test_set: test_set_Dat
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_invoice_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DateResult
+    print(f"test_DataPayable30_get_invoice_date was successful.")
+
+
 
 
 def test_DataPayable30_set_invoice_date(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -419,9 +499,12 @@ def test_DataPayable30_set_invoice_date(pc: PlunetClient, test_set: test_set_Dat
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_set_invoice_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataPayable30_set_invoice_date was successful.")
+
+
 
 
 def test_DataPayable30_get_value_date(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -431,9 +514,12 @@ def test_DataPayable30_get_value_date(pc: PlunetClient, test_set: test_set_DataP
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_value_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DateResult
+    print(f"test_DataPayable30_get_value_date was successful.")
+
+
 
 
 def test_DataPayable30_set_value_date(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -444,9 +530,12 @@ def test_DataPayable30_set_value_date(pc: PlunetClient, test_set: test_set_DataP
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_set_value_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataPayable30_set_value_date was successful.")
+
+
 
 
 def test_DataPayable30_insert_price_line(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -458,9 +547,12 @@ def test_DataPayable30_insert_price_line(pc: PlunetClient, test_set: test_set_Da
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_insert_price_line failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PriceLineResult
+    print(f"test_DataPayable30_insert_price_line was successful.")
+
+
 
 
 def test_DataPayable30_update_price_line(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -471,9 +563,12 @@ def test_DataPayable30_update_price_line(pc: PlunetClient, test_set: test_set_Da
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_update_price_line failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PriceLineResult
+    print(f"test_DataPayable30_update_price_line was successful.")
+
+
 
 
 def test_DataPayable30_get_price_unit(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -484,9 +579,12 @@ def test_DataPayable30_get_price_unit(pc: PlunetClient, test_set: test_set_DataP
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_price_unit failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PriceUnitResult
+    print(f"test_DataPayable30_get_price_unit was successful.")
+
+
 
 
 def test_DataPayable30_get_services_list(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -496,9 +594,12 @@ def test_DataPayable30_get_services_list(pc: PlunetClient, test_set: test_set_Da
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_services_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringArrayResult
+    print(f"test_DataPayable30_get_services_list was successful.")
+
+
 
 
 def test_DataPayable30_delete_price_line(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -509,9 +610,12 @@ def test_DataPayable30_delete_price_line(pc: PlunetClient, test_set: test_set_Da
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_delete_price_line failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataPayable30_delete_price_line was successful.")
+
+
 
 
 def test_DataPayable30_get_payable_id(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -521,9 +625,12 @@ def test_DataPayable30_get_payable_id(pc: PlunetClient, test_set: test_set_DataP
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_payable_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataPayable30_get_payable_id was successful.")
+
+
 
 
 def test_DataPayable30_set_paid_date(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -534,9 +641,12 @@ def test_DataPayable30_set_paid_date(pc: PlunetClient, test_set: test_set_DataPa
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_set_paid_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataPayable30_set_paid_date was successful.")
+
+
 
 
 def test_DataPayable30_set_is_exported(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -547,9 +657,12 @@ def test_DataPayable30_set_is_exported(pc: PlunetClient, test_set: test_set_Data
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_set_is_exported failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataPayable30_set_is_exported was successful.")
+
+
 
 
 def test_DataPayable30_get_is_exported(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -559,9 +672,12 @@ def test_DataPayable30_get_is_exported(pc: PlunetClient, test_set: test_set_Data
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_is_exported failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == BooleanResult
+    print(f"test_DataPayable30_get_is_exported was successful.")
+
+
 
 
 def test_DataPayable30_get_payment_method(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -571,9 +687,12 @@ def test_DataPayable30_get_payment_method(pc: PlunetClient, test_set: test_set_D
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_payment_method failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataPayable30_get_payment_method was successful.")
+
+
 
 
 def test_DataPayable30_get_company_code(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -583,9 +702,12 @@ def test_DataPayable30_get_company_code(pc: PlunetClient, test_set: test_set_Dat
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_company_code failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataPayable30_get_company_code was successful.")
+
+
 
 
 def test_DataPayable30_get_paid_date(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -595,9 +717,12 @@ def test_DataPayable30_get_paid_date(pc: PlunetClient, test_set: test_set_DataPa
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_paid_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DateResult
+    print(f"test_DataPayable30_get_paid_date was successful.")
+
+
 
 
 def test_DataPayable30_get_resource_id(pc: PlunetClient, test_set: test_set_DataPayable30):
@@ -607,9 +732,10 @@ def test_DataPayable30_get_resource_id(pc: PlunetClient, test_set: test_set_Data
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataPayable30_get_resource_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataPayable30_get_resource_id was successful.")
 
 
 

@@ -7,10 +7,10 @@ from src.pyplunet.exceptions import PlunetAPIError
 
 
 from src.pyplunet.models import (
-        Result,
-        IntegerResult,
         StringResult,
-        IntegerArrayResult
+        IntegerArrayResult,
+        Result,
+        IntegerResult
 )
 
 
@@ -36,6 +36,8 @@ def get_test_set() -> test_set_RequestDocText30:
             encoding= ,
             word_count= 
     )
+
+
 def test_RequestDocText30_update(pc: PlunetClient, test_set: test_set_RequestDocText30):
     try:
         resp = pc.request_doc_text.update(
@@ -43,9 +45,12 @@ def test_RequestDocText30_update(pc: PlunetClient, test_set: test_set_RequestDoc
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_RequestDocText30_update failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_RequestDocText30_update was successful.")
+
+
 
 
 def test_RequestDocText30_delete(pc: PlunetClient, test_set: test_set_RequestDocText30):
@@ -55,9 +60,12 @@ def test_RequestDocText30_delete(pc: PlunetClient, test_set: test_set_RequestDoc
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_RequestDocText30_delete failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_RequestDocText30_delete was successful.")
+
+
 
 
 def test_RequestDocText30_insert(pc: PlunetClient, test_set: test_set_RequestDocText30):
@@ -67,9 +75,12 @@ def test_RequestDocText30_insert(pc: PlunetClient, test_set: test_set_RequestDoc
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_RequestDocText30_insert failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_RequestDocText30_insert was successful.")
+
+
 
 
 def test_RequestDocText30_get_additional_info(pc: PlunetClient, test_set: test_set_RequestDocText30):
@@ -79,9 +90,12 @@ def test_RequestDocText30_get_additional_info(pc: PlunetClient, test_set: test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_RequestDocText30_get_additional_info failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_RequestDocText30_get_additional_info was successful.")
+
+
 
 
 def test_RequestDocText30_set_customer_text_id(pc: PlunetClient, test_set: test_set_RequestDocText30):
@@ -92,9 +106,12 @@ def test_RequestDocText30_set_customer_text_id(pc: PlunetClient, test_set: test_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_RequestDocText30_set_customer_text_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_RequestDocText30_set_customer_text_id was successful.")
+
+
 
 
 def test_RequestDocText30_get_customer_text_id(pc: PlunetClient, test_set: test_set_RequestDocText30):
@@ -104,9 +121,12 @@ def test_RequestDocText30_get_customer_text_id(pc: PlunetClient, test_set: test_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_RequestDocText30_get_customer_text_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_RequestDocText30_get_customer_text_id was successful.")
+
+
 
 
 def test_RequestDocText30_set_additional_info(pc: PlunetClient, test_set: test_set_RequestDocText30):
@@ -117,9 +137,12 @@ def test_RequestDocText30_set_additional_info(pc: PlunetClient, test_set: test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_RequestDocText30_set_additional_info failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_RequestDocText30_set_additional_info was successful.")
+
+
 
 
 def test_RequestDocText30_get_all_by_request_id(pc: PlunetClient, test_set: test_set_RequestDocText30):
@@ -129,9 +152,12 @@ def test_RequestDocText30_get_all_by_request_id(pc: PlunetClient, test_set: test
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_RequestDocText30_get_all_by_request_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerArrayResult
+    print(f"test_RequestDocText30_get_all_by_request_id was successful.")
+
+
 
 
 def test_RequestDocText30_get_target_text(pc: PlunetClient, test_set: test_set_RequestDocText30):
@@ -142,9 +168,12 @@ def test_RequestDocText30_get_target_text(pc: PlunetClient, test_set: test_set_R
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_RequestDocText30_get_target_text failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_RequestDocText30_get_target_text was successful.")
+
+
 
 
 def test_RequestDocText30_set_source_text2(pc: PlunetClient, test_set: test_set_RequestDocText30):
@@ -156,9 +185,12 @@ def test_RequestDocText30_set_source_text2(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_RequestDocText30_set_source_text2 failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_RequestDocText30_set_source_text2 was successful.")
+
+
 
 
 def test_RequestDocText30_get_source_text(pc: PlunetClient, test_set: test_set_RequestDocText30):
@@ -168,9 +200,12 @@ def test_RequestDocText30_get_source_text(pc: PlunetClient, test_set: test_set_R
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_RequestDocText30_get_source_text failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_RequestDocText30_get_source_text was successful.")
+
+
 
 
 def test_RequestDocText30_set_word_count(pc: PlunetClient, test_set: test_set_RequestDocText30):
@@ -181,9 +216,12 @@ def test_RequestDocText30_set_word_count(pc: PlunetClient, test_set: test_set_Re
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_RequestDocText30_set_word_count failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_RequestDocText30_set_word_count was successful.")
+
+
 
 
 def test_RequestDocText30_get_word_count(pc: PlunetClient, test_set: test_set_RequestDocText30):
@@ -193,9 +231,12 @@ def test_RequestDocText30_get_word_count(pc: PlunetClient, test_set: test_set_Re
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_RequestDocText30_get_word_count failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_RequestDocText30_get_word_count was successful.")
+
+
 
 
 def test_RequestDocText30_set_source_text(pc: PlunetClient, test_set: test_set_RequestDocText30):
@@ -206,9 +247,10 @@ def test_RequestDocText30_set_source_text(pc: PlunetClient, test_set: test_set_R
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_RequestDocText30_set_source_text failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_RequestDocText30_set_source_text was successful.")
 
 
 

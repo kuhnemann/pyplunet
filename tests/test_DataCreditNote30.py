@@ -1,31 +1,31 @@
 from __future__ import annotations
 from tests import get_test_client
-from datetime import datetime
+from datetime import datetime, timedelta
 from pydantic import BaseModel
 from src.pyplunet import PlunetClient
 from src.pyplunet.exceptions import PlunetAPIError
 
 
 from src.pyplunet.models import (
-        Result,
-        BooleanResult,
-        IntegerArrayResult,
-        CreditNoteListResult,
-        PriceLineIN,
-        PriceLineResult,
-        TaxListResult,
-        CreditNoteItemIN,
-        DoubleResult,
-        DateResult,
-        IntegerResult,
-        StringResult,
-        SearchFilter_CreditNote
+    Result,
+    CreditNoteItemIN,
+    IntegerResult,
+    StringResult,
+    SearchFilter_CreditNote,
+    DateResult,
+    DoubleResult,
+    IntegerArrayResult,
+    TaxListResult,
+    PriceLineResult,
+    BooleanResult,
+    PriceLineIN,
+    CreditNoteListResult, SelectionEntry_TimeFrame
 )
 
 
 from src.pyplunet.enums import (
-        TaxType,
-        CurrencyType
+    CurrencyType,
+    TaxType, CreditNoteStatus, TimeFrameRelation_Invoice
 )
 
 
@@ -52,30 +52,39 @@ class test_set_DataCreditNote30(BaseModel):
     credit_date: datetime
     po_number: str
 
+
 def get_test_set() -> test_set_DataCreditNote30:
     return test_set_DataCreditNote30(
-            search_filter= ,
-            credit_note_id= ,
-            description= ,
-            contact_person_id= ,
-            account_id= ,
-            currency_type= ,
-            credit_note_item_id= ,
-            credit_note_item_in= ,
-            taxtypes= ,
-            status= ,
-            subject= ,
-            price_line_in= ,
-            price_line_id= ,
-            address_id= ,
-            customer_id= ,
-            paid_date= ,
-            is_exported= ,
-            display_name= ,
-            company_code_id= ,
-            credit_date= ,
-            po_number= 
+        search_filter=SearchFilter_CreditNote(
+            customerID=2, languageCode="EN",
+            creditNoteStatus=CreditNoteStatus.OPEN,
+            timeFrame=SelectionEntry_TimeFrame(dateFrom=datetime.now() - timedelta(days=7),
+                                               dateRelation=TimeFrameRelation_Invoice.INVOICE_DATE.value,
+                                               dateTo=datetime.now())),
+        credit_note_id=1,
+        description="Desc",
+        contact_person_id=1,
+        account_id=1,
+        currency_type=CurrencyType.HOMECURRENCY,
+        credit_note_item_id=1,
+        credit_note_item_in=CreditNoteItemIN(creditNoteID=1, taxTypeID=TaxType.TAX_1.value, totalPrice=123),
+        taxtypes=TaxType.TAX_1,
+        status=CreditNoteStatus.PAID.value,
+        subject="Subject",
+        price_line_in=PriceLineIN(amount=123, amount_perUnit=0, priceLineID=1, priceUnitID=2, taxType=TaxType.TAX_1,
+                                  time_perUnit=0,
+                                  unit_price=0),
+        price_line_id=1,
+        address_id=1,
+        customer_id=1,
+        paid_date=datetime.now(),
+        is_exported=False,
+        display_name="Seee",
+        company_code_id=1,
+        credit_date=datetime.now(),
+        po_number="PO-number"
     )
+
 def test_DataCreditNote30_search(pc: PlunetClient, test_set: test_set_DataCreditNote30):
     try:
         resp = pc.credit_note.search(
@@ -83,9 +92,12 @@ def test_DataCreditNote30_search(pc: PlunetClient, test_set: test_set_DataCredit
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_search failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerArrayResult
+    print(f"test_DataCreditNote30_search was successful.")
+
+
 
 
 def test_DataCreditNote30_get_invoice_id(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -95,9 +107,12 @@ def test_DataCreditNote30_get_invoice_id(pc: PlunetClient, test_set: test_set_Da
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_invoice_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataCreditNote30_get_invoice_id was successful.")
+
+
 
 
 def test_DataCreditNote30_get_brief_description(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -107,9 +122,12 @@ def test_DataCreditNote30_get_brief_description(pc: PlunetClient, test_set: test
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_brief_description failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataCreditNote30_get_brief_description was successful.")
+
+
 
 
 def test_DataCreditNote30_set_brief_description(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -120,9 +138,12 @@ def test_DataCreditNote30_set_brief_description(pc: PlunetClient, test_set: test
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_set_brief_description failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataCreditNote30_set_brief_description was successful.")
+
+
 
 
 def test_DataCreditNote30_get_contact_person_id(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -132,9 +153,12 @@ def test_DataCreditNote30_get_contact_person_id(pc: PlunetClient, test_set: test
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_contact_person_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataCreditNote30_get_contact_person_id was successful.")
+
+
 
 
 def test_DataCreditNote30_set_contact_person_id(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -145,9 +169,12 @@ def test_DataCreditNote30_set_contact_person_id(pc: PlunetClient, test_set: test
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_set_contact_person_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataCreditNote30_set_contact_person_id was successful.")
+
+
 
 
 def test_DataCreditNote30_set_receivable_account(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -158,9 +185,12 @@ def test_DataCreditNote30_set_receivable_account(pc: PlunetClient, test_set: tes
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_set_receivable_account failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataCreditNote30_set_receivable_account was successful.")
+
+
 
 
 def test_DataCreditNote30_get_revenue_account(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -170,9 +200,12 @@ def test_DataCreditNote30_get_revenue_account(pc: PlunetClient, test_set: test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_revenue_account failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataCreditNote30_get_revenue_account was successful.")
+
+
 
 
 def test_DataCreditNote30_get_receivable_account(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -182,9 +215,12 @@ def test_DataCreditNote30_get_receivable_account(pc: PlunetClient, test_set: tes
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_receivable_account failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataCreditNote30_get_receivable_account was successful.")
+
+
 
 
 def test_DataCreditNote30_set_revenue_account(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -195,9 +231,12 @@ def test_DataCreditNote30_set_revenue_account(pc: PlunetClient, test_set: test_s
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_set_revenue_account failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataCreditNote30_set_revenue_account was successful.")
+
+
 
 
 def test_DataCreditNote30_get_net_by_currency_type(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -208,9 +247,12 @@ def test_DataCreditNote30_get_net_by_currency_type(pc: PlunetClient, test_set: t
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_net_by_currency_type failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataCreditNote30_get_net_by_currency_type was successful.")
+
+
 
 
 def test_DataCreditNote30_get_tax_by_currency_type(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -221,9 +263,12 @@ def test_DataCreditNote30_get_tax_by_currency_type(pc: PlunetClient, test_set: t
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_tax_by_currency_type failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataCreditNote30_get_tax_by_currency_type was successful.")
+
+
 
 
 def test_DataCreditNote30_update_credit_note_item(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -234,9 +279,12 @@ def test_DataCreditNote30_update_credit_note_item(pc: PlunetClient, test_set: te
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_update_credit_note_item failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataCreditNote30_update_credit_note_item was successful.")
+
+
 
 
 def test_DataCreditNote30_insert_credit_note_item(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -246,9 +294,12 @@ def test_DataCreditNote30_insert_credit_note_item(pc: PlunetClient, test_set: te
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_insert_credit_note_item failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataCreditNote30_insert_credit_note_item was successful.")
+
+
 
 
 def test_DataCreditNote30_get_outstanding_by_currency_type(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -259,9 +310,12 @@ def test_DataCreditNote30_get_outstanding_by_currency_type(pc: PlunetClient, tes
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_outstanding_by_currency_type failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataCreditNote30_get_outstanding_by_currency_type was successful.")
+
+
 
 
 def test_DataCreditNote30_get_tax_by_type_and_currency_type(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -273,9 +327,12 @@ def test_DataCreditNote30_get_tax_by_type_and_currency_type(pc: PlunetClient, te
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_tax_by_type_and_currency_type failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataCreditNote30_get_tax_by_type_and_currency_type was successful.")
+
+
 
 
 def test_DataCreditNote30_get_credit_note_item_list(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -285,9 +342,12 @@ def test_DataCreditNote30_get_credit_note_item_list(pc: PlunetClient, test_set: 
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_credit_note_item_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == CreditNoteListResult
+    print(f"test_DataCreditNote30_get_credit_note_item_list was successful.")
+
+
 
 
 def test_DataCreditNote30_delete_credit_note_item(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -297,9 +357,12 @@ def test_DataCreditNote30_delete_credit_note_item(pc: PlunetClient, test_set: te
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_delete_credit_note_item failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataCreditNote30_delete_credit_note_item was successful.")
+
+
 
 
 def test_DataCreditNote30_get_gross_by_currency_type(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -310,9 +373,12 @@ def test_DataCreditNote30_get_gross_by_currency_type(pc: PlunetClient, test_set:
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_gross_by_currency_type failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataCreditNote30_get_gross_by_currency_type was successful.")
+
+
 
 
 def test_DataCreditNote30_get_currency_code(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -322,9 +388,12 @@ def test_DataCreditNote30_get_currency_code(pc: PlunetClient, test_set: test_set
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_currency_code failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataCreditNote30_get_currency_code was successful.")
+
+
 
 
 def test_DataCreditNote30_get_status(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -334,9 +403,12 @@ def test_DataCreditNote30_get_status(pc: PlunetClient, test_set: test_set_DataCr
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_status failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataCreditNote30_get_status was successful.")
+
+
 
 
 def test_DataCreditNote30_set_status(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -347,9 +419,12 @@ def test_DataCreditNote30_set_status(pc: PlunetClient, test_set: test_set_DataCr
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_set_status failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataCreditNote30_set_status was successful.")
+
+
 
 
 def test_DataCreditNote30_get_subject(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -359,9 +434,12 @@ def test_DataCreditNote30_get_subject(pc: PlunetClient, test_set: test_set_DataC
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_subject failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataCreditNote30_get_subject was successful.")
+
+
 
 
 def test_DataCreditNote30_set_subject(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -372,9 +450,12 @@ def test_DataCreditNote30_set_subject(pc: PlunetClient, test_set: test_set_DataC
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_set_subject failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataCreditNote30_set_subject was successful.")
+
+
 
 
 def test_DataCreditNote30_get_gross(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -384,9 +465,12 @@ def test_DataCreditNote30_get_gross(pc: PlunetClient, test_set: test_set_DataCre
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_gross failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataCreditNote30_get_gross was successful.")
+
+
 
 
 def test_DataCreditNote30_get_outstanding(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -396,9 +480,12 @@ def test_DataCreditNote30_get_outstanding(pc: PlunetClient, test_set: test_set_D
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_outstanding failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataCreditNote30_get_outstanding was successful.")
+
+
 
 
 def test_DataCreditNote30_get_tax(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -408,9 +495,12 @@ def test_DataCreditNote30_get_tax(pc: PlunetClient, test_set: test_set_DataCredi
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_tax failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataCreditNote30_get_tax was successful.")
+
+
 
 
 def test_DataCreditNote30_get_net(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -420,9 +510,12 @@ def test_DataCreditNote30_get_net(pc: PlunetClient, test_set: test_set_DataCredi
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_net failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DoubleResult
+    print(f"test_DataCreditNote30_get_net was successful.")
+
+
 
 
 def test_DataCreditNote30_insert_price_line(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -433,9 +526,12 @@ def test_DataCreditNote30_insert_price_line(pc: PlunetClient, test_set: test_set
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_insert_price_line failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataCreditNote30_insert_price_line was successful.")
+
+
 
 
 def test_DataCreditNote30_update_price_line(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -445,9 +541,12 @@ def test_DataCreditNote30_update_price_line(pc: PlunetClient, test_set: test_set
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_update_price_line failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataCreditNote30_update_price_line was successful.")
+
+
 
 
 def test_DataCreditNote30_delete_price_line(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -457,9 +556,12 @@ def test_DataCreditNote30_delete_price_line(pc: PlunetClient, test_set: test_set
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_delete_price_line failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataCreditNote30_delete_price_line was successful.")
+
+
 
 
 def test_DataCreditNote30_set_address_id(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -470,9 +572,12 @@ def test_DataCreditNote30_set_address_id(pc: PlunetClient, test_set: test_set_Da
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_set_address_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataCreditNote30_set_address_id was successful.")
+
+
 
 
 def test_DataCreditNote30_set_customer_id(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -483,9 +588,12 @@ def test_DataCreditNote30_set_customer_id(pc: PlunetClient, test_set: test_set_D
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_set_customer_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataCreditNote30_set_customer_id was successful.")
+
+
 
 
 def test_DataCreditNote30_set_paid_date(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -496,9 +604,12 @@ def test_DataCreditNote30_set_paid_date(pc: PlunetClient, test_set: test_set_Dat
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_set_paid_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataCreditNote30_set_paid_date was successful.")
+
+
 
 
 def test_DataCreditNote30_get_po_number(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -508,9 +619,12 @@ def test_DataCreditNote30_get_po_number(pc: PlunetClient, test_set: test_set_Dat
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_po_number failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataCreditNote30_get_po_number was successful.")
+
+
 
 
 def test_DataCreditNote30_set_is_exported(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -521,9 +635,12 @@ def test_DataCreditNote30_set_is_exported(pc: PlunetClient, test_set: test_set_D
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_set_is_exported failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataCreditNote30_set_is_exported was successful.")
+
+
 
 
 def test_DataCreditNote30_get_credit_note_nr(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -533,9 +650,12 @@ def test_DataCreditNote30_get_credit_note_nr(pc: PlunetClient, test_set: test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_credit_note_nr failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataCreditNote30_get_credit_note_nr was successful.")
+
+
 
 
 def test_DataCreditNote30_get_is_exported(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -545,9 +665,12 @@ def test_DataCreditNote30_get_is_exported(pc: PlunetClient, test_set: test_set_D
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_is_exported failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == BooleanResult
+    print(f"test_DataCreditNote30_get_is_exported was successful.")
+
+
 
 
 def test_DataCreditNote30_get_credit_date(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -557,9 +680,12 @@ def test_DataCreditNote30_get_credit_date(pc: PlunetClient, test_set: test_set_D
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_credit_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DateResult
+    print(f"test_DataCreditNote30_get_credit_date was successful.")
+
+
 
 
 def test_DataCreditNote30_get_credit_note_id(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -570,9 +696,12 @@ def test_DataCreditNote30_get_credit_note_id(pc: PlunetClient, test_set: test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_credit_note_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataCreditNote30_get_credit_note_id was successful.")
+
+
 
 
 def test_DataCreditNote30_get_tax_types(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -582,9 +711,12 @@ def test_DataCreditNote30_get_tax_types(pc: PlunetClient, test_set: test_set_Dat
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_tax_types failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == TaxListResult
+    print(f"test_DataCreditNote30_get_tax_types was successful.")
+
+
 
 
 def test_DataCreditNote30_get_adress_id(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -594,9 +726,12 @@ def test_DataCreditNote30_get_adress_id(pc: PlunetClient, test_set: test_set_Dat
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_adress_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataCreditNote30_get_adress_id was successful.")
+
+
 
 
 def test_DataCreditNote30_set_credit_date(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -607,9 +742,12 @@ def test_DataCreditNote30_set_credit_date(pc: PlunetClient, test_set: test_set_D
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_set_credit_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataCreditNote30_set_credit_date was successful.")
+
+
 
 
 def test_DataCreditNote30_get_price_line(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -619,9 +757,12 @@ def test_DataCreditNote30_get_price_line(pc: PlunetClient, test_set: test_set_Da
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_price_line failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == PriceLineResult
+    print(f"test_DataCreditNote30_get_price_line was successful.")
+
+
 
 
 def test_DataCreditNote30_get_company_code(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -631,9 +772,12 @@ def test_DataCreditNote30_get_company_code(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_company_code failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataCreditNote30_get_company_code was successful.")
+
+
 
 
 def test_DataCreditNote30_get_paid_date(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -643,9 +787,12 @@ def test_DataCreditNote30_get_paid_date(pc: PlunetClient, test_set: test_set_Dat
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_paid_date failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == DateResult
+    print(f"test_DataCreditNote30_get_paid_date was successful.")
+
+
 
 
 def test_DataCreditNote30_set_po_number(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -656,9 +803,12 @@ def test_DataCreditNote30_set_po_number(pc: PlunetClient, test_set: test_set_Dat
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_set_po_number failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == Result
+    print(f"test_DataCreditNote30_set_po_number was successful.")
+
+
 
 
 def test_DataCreditNote30_get_customer_id(pc: PlunetClient, test_set: test_set_DataCreditNote30):
@@ -668,9 +818,10 @@ def test_DataCreditNote30_get_customer_id(pc: PlunetClient, test_set: test_set_D
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataCreditNote30_get_customer_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == IntegerResult
+    print(f"test_DataCreditNote30_get_customer_id was successful.")
 
 
 

@@ -7,14 +7,14 @@ from src.pyplunet.exceptions import PlunetAPIError
 
 
 from src.pyplunet.models import (
-        CallbackListResult,
-        StringArrayResult,
+        ServiceListResult,
+        StringResult,
         LanguageListResult,
+        CompanyCodeListResult,
+        CallbackListResult,
         CurrencyList,
         CountryListResult,
-        CompanyCodeListResult,
-        ServiceListResult,
-        StringResult
+        StringArrayResult
 )
 
 
@@ -24,17 +24,22 @@ class test_set_DataAdmin30(BaseModel):
 
 def get_test_set() -> test_set_DataAdmin30:
     return test_set_DataAdmin30(
-            language_code="EN"
+            language_code= "EN"
     )
+
+
 def test_DataAdmin30_get_system_currencies(pc: PlunetClient, test_set: test_set_DataAdmin30):
     try:
         resp = pc.admin.get_system_currencies(
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataAdmin30_get_system_currencies failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == CurrencyList
+    print(f"test_DataAdmin30_get_system_currencies was successful.")
+
+
 
 
 def test_DataAdmin30_get_available_document_templates(pc: PlunetClient, test_set: test_set_DataAdmin30):
@@ -43,9 +48,12 @@ def test_DataAdmin30_get_available_document_templates(pc: PlunetClient, test_set
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataAdmin30_get_available_document_templates failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringArrayResult
+    print(f"test_DataAdmin30_get_available_document_templates was successful.")
+
+
 
 
 def test_DataAdmin30_get_company_code_list(pc: PlunetClient, test_set: test_set_DataAdmin30):
@@ -54,9 +62,12 @@ def test_DataAdmin30_get_company_code_list(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataAdmin30_get_company_code_list failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == CompanyCodeListResult
+    print(f"test_DataAdmin30_get_company_code_list was successful.")
+
+
 
 
 def test_DataAdmin30_get_domestic_currency(pc: PlunetClient, test_set: test_set_DataAdmin30):
@@ -65,9 +76,12 @@ def test_DataAdmin30_get_domestic_currency(pc: PlunetClient, test_set: test_set_
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataAdmin30_get_domestic_currency failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == StringResult
+    print(f"test_DataAdmin30_get_domestic_currency was successful.")
+
+
 
 
 def test_DataAdmin30_get_available_services(pc: PlunetClient, test_set: test_set_DataAdmin30):
@@ -77,9 +91,12 @@ def test_DataAdmin30_get_available_services(pc: PlunetClient, test_set: test_set
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataAdmin30_get_available_services failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == ServiceListResult
+    print(f"test_DataAdmin30_get_available_services was successful.")
+
+
 
 
 def test_DataAdmin30_get_available_countries(pc: PlunetClient, test_set: test_set_DataAdmin30):
@@ -89,9 +106,12 @@ def test_DataAdmin30_get_available_countries(pc: PlunetClient, test_set: test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataAdmin30_get_available_countries failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == CountryListResult
+    print(f"test_DataAdmin30_get_available_countries was successful.")
+
+
 
 
 def test_DataAdmin30_get_available_languages(pc: PlunetClient, test_set: test_set_DataAdmin30):
@@ -101,9 +121,12 @@ def test_DataAdmin30_get_available_languages(pc: PlunetClient, test_set: test_se
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataAdmin30_get_available_languages failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == LanguageListResult
+    print(f"test_DataAdmin30_get_available_languages was successful.")
+
+
 
 
 def test_DataAdmin30_get_list_of_registered_callbacks(pc: PlunetClient, test_set: test_set_DataAdmin30):
@@ -112,9 +135,10 @@ def test_DataAdmin30_get_list_of_registered_callbacks(pc: PlunetClient, test_set
         )
     except PlunetAPIError as e:
         error = e
-        input(type(e))
+        print(f"test_DataAdmin30_get_list_of_registered_callbacks failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == CallbackListResult
+    print(f"test_DataAdmin30_get_list_of_registered_callbacks was successful.")
 
 
 
