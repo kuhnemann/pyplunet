@@ -399,6 +399,7 @@ class EventType(Enum):
     STATUS_CHANGED = 1
 
 
+
 class ContactPersonStatus(Enum):
     ACTIVE = 1
     CONTACTED = 3
