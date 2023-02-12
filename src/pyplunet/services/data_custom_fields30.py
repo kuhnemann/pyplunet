@@ -177,7 +177,7 @@ class DataCustomFields30:
     ) -> Result:
         """
         Allows to change the selected value/s of the object (MainID) related text-module.
-        The language code represents the language abbreviation defined in the field &#34;UI language&#34; in Admin -&gt;Document templates -&gt;Languages.
+        The language code represents the language abbreviation defined in the field "UI language" in Admin ->Document templates ->Languages.
         The Main ID is depending on the defined usage area within
         TextmoduleIN.getTextModuleUsageArea(). e.g. if
         TextModuleUsageArea.ORDER is specified you have to provide an valid OrderID as MainID.
@@ -212,7 +212,7 @@ class DataCustomFields30:
         """
         Returns a text-module depending on the flag and transfered parameters.
         Text-modules can be configured over admin/template/template
-        The language code represents the language abbreviation defined in the field &#34;UI language&#34; in Admin -&gt;Document templates -&gt;Languages.
+        The language code represents the language abbreviation defined in the field "UI language" in Admin ->Document templates ->Languages.
         The Main ID is depending on the defined usage area within
         TextmoduleIN.getTextModuleUsageArea(). e.g. if
         TextModuleUsageArea.ORDER is specified you have to provide an valid OrderID as MainID.

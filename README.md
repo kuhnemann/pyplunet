@@ -18,7 +18,7 @@
 <h3 align="center">PyPlunet</h3>
 
   <p align="center">
-    Client for interacting with the Plunet SOAP 3.0 API.
+    Modern Python client for interacting with the Plunet SOAP 3.0 API.
     <br />
 
 
@@ -34,16 +34,24 @@
 <!-- ABOUT THE PROJECT -->
 
 ## About The Project
+Modern Python client for interacting with the Plunet SOAP API, without having to deal with any of the soapiness.
 
-Work in progress. Methods will be implemented irregularly and as need arise. Feel free to contribute!  
+Ready to use out of the box, you can jump directly into the business logic. 
+
+Pip install, import and start working. It really is as easy as that!
+
+- Implements all services and methods as per Plunet 9.2
+- Fully typed for validation and code completion support
+- Fully documented methods with complete content of the Plunet JavaDocs.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Built With
 
 * [zeep](https://docs.python-zeep.org/en/master/)
+* [pydantic](https://docs.pydantic.dev/)
 * [plunetapi](https://github.com/kuhnemann/plunetapi/)
-* [Plunet](https://www.plunet.com/)
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -55,16 +63,17 @@ Work in progress. Methods will be implemented irregularly and as need arise. Fee
 
 ### Installation
 
-Clone the repo
 
-   ```sh
-   git clone https://github.com/kuhnemann/pyplunet.git
-   ```
-
-Or install via pip
+Install via pip
 
    ```sh
    pip install pyplunet
+   ```
+
+Or clone the repo
+
+   ```sh
+   git clone https://github.com/kuhnemann/pyplunet.git
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -83,8 +92,6 @@ pip install pyplunet
 
 Initialize the client with the base URL of your Plunet instance, authenticate and start doing whatever you aim to do.
 
-API is likely to change, so remember to pin version if you use this for something important.
-
 
 ```sh
 from pyplunet import PlunetClient
@@ -94,11 +101,53 @@ plunet_client = PlunetClient(base_url="YOUR_URL")
 
 plunet_client.login(username=username, password=password)
 
-print(plunet_client.order.get_order_object(order_id=1234))
-
-
+order_result = plunet_client.order.get_order_object(order_id=1234)
 ```
 
+
+Complex types and enums are included. Convenient when searching or creating entities:
+
+```sh
+from datetime import datetime, timedelta
+
+from pyplunet import PlunetClient
+from pyplunet.models import OrderIN, SearchFilter_Resource
+from pyplunet.enums import ResourceType, ResourceStatus, WorkingStatus
+
+
+plunet_client = PlunetClient(base_url="YOUR_URL")
+
+plunet_client.login(username=username, password=password)
+
+# prepare the searchfilter
+sf_resource = SearchFilter_Resource(
+    contact_resourceID=-1,
+    languageCode="EN",
+    resourceType=ResourceType.PROJECT_MANAGER,
+    resourceStatus=ResourceStatus.ACTIVE,
+    workingStatus=WorkingStatus.INTERNAL
+)
+# get the result
+pms_result = plunet_client.resource.search(search_filter_resource=sf_resource)
+
+# prepare the OrderIN object. Fields are typed and corresponds to definition from XSD.
+order_in = OrderIN(
+    currency="SEK",
+    customerContactID=1,
+    customerID=3,
+    deliveryDeadline=datetime.now() + timedelta(days=7),
+    orderDate=datetime.now(),
+    orderID=-1,
+    projectManagerID=11,
+    projectManagerMemo="Some memo!",
+    projectName="Project has a name",
+    rate=-1,
+    referenceNumber="This is the reference number",
+    subject="This is the subject!"
+)
+order_integer_result = plunet_client.order.insert2(order_in=order_in)
+order_id = order_integer_result.data
+```
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>

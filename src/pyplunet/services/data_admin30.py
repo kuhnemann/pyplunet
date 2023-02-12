@@ -171,7 +171,7 @@ class DataAdmin30:
         self,
     ) -> CallbackListResult:
         """
-        Returns a list of all registered callbacks (observer &amp; notifies) to the current user
+        Returns a list of all registered callbacks (observer & notifies) to the current user
 
 
         :return: CallbackListResult

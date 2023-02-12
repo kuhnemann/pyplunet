@@ -305,7 +305,7 @@ class DataRequest30:
         """
         Returns an instance of StringResult, containing status information and
         the formatted request number, which appears in the forms of the
-        BusinessManager ( don’t confuse it with the request id, which
+        BusinessManager ( donât confuse it with the request id, which
         looks similar to the request number ).
 
 
@@ -398,11 +398,11 @@ class DataRequest30:
         Please note that this call is now deactivated by default. For Reactivation please contact Support@plunet.com.
 
         Copies a file to the reference folder.
-        In general &#34;uncFileName&#34; describes the location of a file, which is
+        In general "uncFileName" describes the location of a file, which is
         located within the local network.Usually the path has the following format:
         \\ComputerName\SharedFolder\Resource
         It is also possible to commit an URL (http://... / https://...) to a
-        file on an external server via &#34;uncFileName&#34;. The URL must end with the filename.
+        file on an external server via "uncFileName". The URL must end with the filename.
         The reference language description is expected in english language or as ISO-Code.
         Method returns an instance of Result
         Files can also directly be uploaded as file content over
@@ -465,11 +465,11 @@ class DataRequest30:
         Deprecated. Please use DataDocument30.upload_Document(String, int, int, byte[], String, long) instead.
 
         Copies a file to the source folder.
-        In general &#34;uncFileName&#34; describes the location of a file, which is located within the local network.
+        In general "uncFileName" describes the location of a file, which is located within the local network.
         Usually the path has the following format:
         \\ComputerName\SharedFolder\Resource
         It is also possible to commit an URL (http://... / https://...) to a
-        file on an external server via &#34;uncFileName&#34;. The URL must end with the filename.
+        file on an external server via "uncFileName". The URL must end with the filename.
         The source language description is expected in english language or as ISO-Code.
         Returns an instance of Result.
         Files can also directly be uploaded as file content over
@@ -728,7 +728,7 @@ class DataRequest30:
         self,
         server_authentication_string: str,
         server_address: str,
-        event_type: EventType,
+        event_type: Union[EventType, int],
     ) -> Result:
         """
         Register to get notified when the specified EventType occurs
@@ -749,7 +749,7 @@ class DataRequest30:
         http://mypath/subfolder?wsdl
 
         In the first two cases, the address will be autocompleted by appending
-        the corresponding directory &#34;CallbackRequest30?wsdl&#34;.
+        the corresponding directory "CallbackRequest30?wsdl".
 
         A list of all registered callbacks can be accessed with
         DataAdmin30.getListOfRegisteredCallbacks(String)
@@ -764,10 +764,17 @@ class DataRequest30:
         proxy = self.__client.plunet_server.DataRequest30.registerCallback_Notify
         response_model = Result
 
+        if type(event_type) == EventType:
+            event_type = event_type.value
+        elif type(event_type) == int:
+            event_type = event_type
+        else:
+            event_type = int(event_type)
+
         arg = {
             "ServerAuthenticationString": server_authentication_string,
             "ServerAddress": server_address,
-            "EventType": event_type.value,
+            "EventType": event_type,
         }
 
         return self.__client.make_request(
@@ -777,7 +784,7 @@ class DataRequest30:
             unpack_dict=True,
         )
 
-    def deregister_callback_notify(self, event_type: EventType) -> Result:
+    def deregister_callback_notify(self, event_type: Union[EventType, int]) -> Result:
         """
         Deletes an registered notify request
         Notify requests can only be deleted by the user who has created them.
@@ -790,9 +797,16 @@ class DataRequest30:
         proxy = self.__client.plunet_server.DataRequest30.deregisterCallback_Notify
         response_model = Result
 
+        if type(event_type) == EventType:
+            event_type = event_type.value
+        elif type(event_type) == int:
+            event_type = event_type
+        else:
+            event_type = int(event_type)
+
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=event_type.value,
+            argument=event_type,
             response_model=response_model,
             unpack_dict=False,
         )
@@ -818,7 +832,7 @@ class DataRequest30:
         http://mypath/subfolder?wsdl
 
         In the first two cases, the address will be autocompleted by appending
-        the corresponding directory &#34;CallbackRequest30?wsdl&#34;.
+        the corresponding directory "CallbackRequest30?wsdl".
 
         A list of all registered callbacks can be accessed with
         DataAdmin30.getListOfRegisteredCallbacks(String)
@@ -1037,7 +1051,7 @@ class DataRequest30:
     def get_quote_id_list(self, request_id: int) -> IntegerArrayResult:
         """
         Method returns an instance of IntegerArrayResult, containing all quote
-        ID&#39;s for the specified request.
+        ID's for the specified request.
 
 
         :param request_id: int
@@ -1057,7 +1071,7 @@ class DataRequest30:
     def get_order_id_list(self, request_id: int) -> IntegerArrayResult:
         """
         Method returns an instance of IntegerArrayResult, containing all order
-        ID&#39;s for the specified request.
+        ID's for the specified request.
 
 
         :param request_id: int

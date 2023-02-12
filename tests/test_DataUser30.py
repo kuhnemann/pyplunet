@@ -20,9 +20,9 @@ class test_set_DataUser30(BaseModel):
 
 def get_test_set() -> test_set_DataUser30:
     return test_set_DataUser30(
-            user_id= ,
-            resource_id= ,
-            user_login_name= 
+            user_id=33,
+            resource_id=1,
+            user_login_name="Paul Leiter"
     )
 
 
@@ -33,7 +33,7 @@ def test_DataUser30_get_user_by_id(pc: PlunetClient, test_set: test_set_DataUser
         )
     except PlunetAPIError as e:
         error = e
-        print(f"test_DataUser30_get_user_by_id failed with error {type(e)} that was suppressed since it is a valid PlunetAPIError")
+        print(f"test_DataUser30_get_user_by_id failed with error {type(e)}: {e.status_message} that was suppressed since it is a valid PlunetAPIError")
         return
     assert type(resp) == UserResult
     print(f"test_DataUser30_get_user_by_id was successful.")
@@ -73,6 +73,7 @@ def test_DataUser30_get_user_by_login_name(pc: PlunetClient, test_set: test_set_
 if __name__ == '__main__':
     pc = get_test_client()
     test_set = get_test_set()
-    test_DataUser30_get_user_by_id(pc, test_set)
+
     test_DataUser30_get_user_list_by_resource_id(pc, test_set)
     test_DataUser30_get_user_by_login_name(pc, test_set)
+    test_DataUser30_get_user_by_id(pc, test_set)

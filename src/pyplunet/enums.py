@@ -397,7 +397,7 @@ class EventType(Enum):
     NEW_ENTRY_CREATED = 2
     START_DATE_CHANGED = 4
     STATUS_CHANGED = 1
-
+    UNDEFINED = 0
 
 
 class ContactPersonStatus(Enum):

@@ -36,8 +36,17 @@ from .services import (
 
 
 class PlunetClient:
-    def __init__(self, base_url=None, uuid: Optional[str] = None):
-        self.plunet_server = PlunetAPI(base_url=base_url)
+    def __init__(self, base_url, uuid: Optional[str] = None, cache_wsdl: bool = True):
+        """
+        Client for interacting with a Plunet instance. Initialized with the base url
+        of the instance. Session needs a UUID, which either can be supplied in initialization
+        or be obtained using the login() method.
+
+        :param base_url: URL for a Plunet instance
+        :param uuid: Optional session UUID
+        :param cache_wsdl: Boolean to regulate where
+        """
+        self.plunet_server = PlunetAPI(base_url=base_url, cache_wsdl=cache_wsdl)
         self.uuid = uuid
         self.payable = DataPayable30(self)
         self.resource_contact = DataResourceContact30(self)
@@ -85,9 +94,9 @@ class PlunetClient:
         if self.uuid is None:
             raise NoPlunetSession("You have no active Plunet session. Please log in.")
 
-        if unpack_dict is True:
+        if unpack_dict is True and argument is not None:
             result = operation_proxy(self.uuid, **argument)
-        elif argument is not None:
+        elif unpack_dict is False and argument is not None:
             result = operation_proxy(self.uuid, argument)
         else:
             result = operation_proxy(self.uuid)

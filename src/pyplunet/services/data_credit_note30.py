@@ -247,7 +247,7 @@ class DataCreditNote30:
         )
 
     def get_net_by_currency_type(
-        self, credit_note_id: int, currency_type: CurrencyType
+        self, credit_note_id: int, currency_type: Union[CurrencyType, int]
     ) -> DoubleResult:
         """
         Returns an instance of DoubleResult, which contains the net amount in the specified (project or home) currency.
@@ -262,7 +262,14 @@ class DataCreditNote30:
         proxy = self.__client.plunet_server.DataCreditNote30.getNetByCurrencyType
         response_model = DoubleResult
 
-        arg = {"creditNoteID": credit_note_id, "currencyType": currency_type.value}
+        if type(currency_type) == CurrencyType:
+            currency_type = currency_type.value
+        elif type(currency_type) == int:
+            currency_type = currency_type
+        else:
+            currency_type = int(currency_type)
+
+        arg = {"creditNoteID": credit_note_id, "currencyType": currency_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -272,7 +279,7 @@ class DataCreditNote30:
         )
 
     def get_tax_by_currency_type(
-        self, credit_note_id: int, currency_type: CurrencyType
+        self, credit_note_id: int, currency_type: Union[CurrencyType, int]
     ) -> DoubleResult:
         """
         Returns an instance of DoubleResult, which contains the summed up taxes in the specified (project or home) currency.
@@ -287,7 +294,14 @@ class DataCreditNote30:
         proxy = self.__client.plunet_server.DataCreditNote30.getTaxByCurrencyType
         response_model = DoubleResult
 
-        arg = {"creditNoteID": credit_note_id, "currencyType": currency_type.value}
+        if type(currency_type) == CurrencyType:
+            currency_type = currency_type.value
+        elif type(currency_type) == int:
+            currency_type = currency_type
+        else:
+            currency_type = int(currency_type)
+
+        arg = {"creditNoteID": credit_note_id, "currencyType": currency_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -357,7 +371,7 @@ class DataCreditNote30:
         )
 
     def get_outstanding_by_currency_type(
-        self, credit_note_id: int, currency_type: CurrencyType
+        self, credit_note_id: int, currency_type: Union[CurrencyType, int]
     ) -> DoubleResult:
         """
         Returns an instance of DoubleResult, which contains the outstanding
@@ -375,7 +389,14 @@ class DataCreditNote30:
         )
         response_model = DoubleResult
 
-        arg = {"creditNoteID": credit_note_id, "currencyType": currency_type.value}
+        if type(currency_type) == CurrencyType:
+            currency_type = currency_type.value
+        elif type(currency_type) == int:
+            currency_type = currency_type
+        else:
+            currency_type = int(currency_type)
+
+        arg = {"creditNoteID": credit_note_id, "currencyType": currency_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -385,7 +406,10 @@ class DataCreditNote30:
         )
 
     def get_tax_by_type_and_currency_type(
-        self, credit_note_id: int, currency_type: CurrencyType, taxtypes: TaxType
+        self,
+        credit_note_id: int,
+        currency_type: Union[CurrencyType, int],
+        taxtypes: Union[TaxType, int],
     ) -> DoubleResult:
         """
         Returns an instance of DoubleResult, which contains the specified TaxValue (project or home) currency.
@@ -401,10 +425,24 @@ class DataCreditNote30:
         proxy = self.__client.plunet_server.DataCreditNote30.getTaxByTypeAndCurrencyType
         response_model = DoubleResult
 
+        if type(currency_type) == CurrencyType:
+            currency_type = currency_type.value
+        elif type(currency_type) == int:
+            currency_type = currency_type
+        else:
+            currency_type = int(currency_type)
+
+        if type(taxtypes) == TaxType:
+            taxtypes = taxtypes.value
+        elif type(taxtypes) == int:
+            taxtypes = taxtypes
+        else:
+            taxtypes = int(taxtypes)
+
         arg = {
             "creditNoteID": credit_note_id,
-            "currencyType": currency_type.value,
-            "taxtypes": taxtypes.value,
+            "currencyType": currency_type,
+            "taxtypes": taxtypes,
         }
 
         return self.__client.make_request(
@@ -453,7 +491,7 @@ class DataCreditNote30:
         )
 
     def get_gross_by_currency_type(
-        self, credit_note_id: int, currency_type: CurrencyType
+        self, credit_note_id: int, currency_type: Union[CurrencyType, int]
     ) -> DoubleResult:
         """
         Returns an instance of DoubleResult, which contains the credit note amount in the specified (project or home) currency.
@@ -468,7 +506,14 @@ class DataCreditNote30:
         proxy = self.__client.plunet_server.DataCreditNote30.getGrossByCurrencyType
         response_model = DoubleResult
 
-        arg = {"creditNoteID": credit_note_id, "currencyType": currency_type.value}
+        if type(currency_type) == CurrencyType:
+            currency_type = currency_type.value
+        elif type(currency_type) == int:
+            currency_type = currency_type
+        else:
+            currency_type = int(currency_type)
+
+        arg = {"creditNoteID": credit_note_id, "currencyType": currency_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,

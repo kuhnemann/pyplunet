@@ -4,7 +4,9 @@ from datetime import datetime
 from pydantic import BaseModel
 from src.pyplunet import PlunetClient
 from src.pyplunet.exceptions import PlunetAPIError
+from faker import Faker
 
+faky = Faker()
 
 from src.pyplunet.models import (
         PaymentInfoResult,
@@ -24,8 +26,8 @@ from src.pyplunet.models import (
 
 
 from src.pyplunet.enums import (
-        ResourceType,
-        EventType
+    ResourceType,
+    EventType, ResourceStatus, WorkingStatus
 )
 
 
@@ -65,38 +67,46 @@ class test_set_DataResource30(BaseModel):
 
 def get_test_set() -> test_set_DataResource30:
     return test_set_DataResource30(
-            resource_in= ,
-            enable_null_or_empty_values= ,
-            resource_id= ,
-            working_status= ,
-            search_filter_resource= ,
-            currency_iso_code= ,
-            status= ,
-            saml_external_id= ,
-            working_status_list= ,
-            status_list= ,
-            server_authentication_string= ,
-            server_address= ,
-            event_type= ,
-            payment_method_id= ,
-            system_language_code= ,
-            payment_info= ,
-            name= ,
-            external_id= ,
-            phone_number= ,
-            academic_title= ,
-            website= ,
-            fax= ,
-            form_of_address= ,
-            e_mail= ,
-            skype_id= ,
-            opening= ,
-            cost_center= ,
-            login_name= ,
-            resource_type= ,
-            sourcelanguage= ,
-            targetlanguage= ,
-            account_id= 
+            resource_in=ResourceIN(academicTitle=faky.word(), costCenter=faky.word(), currency="EUR", email=faky.email(),
+                                   externalID=faky.ripe_id(), fax=faky.phone_number(), formOfAddress=1,
+                                   fullName=faky.name(), mobilePhone=faky.phone_number(), name1=faky.last_name(), name2=faky.first_name(),
+                                   opening=faky.time(), phone=faky.phone_number(), resourceID=-1,
+                                   resourceType=ResourceType.RESOURCES, skypeID=faky.word(), status=1, supervisor1="Paul Leiter", supervisor2="Harry Styles", userId=-1, website=faky.url(),
+                                   workingStatus=WorkingStatus.INTERNAL),
+            enable_null_or_empty_values=False,
+            resource_id=33,
+            working_status=WorkingStatus.INTERNAL.value,
+            search_filter_resource=SearchFilter_Resource(contact_resourceID=-1, languageCode="EN", resourceType=ResourceType.PROJECT_MANAGER,
+                                                         resourceStatus=ResourceStatus.ACTIVE, workingStatus=WorkingStatus.INTERNAL),
+            currency_iso_code="EUR",
+            status=1,
+            saml_external_id=faky.ripe_id(),
+            working_status_list=IntegerList(integerList=[1,2]),
+            status_list=IntegerList(integerList=[1,2]),
+            server_authentication_string=faky.text(20),
+            server_address=faky.url(),
+            event_type=EventType.STATUS_CHANGED,
+            payment_method_id=1,
+            system_language_code="EN",
+            payment_info=PaymentInfo(accountHolder=faky.name(), accountID=12, BIC=faky.iban(),
+                                     contractNumber=faky.word(), debitAccount=faky.word(), IBAN=faky.iban(),
+                                     paymentMethodID=1, preselectedTaxID=1, salesTaxID="TAX"),
+            name=faky.name(),
+            external_id=faky.word(),
+            phone_number=faky.phone_number(),
+            academic_title=faky.word(),
+            website=faky.url(),
+            fax=faky.phone_number(),
+            form_of_address=1,
+            e_mail=faky.email() ,
+            skype_id=faky.text(),
+            opening=faky.time(),
+            cost_center=faky.street_name(),
+            login_name="Paul Leiter",
+            resource_type=ResourceType.PROJECT_MANAGER,
+            sourcelanguage="EN",
+            targetlanguage="DE",
+            account_id=1
     )
 
 
@@ -142,6 +152,7 @@ def test_DataResource30_insert(pc: PlunetClient, test_set: test_set_DataResource
         return
     assert type(resp) == IntegerResult
     print(f"test_DataResource30_insert was successful.")
+    return resp.data
 
 
 
@@ -1070,16 +1081,17 @@ def test_DataResource30_insert_object(pc: PlunetClient, test_set: test_set_DataR
         return
     assert type(resp) == IntegerResult
     print(f"test_DataResource30_insert_object was successful.")
-
+    return resp.data
 
 
 if __name__ == '__main__':
     pc = get_test_client()
     test_set = get_test_set()
-    test_DataResource30_update(pc, test_set)
-    test_DataResource30_delete(pc, test_set)
     test_DataResource30_insert(pc, test_set)
+    res_id = test_DataResource30_insert_object(pc, test_set)
+    test_set.resource_id =res_id
     test_DataResource30_search(pc, test_set)
+    test_DataResource30_update(pc, test_set)
     test_DataResource30_get_currency(pc, test_set)
     test_DataResource30_set_currency(pc, test_set)
     test_DataResource30_get_full_name(pc, test_set)
@@ -1138,4 +1150,5 @@ if __name__ == '__main__':
     test_DataResource30_get_pricelists(pc, test_set)
     test_DataResource30_get_pricelists2(pc, test_set)
     test_DataResource30_get_account(pc, test_set)
-    test_DataResource30_insert_object(pc, test_set)
+
+    test_DataResource30_delete(pc, test_set)

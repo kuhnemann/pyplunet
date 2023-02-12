@@ -390,7 +390,7 @@ class DataOutgoingInvoice30:
         )
 
     def get_net_by_currency_type(
-        self, invoice_id: int, currency_type: CurrencyType
+        self, invoice_id: int, currency_type: Union[CurrencyType, int]
     ) -> DoubleResult:
         """
         Returns an instance of DoubleResult, which contains the net amount in the specified (project or home) currency.
@@ -406,7 +406,14 @@ class DataOutgoingInvoice30:
         proxy = self.__client.plunet_server.DataOutgoingInvoice30.getNetByCurrencyType
         response_model = DoubleResult
 
-        arg = {"invoiceID": invoice_id, "currencyType": currency_type.value}
+        if type(currency_type) == CurrencyType:
+            currency_type = currency_type.value
+        elif type(currency_type) == int:
+            currency_type = currency_type
+        else:
+            currency_type = int(currency_type)
+
+        arg = {"invoiceID": invoice_id, "currencyType": currency_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -416,7 +423,7 @@ class DataOutgoingInvoice30:
         )
 
     def get_tax_by_currency_type(
-        self, invoice_id: int, currency_type: CurrencyType
+        self, invoice_id: int, currency_type: Union[CurrencyType, int]
     ) -> DoubleResult:
         """
         Returns an instance of DoubleResult, which contains the summed up taxes in the specified (project or home) currency.
@@ -431,7 +438,14 @@ class DataOutgoingInvoice30:
         proxy = self.__client.plunet_server.DataOutgoingInvoice30.getTaxByCurrencyType
         response_model = DoubleResult
 
-        arg = {"invoiceID": invoice_id, "currencyType": currency_type.value}
+        if type(currency_type) == CurrencyType:
+            currency_type = currency_type.value
+        elif type(currency_type) == int:
+            currency_type = currency_type
+        else:
+            currency_type = int(currency_type)
+
+        arg = {"invoiceID": invoice_id, "currencyType": currency_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -441,7 +455,7 @@ class DataOutgoingInvoice30:
         )
 
     def get_outstanding_by_currency_type(
-        self, invoice_id: int, currency_type: CurrencyType
+        self, invoice_id: int, currency_type: Union[CurrencyType, int]
     ) -> DoubleResult:
         """
         Returns an instance of DoubleResult, which contains the outstanding
@@ -459,7 +473,14 @@ class DataOutgoingInvoice30:
         )
         response_model = DoubleResult
 
-        arg = {"invoiceID": invoice_id, "currencyType": currency_type.value}
+        if type(currency_type) == CurrencyType:
+            currency_type = currency_type.value
+        elif type(currency_type) == int:
+            currency_type = currency_type
+        else:
+            currency_type = int(currency_type)
+
+        arg = {"invoiceID": invoice_id, "currencyType": currency_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -469,7 +490,10 @@ class DataOutgoingInvoice30:
         )
 
     def get_tax_by_type_and_currency_type(
-        self, invoice_id: int, currency_type: CurrencyType, taxtypes: TaxType
+        self,
+        invoice_id: int,
+        currency_type: Union[CurrencyType, int],
+        taxtypes: Union[TaxType, int],
     ) -> DoubleResult:
         """
         Returns an instance of DoubleResult, which contains the specified TaxValue (project or home) currency.
@@ -487,10 +511,24 @@ class DataOutgoingInvoice30:
         )
         response_model = DoubleResult
 
+        if type(currency_type) == CurrencyType:
+            currency_type = currency_type.value
+        elif type(currency_type) == int:
+            currency_type = currency_type
+        else:
+            currency_type = int(currency_type)
+
+        if type(taxtypes) == TaxType:
+            taxtypes = taxtypes.value
+        elif type(taxtypes) == int:
+            taxtypes = taxtypes
+        else:
+            taxtypes = int(taxtypes)
+
         arg = {
             "invoiceID": invoice_id,
-            "currencyType": currency_type.value,
-            "taxtypes": taxtypes.value,
+            "currencyType": currency_type,
+            "taxtypes": taxtypes,
         }
 
         return self.__client.make_request(
@@ -501,7 +539,7 @@ class DataOutgoingInvoice30:
         )
 
     def get_gross_by_currency_type(
-        self, invoice_id: int, currency_type: CurrencyType
+        self, invoice_id: int, currency_type: Union[CurrencyType, int]
     ) -> DoubleResult:
         """
         Returns an instance of DoubleResult, which contains the invoice amount in the specified (project or home) currency.
@@ -516,7 +554,14 @@ class DataOutgoingInvoice30:
         proxy = self.__client.plunet_server.DataOutgoingInvoice30.getGrossByCurrencyType
         response_model = DoubleResult
 
-        arg = {"invoiceID": invoice_id, "currencyType": currency_type.value}
+        if type(currency_type) == CurrencyType:
+            currency_type = currency_type.value
+        elif type(currency_type) == int:
+            currency_type = currency_type
+        else:
+            currency_type = int(currency_type)
+
+        arg = {"invoiceID": invoice_id, "currencyType": currency_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -666,7 +711,7 @@ class DataOutgoingInvoice30:
         )
 
     def get_paid_by_currency_type(
-        self, invoice_id: int, currency_type: CurrencyType
+        self, invoice_id: int, currency_type: Union[CurrencyType, int]
     ) -> DoubleResult:
         """
         Returns an instance of DoubleResult, which contains the invoice amount
@@ -682,7 +727,14 @@ class DataOutgoingInvoice30:
         proxy = self.__client.plunet_server.DataOutgoingInvoice30.getPaidByCurrencyType
         response_model = DoubleResult
 
-        arg = {"invoiceID": invoice_id, "currencyType": currency_type.value}
+        if type(currency_type) == CurrencyType:
+            currency_type = currency_type.value
+        elif type(currency_type) == int:
+            currency_type = currency_type
+        else:
+            currency_type = int(currency_type)
+
+        arg = {"invoiceID": invoice_id, "currencyType": currency_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -1115,7 +1167,7 @@ class DataOutgoingInvoice30:
 
     def set_pricelist(self, invoice_item_id: int, price_list_id: int) -> Result:
         """
-        Set´s the selected Pricelist for the specified invoice item.
+        SetÂ´s the selected Pricelist for the specified invoice item.
 
 
         :param invoice_item_id: int
@@ -1204,7 +1256,7 @@ class DataOutgoingInvoice30:
     def get_price_unit(self, price_unit_id: int, language_code: str) -> PriceUnitResult:
         """
         Returns a PriceUnitResult object.
-        Possible PriceUnit´s can be obtained over DataItem30.getPriceUnit_List(java.lang.String, java.lang.String, java.lang.String)
+        Possible PriceUnitÂ´s can be obtained over DataItem30.getPriceUnit_List(java.lang.String, java.lang.String, java.lang.String)
 
 
         :param price_unit_id: int

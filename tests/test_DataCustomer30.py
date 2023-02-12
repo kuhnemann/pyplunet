@@ -592,6 +592,7 @@ def test_DataCustomer30_insert2(pc: PlunetClient, test_set: test_set_DataCustome
         return
     assert type(resp) == IntegerResult
     print(f"test_DataCustomer30_insert2 was successful.")
+    return resp.data
 
 
 
@@ -1000,9 +1001,10 @@ def test_DataCustomer30_get_account(pc: PlunetClient, test_set: test_set_DataCus
 if __name__ == '__main__':
     pc = get_test_client()
     test_set = get_test_set()
-    test_DataCustomer30_update(pc, test_set)
-    test_DataCustomer30_delete(pc, test_set)
     test_DataCustomer30_insert(pc, test_set)
+    customer_id = test_DataCustomer30_insert2(pc, test_set)
+    test_set.customer_id = customer_id
+    test_DataCustomer30_update(pc, test_set)
     test_DataCustomer30_search(pc, test_set)
     test_DataCustomer30_get_currency(pc, test_set)
     test_DataCustomer30_get_full_name(pc, test_set)
@@ -1032,7 +1034,6 @@ if __name__ == '__main__':
     test_DataCustomer30_register_callback_observer(pc, test_set)
     test_DataCustomer30_get_name1(pc, test_set)
     test_DataCustomer30_set_name2(pc, test_set)
-    test_DataCustomer30_insert2(pc, test_set)
     test_DataCustomer30_set_name1(pc, test_set)
     test_DataCustomer30_set_external_id(pc, test_set)
     test_DataCustomer30_get_external_id(pc, test_set)
@@ -1059,3 +1060,4 @@ if __name__ == '__main__':
     test_DataCustomer30_set_dossier(pc, test_set)
     test_DataCustomer30_get_dossier(pc, test_set)
     test_DataCustomer30_get_account(pc, test_set)
+    test_DataCustomer30_delete(pc, test_set)

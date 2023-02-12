@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Union
 
 from ..enums import FolderTypes
 from ..models import FileResult, Result, StringArrayResult
@@ -16,7 +16,7 @@ class DataDocument30:
     def upload_document(
         self,
         main_id: int,
-        folder_type: FolderTypes,
+        folder_type: Union[FolderTypes, int],
         file_byte_stream: bytes,
         file_path_name: str,
         file_size: int,
@@ -34,12 +34,12 @@ class DataDocument30:
         Example:
 
 
-        To upload file into a subfolder &#34;test&#34; within the source folder of the order (id=500)
+        To upload file into a subfolder "test" within the source folder of the order (id=500)
 
 
         MainID = 500
         FolderType = 6
-        FilePathName = &#34;test\my_file.txt&#34;
+        FilePathName = "test\my_file.txt"
 
 
         :param main_id: int
@@ -53,9 +53,16 @@ class DataDocument30:
         proxy = self.__client.plunet_server.DataDocument30.upload_Document
         response_model = Result
 
+        if type(folder_type) == FolderTypes:
+            folder_type = folder_type.value
+        elif type(folder_type) == int:
+            folder_type = folder_type
+        else:
+            folder_type = int(folder_type)
+
         arg = {
             "MainID": main_id,
-            "FolderType": folder_type.value,
+            "FolderType": folder_type,
             "FileByteStream": file_byte_stream,
             "FilePathName": file_path_name,
             "FileSize": file_size,
@@ -69,7 +76,7 @@ class DataDocument30:
         )
 
     def get_file_list(
-        self, main_id: int, folder_type: FolderTypes
+        self, main_id: int, folder_type: Union[FolderTypes, int]
     ) -> StringArrayResult:
         """
         Returns a StringArrayResult containing all files with all sub folders after the,
@@ -95,7 +102,14 @@ class DataDocument30:
         proxy = self.__client.plunet_server.DataDocument30.getFileList
         response_model = StringArrayResult
 
-        arg = {"MainID": main_id, "FolderType": folder_type.value}
+        if type(folder_type) == FolderTypes:
+            folder_type = folder_type.value
+        elif type(folder_type) == int:
+            folder_type = folder_type
+        else:
+            folder_type = int(folder_type)
+
+        arg = {"MainID": main_id, "FolderType": folder_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -105,7 +119,7 @@ class DataDocument30:
         )
 
     def download_document(
-        self, main_id: int, folder_type: FolderTypes, file_path_name: str
+        self, main_id: int, folder_type: Union[FolderTypes, int], file_path_name: str
     ) -> FileResult:
         """
         Returns a FileResult containing the specified file as byte-stream.
@@ -122,9 +136,16 @@ class DataDocument30:
         proxy = self.__client.plunet_server.DataDocument30.download_Document
         response_model = FileResult
 
+        if type(folder_type) == FolderTypes:
+            folder_type = folder_type.value
+        elif type(folder_type) == int:
+            folder_type = folder_type
+        else:
+            folder_type = int(folder_type)
+
         arg = {
             "MainID": main_id,
-            "FolderType": folder_type.value,
+            "FolderType": folder_type,
             "FilePathName": file_path_name,
         }
 

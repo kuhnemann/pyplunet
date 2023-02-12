@@ -396,7 +396,7 @@ class DataResource30:
         self,
     ) -> IntegerArrayResult:
         """
-        Returns a list of all available accountID´s.
+        Returns a list of all available accountIDÂ´s.
 
 
         :return: IntegerArrayResult
@@ -416,7 +416,7 @@ class DataResource30:
         self,
         server_authentication_string: str,
         server_address: str,
-        event_type: EventType,
+        event_type: Union[EventType, int],
     ) -> Result:
         """
         Register to get notified when the specified EventType occurs
@@ -438,7 +438,7 @@ class DataResource30:
         http://mypath/subfolder?wsdl
 
         In the first two cases, the address will be autocompleted by appending
-        the corresponding directory &#34;CallbackResource30?wsdl&#34;.
+        the corresponding directory "CallbackResource30?wsdl".
 
         A list of all registered callbacks can be accessed with
         DataAdmin30.getListOfRegisteredCallbacks(String)
@@ -453,10 +453,17 @@ class DataResource30:
         proxy = self.__client.plunet_server.DataResource30.registerCallback_Notify
         response_model = Result
 
+        if type(event_type) == EventType:
+            event_type = event_type.value
+        elif type(event_type) == int:
+            event_type = event_type
+        else:
+            event_type = int(event_type)
+
         arg = {
             "ServerAuthenticationString": server_authentication_string,
             "ServerAddress": server_address,
-            "EventType": event_type.value,
+            "EventType": event_type,
         }
 
         return self.__client.make_request(
@@ -566,7 +573,7 @@ class DataResource30:
             unpack_dict=False,
         )
 
-    def deregister_callback_notify(self, event_type: EventType) -> Result:
+    def deregister_callback_notify(self, event_type: Union[EventType, int]) -> Result:
         """
         Deletes an registered notify request.
 
@@ -583,9 +590,16 @@ class DataResource30:
         proxy = self.__client.plunet_server.DataResource30.deregisterCallback_Notify
         response_model = Result
 
+        if type(event_type) == EventType:
+            event_type = event_type.value
+        elif type(event_type) == int:
+            event_type = event_type
+        else:
+            event_type = int(event_type)
+
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=event_type.value,
+            argument=event_type,
             response_model=response_model,
             unpack_dict=False,
         )
@@ -612,7 +626,7 @@ class DataResource30:
         http://mypath/subfolder?wsdl
 
         In the first two cases, the address will be autocompleted by appending
-        the corresponding directory &#34;CallbackResource30?wsdl&#34;.
+        the corresponding directory "CallbackResource30?wsdl".
 
         A list of all registered callbacks can be accessed with
         DataAdmin30.getListOfRegisteredCallbacks(String)
@@ -1376,7 +1390,7 @@ class DataResource30:
         )
 
     def set_resource_type(
-        self, resource_type: ResourceType, resource_id: int
+        self, resource_type: Union[ResourceType, int], resource_id: int
     ) -> Result:
         """
         Method to set the ResourceType. Returns an instance of
@@ -1391,7 +1405,14 @@ class DataResource30:
         proxy = self.__client.plunet_server.DataResource30.setResourceType
         response_model = Result
 
-        arg = {"ResourceType": resource_type.value, "resourceID": resource_id}
+        if type(resource_type) == ResourceType:
+            resource_type = resource_type.value
+        elif type(resource_type) == int:
+            resource_type = resource_type
+        else:
+            resource_type = int(resource_type)
+
+        arg = {"ResourceType": resource_type, "resourceID": resource_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,

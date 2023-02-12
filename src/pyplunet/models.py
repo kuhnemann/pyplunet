@@ -1511,7 +1511,7 @@ class OrderIN(BaseModel):
     projectManagerID: int
     projectManagerMemo: Optional[str]
     projectName: Optional[str]
-    rate: float
+    rate: Optional[float]
     referenceNumber: Optional[str]
     subject: Optional[str]
     

@@ -121,7 +121,7 @@ class DataJobRound30:
         )
 
     def get_assigned_round_id(
-        self, job_id: int, project_type: ProjectType
+        self, job_id: int, project_type: Union[ProjectType, int]
     ) -> IntegerResult:
         """
         Returns the roundId of the assigned round of the job.
@@ -135,7 +135,14 @@ class DataJobRound30:
         proxy = self.__client.plunet_server.DataJobRound30.getAssignedRoundID
         response_model = IntegerResult
 
-        arg = {"jobID": job_id, "projectType": project_type.value}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"jobID": job_id, "projectType": project_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -309,7 +316,7 @@ class DataJobRound30:
         )
 
     def get_all_round_i_ds(
-        self, job_id: int, project_type: ProjectType
+        self, job_id: int, project_type: Union[ProjectType, int]
     ) -> IntegerArrayResult:
         """
         Returns all roundIDs corresponding to the job.
@@ -323,7 +330,14 @@ class DataJobRound30:
         proxy = self.__client.plunet_server.DataJobRound30.getAllRoundIDs
         response_model = IntegerArrayResult
 
-        arg = {"jobID": job_id, "projectType": project_type.value}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"jobID": job_id, "projectType": project_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -335,7 +349,7 @@ class DataJobRound30:
     def add_round(
         self,
         job_id: int,
-        project_type: ProjectType,
+        project_type: Union[ProjectType, int],
         job_round_in: Union[JobRoundIN, dict],
     ) -> IntegerResult:
         """
@@ -360,11 +374,14 @@ class DataJobRound30:
         else:
             job_round_in = job_round_in.dict()
 
-        arg = {
-            "jobID": job_id,
-            "projectType": project_type.value,
-            "jobRoundIN": job_round_in,
-        }
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"jobID": job_id, "projectType": project_type, "jobRoundIN": job_round_in}
 
         return self.__client.make_request(
             operation_proxy=proxy,

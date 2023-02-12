@@ -83,52 +83,6 @@ class test_set_DataJob30(BaseModel):
     status: int
     due_date: datetime
 
-def get_test_set() -> test_set_DataJob30:
-    return test_set_DataJob30(
-            job_in= ,
-            enable_null_or_empty_values= ,
-            project_id= ,
-            project_type= ,
-            job_type_abbrevation= ,
-            job_id= ,
-            comment= ,
-            path_or_url= ,
-            overwrite_existing_price_lines= ,
-            cat_type= ,
-            analyze_and_copy_result_to_job= ,
-            file_byte_stream= ,
-            file_path_name= ,
-            filesize= ,
-            language_code= ,
-            service= ,
-            pricelist_id= ,
-            source_language= ,
-            target_language= ,
-            job_tracking_time_list_in= ,
-            job_i_ds= ,
-            resource_id= ,
-            contact_id= ,
-            target_file_name= ,
-            item_id= ,
-            job_tracking_time_in= ,
-            currency_type= ,
-            description= ,
-            server_authentication_string= ,
-            server_address= ,
-            event_type= ,
-            price_list_id= ,
-            price_line_in= ,
-            create_as_first_item= ,
-            price_unit_id= ,
-            user_id= ,
-            action_link_type= ,
-            price_line_id= ,
-            job_type_short= ,
-            start_date= ,
-            note= ,
-            status= ,
-            due_date= 
-    )
 
 
 def test_DataJob30_update(pc: PlunetClient, test_set: test_set_DataJob30):
@@ -1130,64 +1084,10 @@ def test_DataJob30_get_resource_id(pc: PlunetClient, test_set: test_set_DataJob3
 
 if __name__ == '__main__':
     pc = get_test_client()
-    test_set = get_test_set()
-    test_DataJob30_update(pc, test_set)
-    test_DataJob30_insert(pc, test_set)
-    test_DataJob30_get_comment(pc, test_set)
-    test_DataJob30_set_comment(pc, test_set)
-    test_DataJob30_set_cat_report(pc, test_set)
-    test_DataJob30_set_cat_report2(pc, test_set)
-    test_DataJob30_get_pricelist_list(pc, test_set)
-    test_DataJob30_get_price_unit_list(pc, test_set)
-    test_DataJob30_get_pricelist_entry_list(pc, test_set)
-    test_DataJob30_get_price_line_list(pc, test_set)
-    test_DataJob30_get_contact_person_id(pc, test_set)
-    test_DataJob30_add_job_tracking_times_list(pc, test_set)
-    test_DataJob30_get_job_list_for_view(pc, test_set)
-    test_DataJob30_set_contact_person_id(pc, test_set)
-    test_DataJob30_set_resource_contact_person_id(pc, test_set)
-    test_DataJob30_get_download_url_source_data(pc, test_set)
-    test_DataJob30_get_item_independent_jobs(pc, test_set)
-    test_DataJob30_get_job_list_of_item_for_view(pc, test_set)
-    test_DataJob30_get_job_type_short_name(pc, test_set)
-    test_DataJob30_get_job_tracking_times_list(pc, test_set)
-    test_DataJob30_add_job_tracking_time(pc, test_set)
-    test_DataJob30_get_price_line_list_by_currency_type(pc, test_set)
-    test_DataJob30_get_job_type_long_name(pc, test_set)
-    test_DataJob30_get_resource_contact_person_id(pc, test_set)
-    test_DataJob30_get_currency(pc, test_set)
-    test_DataJob30_get_description(pc, test_set)
-    test_DataJob30_set_description(pc, test_set)
-    test_DataJob30_set_item_id(pc, test_set)
-    test_DataJob30_deregister_callback_observer(pc, test_set)
-    test_DataJob30_register_callback_notify(pc, test_set)
-    test_DataJob30_deregister_callback_notify(pc, test_set)
-    test_DataJob30_register_callback_observer(pc, test_set)
-    test_DataJob30_get_creation_date(pc, test_set)
-    test_DataJob30_get_delivery_date(pc, test_set)
-    test_DataJob30_get_pricelist(pc, test_set)
-    test_DataJob30_set_pricelist(pc, test_set)
-    test_DataJob30_insert_price_line(pc, test_set)
-    test_DataJob30_update_price_line(pc, test_set)
-    test_DataJob30_get_price_unit(pc, test_set)
-    test_DataJob30_get_services_list(pc, test_set)
-    test_DataJob30_get_action_link(pc, test_set)
-    test_DataJob30_delete_price_line(pc, test_set)
-    test_DataJob30_insert3(pc, test_set)
-    test_DataJob30_get_job_metrics(pc, test_set)
-    test_DataJob30_get_due_date(pc, test_set)
-    test_DataJob30_assign_job(pc, test_set)
-    test_DataJob30_set_price_liste_id(pc, test_set)
-    test_DataJob30_set_start_date(pc, test_set)
-    test_DataJob30_get_job_for_view(pc, test_set)
-    test_DataJob30_delete_job(pc, test_set)
-    test_DataJob30_get_payable_id(pc, test_set)
-    test_DataJob30_get_delivery_note(pc, test_set)
-    test_DataJob30_set_delivery_note(pc, test_set)
-    test_DataJob30_set_job_status(pc, test_set)
-    test_DataJob30_get_job_number(pc, test_set)
-    test_DataJob30_run_automatic_job(pc, test_set)
-    test_DataJob30_set_due_date(pc, test_set)
-    test_DataJob30_insert2(pc, test_set)
-    test_DataJob30_set_resource_id(pc, test_set)
-    test_DataJob30_get_resource_id(pc, test_set)
+
+    c = pc.item.get_all_item_objects(project_type=ProjectType.ORDER, project_id=1)
+    for item in c.data:
+        for job_id in item.jobIDList:
+            job_type = pc.job.get_job_type_short_name(project_type=ProjectType.ORDER, job_id=job_id)
+            if job_type.data == "TRA":
+                print(job_id, job_type.data)

@@ -66,7 +66,7 @@ class DataItem30:
             unpack_dict=True,
         )
 
-    def delete(self, item_id: int, project_type: ProjectType) -> Result:
+    def delete(self, item_id: int, project_type: Union[ProjectType, int]) -> Result:
         """
         Deletes the specified item.
 
@@ -79,7 +79,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.delete
         response_model = Result
 
-        arg = {"itemID": item_id, "projectType": project_type.value}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"itemID": item_id, "projectType": project_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -88,7 +95,9 @@ class DataItem30:
             unpack_dict=True,
         )
 
-    def insert(self, project_id: int, project_type: ProjectType) -> IntegerResult:
+    def insert(
+        self, project_id: int, project_type: Union[ProjectType, int]
+    ) -> IntegerResult:
         """
         Inserts a new item into the the specified project
 
@@ -101,7 +110,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.insert
         response_model = IntegerResult
 
-        arg = {"projectID": project_id, "projectType": project_type.value}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"projectID": project_id, "projectType": project_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -110,7 +126,9 @@ class DataItem30:
             unpack_dict=True,
         )
 
-    def get_comment(self, project_type: ProjectType, item_id: int) -> StringResult:
+    def get_comment(
+        self, project_type: Union[ProjectType, int], item_id: int
+    ) -> StringResult:
         """
         Method returns an instance of StringResult, which contains the comment depending on the
         itemID.
@@ -124,7 +142,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getComment
         response_model = StringResult
 
-        arg = {"projectType": project_type.value, "itemID": item_id}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"projectType": project_type, "itemID": item_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -134,7 +159,7 @@ class DataItem30:
         )
 
     def set_comment(
-        self, comment: str, project_type: ProjectType, item_id: int
+        self, comment: str, project_type: Union[ProjectType, int], item_id: int
     ) -> Result:
         """
         Method sets the comment depending on the itemID.
@@ -149,7 +174,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.setComment
         response_model = Result
 
-        arg = {"comment": comment, "projectType": project_type.value, "itemID": item_id}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"comment": comment, "projectType": project_type, "itemID": item_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -162,8 +194,8 @@ class DataItem30:
         self,
         path_or_url: str,
         overwrite_existing_price_lines: bool,
-        cat_type: CatType,
-        project_type: ProjectType,
+        cat_type: Union[CatType, int],
+        project_type: Union[ProjectType, int],
         copy_results_to_item: bool,
         item_id: int,
     ) -> Result:
@@ -192,11 +224,25 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.setCatReport
         response_model = Result
 
+        if type(cat_type) == CatType:
+            cat_type = cat_type.value
+        elif type(cat_type) == int:
+            cat_type = cat_type
+        else:
+            cat_type = int(cat_type)
+
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
         arg = {
             "pathOrUrl": path_or_url,
             "overwriteExistingPriceLines": overwrite_existing_price_lines,
-            "catType": cat_type.value,
-            "projectType": project_type.value,
+            "catType": cat_type,
+            "projectType": project_type,
             "copyResultsToItem": copy_results_to_item,
             "itemID": item_id,
         }
@@ -208,7 +254,9 @@ class DataItem30:
             unpack_dict=True,
         )
 
-    def get_invoice_id(self, project_type: ProjectType, item_id: int) -> IntegerResult:
+    def get_invoice_id(
+        self, project_type: Union[ProjectType, int], item_id: int
+    ) -> IntegerResult:
         """
         Method returns an instance of IntegerResult, which contains the ID of the invoice for the
         currently selected item.
@@ -224,7 +272,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getInvoiceID
         response_model = IntegerResult
 
-        arg = {"projectType": project_type.value, "itemID": item_id}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"projectType": project_type, "itemID": item_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -234,7 +289,7 @@ class DataItem30:
         )
 
     def get_all_items(
-        self, project_type: ProjectType, project_id: int
+        self, project_type: Union[ProjectType, int], project_id: int
     ) -> IntegerArrayResult:
         """
         Method returns an instance of IntegerArrayResult, which contains a list of all item
@@ -249,7 +304,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getAllItems
         response_model = IntegerArrayResult
 
-        arg = {"projectType": project_type.value, "projectID": project_id}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"projectType": project_type, "projectID": project_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -259,7 +321,7 @@ class DataItem30:
         )
 
     def set_total_price(
-        self, project_type: ProjectType, total_price: float, item_id: int
+        self, project_type: Union[ProjectType, int], total_price: float, item_id: int
     ) -> Result:
         """
         Method sets total price for an item (project currency).
@@ -274,8 +336,15 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.setTotalPrice
         response_model = Result
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
         arg = {
-            "projectType": project_type.value,
+            "projectType": project_type,
             "totalPrice": total_price,
             "itemID": item_id,
         }
@@ -293,8 +362,8 @@ class DataItem30:
         file_path_name: str,
         filesize: int,
         overwrite_existing_price_lines: bool,
-        cat_type: CatType,
-        project_type: ProjectType,
+        cat_type: Union[CatType, int],
+        project_type: Union[ProjectType, int],
         copy_results_to_item: bool,
         item_id: int,
     ) -> Result:
@@ -319,13 +388,27 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.setCatReport2
         response_model = Result
 
+        if type(cat_type) == CatType:
+            cat_type = cat_type.value
+        elif type(cat_type) == int:
+            cat_type = cat_type
+        else:
+            cat_type = int(cat_type)
+
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
         arg = {
             "FileByteStream": file_byte_stream,
             "FilePathName": file_path_name,
             "Filesize": filesize,
             "overwriteExistingPriceLines": overwrite_existing_price_lines,
-            "catType": cat_type.value,
-            "projectType": project_type.value,
+            "catType": cat_type,
+            "projectType": project_type,
             "copyResultsToItem": copy_results_to_item,
             "itemID": item_id,
         }
@@ -337,7 +420,9 @@ class DataItem30:
             unpack_dict=True,
         )
 
-    def get_jobs(self, project_type: ProjectType, item_id: int) -> IntegerArrayResult:
+    def get_jobs(
+        self, project_type: Union[ProjectType, int], item_id: int
+    ) -> IntegerArrayResult:
         """
         Method returns an instance of IntegerArrayResult, which contains all job IDs depending on the
         itemID.
@@ -351,7 +436,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getJobs
         response_model = IntegerArrayResult
 
-        arg = {"projectType": project_type.value, "itemID": item_id}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"projectType": project_type, "itemID": item_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -360,7 +452,9 @@ class DataItem30:
             unpack_dict=True,
         )
 
-    def get_item_object(self, project_type: ProjectType, item_id: int) -> ItemResult:
+    def get_item_object(
+        self, project_type: Union[ProjectType, int], item_id: int
+    ) -> ItemResult:
         """
         Method returns an instance of ItemResult.
 
@@ -373,7 +467,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getItemObject
         response_model = ItemResult
 
-        arg = {"projectType": project_type.value, "itemID": item_id}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"projectType": project_type, "itemID": item_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -382,7 +483,9 @@ class DataItem30:
             unpack_dict=True,
         )
 
-    def get_total_price(self, project_type: ProjectType, item_id: int) -> DoubleResult:
+    def get_total_price(
+        self, project_type: Union[ProjectType, int], item_id: int
+    ) -> DoubleResult:
         """
         Method returns total price for an item (project currency).
 
@@ -395,7 +498,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getTotalPrice
         response_model = DoubleResult
 
-        arg = {"projectType": project_type.value, "itemID": item_id}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"projectType": project_type, "itemID": item_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -405,7 +515,7 @@ class DataItem30:
         )
 
     def get_items_by_status2(
-        self, project_id: int, project_type: ProjectType, status: int
+        self, project_id: int, project_type: Union[ProjectType, int], status: int
     ) -> ItemListResult:
         """
         Method returns an instance of ItemListResult, which contains a list of item objects for a
@@ -423,11 +533,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getItemsByStatus2
         response_model = ItemListResult
 
-        arg = {
-            "projectID": project_id,
-            "projectType": project_type.value,
-            "status": status,
-        }
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"projectID": project_id, "projectType": project_type, "status": status}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -437,7 +550,7 @@ class DataItem30:
         )
 
     def set_delivery_deadline(
-        self, deadline: datetime, project_type: ProjectType, item_id: int
+        self, deadline: datetime, project_type: Union[ProjectType, int], item_id: int
     ) -> Result:
         """
         Method sets the delivery deadline for the specified item.
@@ -452,11 +565,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.setDeliveryDeadline
         response_model = Result
 
-        arg = {
-            "deadline": deadline,
-            "projectType": project_type.value,
-            "itemID": item_id,
-        }
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"deadline": deadline, "projectType": project_type, "itemID": item_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -466,7 +582,7 @@ class DataItem30:
         )
 
     def get_brief_description(
-        self, project_type: ProjectType, item_id: int
+        self, project_type: Union[ProjectType, int], item_id: int
     ) -> StringResult:
         """
         Method returns an instance of StringResult, which contains the the brief description
@@ -481,7 +597,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getBriefDescription
         response_model = StringResult
 
-        arg = {"projectType": project_type.value, "itemID": item_id}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"projectType": project_type, "itemID": item_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -491,7 +614,7 @@ class DataItem30:
         )
 
     def get_target_language(
-        self, project_type: ProjectType, item_id: int
+        self, project_type: Union[ProjectType, int], item_id: int
     ) -> StringResult:
         """
         Method returns an instance of StringResult, which contains the target language depending on
@@ -506,7 +629,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getTargetLanguage
         response_model = StringResult
 
-        arg = {"projectType": project_type.value, "itemID": item_id}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"projectType": project_type, "itemID": item_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -516,7 +646,7 @@ class DataItem30:
         )
 
     def get_items_by_status1(
-        self, project_type: ProjectType, status: int
+        self, project_type: Union[ProjectType, int], status: int
     ) -> ItemListResult:
         """
         Method returns an instance of ItemListResult, which contains a list of item objects. Items are
@@ -531,7 +661,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getItemsByStatus1
         response_model = ItemListResult
 
-        arg = {"projectType": project_type.value, "status": status}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"projectType": project_type, "status": status}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -541,7 +678,7 @@ class DataItem30:
         )
 
     def get_source_language(
-        self, project_type: ProjectType, item_id: int
+        self, project_type: Union[ProjectType, int], item_id: int
     ) -> StringResult:
         """
         Method returns an instance of StringResult, the source language depending on the itemID
@@ -555,7 +692,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getSourceLanguage
         response_model = StringResult
 
-        arg = {"projectType": project_type.value, "itemID": item_id}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"projectType": project_type, "itemID": item_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -565,7 +709,7 @@ class DataItem30:
         )
 
     def get_all_item_objects(
-        self, project_id: int, project_type: ProjectType
+        self, project_id: int, project_type: Union[ProjectType, int]
     ) -> ItemListResult:
         """
         Method returns an instance of ItemListResult, which contains a list of item objects.
@@ -579,7 +723,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getAllItemObjects
         response_model = ItemListResult
 
-        arg = {"projectID": project_id, "projectType": project_type.value}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"projectID": project_id, "projectType": project_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -589,7 +740,7 @@ class DataItem30:
         )
 
     def get_delivery_deadline(
-        self, project_type: ProjectType, item_id: int
+        self, project_type: Union[ProjectType, int], item_id: int
     ) -> DateResult:
         """
         Method returns an instance of DateResult, which contains the delivery deadline
@@ -604,7 +755,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getDeliveryDeadline
         response_model = DateResult
 
-        arg = {"projectType": project_type.value, "itemID": item_id}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"projectType": project_type, "itemID": item_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -614,7 +772,7 @@ class DataItem30:
         )
 
     def get_items_by_status3(
-        self, project_type: ProjectType, status: int, document_status: int
+        self, project_type: Union[ProjectType, int], status: int, document_status: int
     ) -> ItemListResult:
         """
         Method returns an instance of ItemListResult, which contains a list of item objects.
@@ -631,8 +789,15 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getItemsByStatus3
         response_model = ItemListResult
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
         arg = {
-            "projectType": project_type.value,
+            "projectType": project_type,
             "status": status,
             "documentStatus": document_status,
         }
@@ -645,7 +810,7 @@ class DataItem30:
         )
 
     def set_brief_description(
-        self, description: str, project_type: ProjectType, item_id: int
+        self, description: str, project_type: Union[ProjectType, int], item_id: int
     ) -> Result:
         """
         Method sets the brief description for the currently selected item.
@@ -660,9 +825,16 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.setBriefDescription
         response_model = Result
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
         arg = {
             "description": description,
-            "projectType": project_type.value,
+            "projectType": project_type,
             "itemID": item_id,
         }
 
@@ -674,7 +846,7 @@ class DataItem30:
         )
 
     def get_document_status(
-        self, project_type: ProjectType, item_id: int
+        self, project_type: Union[ProjectType, int], item_id: int
     ) -> IntegerResult:
         """
         Method returns an instance of IntegerResult, which contains the DocumentStatus
@@ -689,7 +861,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getDocumentStatus
         response_model = IntegerResult
 
-        arg = {"projectType": project_type.value, "itemID": item_id}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"projectType": project_type, "itemID": item_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -702,7 +881,7 @@ class DataItem30:
         self,
         source_language: str,
         target_language: str,
-        project_type: ProjectType,
+        project_type: Union[ProjectType, int],
         project_id: int,
         item_id: int,
     ) -> IntegerResult:
@@ -722,10 +901,17 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.addLanguageCombination
         response_model = IntegerResult
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
         arg = {
             "sourceLanguage": source_language,
             "targetLanguage": target_language,
-            "projectType": project_type.value,
+            "projectType": project_type,
             "projectID": project_id,
             "itemID": item_id,
         }
@@ -740,7 +926,7 @@ class DataItem30:
     def get_items_by_status4(
         self,
         project_id: int,
-        project_type: ProjectType,
+        project_type: Union[ProjectType, int],
         status: int,
         document_status: int,
     ) -> ItemListResult:
@@ -761,9 +947,16 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getItemsByStatus4
         response_model = ItemListResult
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
         arg = {
             "projectID": project_id,
-            "projectType": project_type.value,
+            "projectType": project_type,
             "status": status,
             "documentStatus": document_status,
         }
@@ -776,7 +969,7 @@ class DataItem30:
         )
 
     def set_document_status(
-        self, document_status: int, project_type: ProjectType, item_id: int
+        self, document_status: int, project_type: Union[ProjectType, int], item_id: int
     ) -> Result:
         """
         Method to set the DocumentStatus for the specified item.
@@ -791,9 +984,16 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.setDocumentStatus
         response_model = Result
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
         arg = {
             "documentStatus": document_status,
-            "projectType": project_type.value,
+            "projectType": project_type,
             "itemID": item_id,
         }
 
@@ -805,7 +1005,7 @@ class DataItem30:
         )
 
     def get_jobs_with_status(
-        self, status: int, project_type: ProjectType, item_id: int
+        self, status: int, project_type: Union[ProjectType, int], item_id: int
     ) -> IntegerArrayResult:
         """
         Method returns an instance of IntegerArrayResult, which contains a list of IDs of job, which
@@ -821,7 +1021,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getJobsWithStatus
         response_model = IntegerArrayResult
 
-        arg = {"Status": status, "projectType": project_type.value, "itemID": item_id}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"Status": status, "projectType": project_type, "itemID": item_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -831,7 +1038,10 @@ class DataItem30:
         )
 
     def set_language_combination_id(
-        self, language_combination_id: int, project_type: ProjectType, item_id: int
+        self,
+        language_combination_id: int,
+        project_type: Union[ProjectType, int],
+        item_id: int,
     ) -> Result:
         """
         Method sets the language combination ID for the specified item.
@@ -846,9 +1056,16 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.setLanguageCombinationID
         response_model = Result
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
         arg = {
             "languageCombinationID": language_combination_id,
-            "projectType": project_type.value,
+            "projectType": project_type,
             "itemID": item_id,
         }
 
@@ -863,7 +1080,7 @@ class DataItem30:
         self,
         source_language: str,
         target_language: str,
-        project_type: ProjectType,
+        project_type: Union[ProjectType, int],
         project_id: int,
         item_id: int,
     ) -> IntegerResult:
@@ -883,10 +1100,17 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.seekLanguageCombination
         response_model = IntegerResult
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
         arg = {
             "sourceLanguage": source_language,
             "targetLanguage": target_language,
-            "projectType": project_type.value,
+            "projectType": project_type,
             "projectID": project_id,
             "itemID": item_id,
         }
@@ -899,7 +1123,7 @@ class DataItem30:
         )
 
     def get_default_contact_person(
-        self, project_type: ProjectType, item_id: int
+        self, project_type: Union[ProjectType, int], item_id: int
     ) -> IntegerResult:
         """
         Returns the resourceID of the default contact person set for the item.
@@ -913,7 +1137,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getDefaultContactPerson
         response_model = IntegerResult
 
-        arg = {"projectType": project_type.value, "itemID": item_id}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"projectType": project_type, "itemID": item_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -923,7 +1154,7 @@ class DataItem30:
         )
 
     def get_pricelist_list(
-        self, item_id: int, project_type: ProjectType
+        self, item_id: int, project_type: Union[ProjectType, int]
     ) -> PricelistListResult:
         """
         Returns all avaliable Pricelist for this item.
@@ -939,7 +1170,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getPricelist_List
         response_model = PricelistListResult
 
-        arg = {"itemID": item_id, "projectType": project_type.value}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"itemID": item_id, "projectType": project_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -977,7 +1215,7 @@ class DataItem30:
         )
 
     def copy_jobs_from_workflow(
-        self, workflow_id: int, project_type: ProjectType, item_id: int
+        self, workflow_id: int, project_type: Union[ProjectType, int], item_id: int
     ) -> Result:
         """
         Adds all jobs from the workflow jobs to the position.
@@ -992,9 +1230,16 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.copyJobsFromWorkflow
         response_model = Result
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
         arg = {
             "workflowID": workflow_id,
-            "projectType": project_type.value,
+            "projectType": project_type,
             "itemID": item_id,
         }
 
@@ -1008,10 +1253,10 @@ class DataItem30:
     def get_items_by_status4_by_currency_type(
         self,
         project_id: int,
-        project_type: ProjectType,
+        project_type: Union[ProjectType, int],
         status: int,
         document_status: int,
-        current_type: CurrencyType,
+        current_type: Union[CurrencyType, int],
     ) -> ItemListResult:
         """
         Method returns an instance of ItemListResult, which contains a list of item objects for a
@@ -1032,12 +1277,26 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getItemsByStatus4ByCurrencyType
         response_model = ItemListResult
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        if type(current_type) == CurrencyType:
+            current_type = current_type.value
+        elif type(current_type) == int:
+            current_type = current_type
+        else:
+            current_type = int(current_type)
+
         arg = {
             "projectID": project_id,
-            "projectType": project_type.value,
+            "projectType": project_type,
             "status": status,
             "documentStatus": document_status,
-            "currentType": current_type.value,
+            "currentType": current_type,
         }
 
         return self.__client.make_request(
@@ -1048,7 +1307,10 @@ class DataItem30:
         )
 
     def get_language_independent_item_object(
-        self, project_type: ProjectType, project_id: int, currency_type: CurrencyType
+        self,
+        project_type: Union[ProjectType, int],
+        project_id: int,
+        currency_type: Union[CurrencyType, int],
     ) -> ItemResult:
         """
         Method returns an instance of ItemResult.
@@ -1066,10 +1328,24 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getLanguageIndependentItemObject
         response_model = ItemResult
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        if type(currency_type) == CurrencyType:
+            currency_type = currency_type.value
+        elif type(currency_type) == int:
+            currency_type = currency_type
+        else:
+            currency_type = int(currency_type)
+
         arg = {
-            "projectType": project_type.value,
+            "projectType": project_type,
             "projectID": project_id,
-            "currencyType": currency_type.value,
+            "currencyType": currency_type,
         }
 
         return self.__client.make_request(
@@ -1080,7 +1356,10 @@ class DataItem30:
         )
 
     def get_total_price_by_currency_type(
-        self, project_type: ProjectType, item_id: int, currency_type: CurrencyType
+        self,
+        project_type: Union[ProjectType, int],
+        item_id: int,
+        currency_type: Union[CurrencyType, int],
     ) -> DoubleResult:
         """
         Method returns total price for an item.
@@ -1097,10 +1376,24 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getTotalPriceByCurrencyType
         response_model = DoubleResult
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        if type(currency_type) == CurrencyType:
+            currency_type = currency_type.value
+        elif type(currency_type) == int:
+            currency_type = currency_type
+        else:
+            currency_type = int(currency_type)
+
         arg = {
-            "projectType": project_type.value,
+            "projectType": project_type,
             "itemID": item_id,
-            "currencyType": currency_type.value,
+            "currencyType": currency_type,
         }
 
         return self.__client.make_request(
@@ -1111,7 +1404,10 @@ class DataItem30:
         )
 
     def get_all_item_objects_by_currency(
-        self, project_id: int, project_type: ProjectType, currency_type: CurrencyType
+        self,
+        project_id: int,
+        project_type: Union[ProjectType, int],
+        currency_type: Union[CurrencyType, int],
     ) -> ItemListResult:
         """
         Method returns an instance of ItemListResult, which contains a list of item objects.
@@ -1129,10 +1425,24 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getAllItemObjectsByCurrency
         response_model = ItemListResult
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        if type(currency_type) == CurrencyType:
+            currency_type = currency_type.value
+        elif type(currency_type) == int:
+            currency_type = currency_type
+        else:
+            currency_type = int(currency_type)
+
         arg = {
             "projectID": project_id,
-            "projectType": project_type.value,
-            "currencyType": currency_type.value,
+            "projectType": project_type,
+            "currencyType": currency_type,
         }
 
         return self.__client.make_request(
@@ -1143,7 +1453,10 @@ class DataItem30:
         )
 
     def get_item_object_by_currency_type(
-        self, project_type: ProjectType, item_id: int, currency_type: CurrencyType
+        self,
+        project_type: Union[ProjectType, int],
+        item_id: int,
+        currency_type: Union[CurrencyType, int],
     ) -> ItemResult:
         """
         Method returns an instance of ItemResult.
@@ -1161,10 +1474,24 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getItemObjectByCurrencyType
         response_model = ItemResult
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        if type(currency_type) == CurrencyType:
+            currency_type = currency_type.value
+        elif type(currency_type) == int:
+            currency_type = currency_type
+        else:
+            currency_type = int(currency_type)
+
         arg = {
-            "projectType": project_type.value,
+            "projectType": project_type,
             "itemID": item_id,
-            "currencyType": currency_type.value,
+            "currencyType": currency_type,
         }
 
         return self.__client.make_request(
@@ -1176,10 +1503,10 @@ class DataItem30:
 
     def get_items_by_status3_by_currency_type(
         self,
-        project_type: ProjectType,
+        project_type: Union[ProjectType, int],
         status: int,
         document_status: int,
-        currency_type: CurrencyType,
+        currency_type: Union[CurrencyType, int],
     ) -> ItemListResult:
         """
         Method returns an instance of ItemListResult, which contains a list of item objects.
@@ -1198,11 +1525,25 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getItemsByStatus3ByCurrencyType
         response_model = ItemListResult
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        if type(currency_type) == CurrencyType:
+            currency_type = currency_type.value
+        elif type(currency_type) == int:
+            currency_type = currency_type
+        else:
+            currency_type = int(currency_type)
+
         arg = {
-            "projectType": project_type.value,
+            "projectType": project_type,
             "status": status,
             "documentStatus": document_status,
-            "currencyType": currency_type.value,
+            "currencyType": currency_type,
         }
 
         return self.__client.make_request(
@@ -1216,7 +1557,7 @@ class DataItem30:
         self,
         source_language: str,
         target_language: str,
-        project_type: ProjectType,
+        project_type: Union[ProjectType, int],
         project_id: int,
     ) -> IntegerResult:
         """
@@ -1236,10 +1577,17 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.addLanguageCombination2
         response_model = IntegerResult
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
         arg = {
             "sourceLanguage": source_language,
             "targetLanguage": target_language,
-            "projectType": project_type.value,
+            "projectType": project_type,
             "projectID": project_id,
         }
 
@@ -1251,7 +1599,7 @@ class DataItem30:
         )
 
     def set_default_contact_person(
-        self, project_type: ProjectType, item_id: int, resource_id: int
+        self, project_type: Union[ProjectType, int], item_id: int, resource_id: int
     ) -> Result:
         """
         Sets the default job contact person for the item.
@@ -1266,8 +1614,15 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.setDefaultContactPerson
         response_model = Result
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
         arg = {
-            "projectType": project_type.value,
+            "projectType": project_type,
             "itemId": item_id,
             "resourceId": resource_id,
         }
@@ -1336,7 +1691,10 @@ class DataItem30:
         )
 
     def get_price_line_list_by_currency(
-        self, item_id: int, project_type: ProjectType, currency_type: CurrencyType
+        self,
+        item_id: int,
+        project_type: Union[ProjectType, int],
+        currency_type: Union[CurrencyType, int],
     ) -> PriceLineListResult:
         """
         Returns a list of all item related PriceLine
@@ -1354,10 +1712,24 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getPriceLine_ListByCurrency
         response_model = PriceLineListResult
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        if type(currency_type) == CurrencyType:
+            currency_type = currency_type.value
+        elif type(currency_type) == int:
+            currency_type = currency_type
+        else:
+            currency_type = int(currency_type)
+
         arg = {
             "itemID": item_id,
-            "projectType": project_type.value,
-            "currencyType": currency_type.value,
+            "projectType": project_type,
+            "currencyType": currency_type,
         }
 
         return self.__client.make_request(
@@ -1368,7 +1740,7 @@ class DataItem30:
         )
 
     def get_price_line_list(
-        self, item_id: int, project_type: ProjectType
+        self, item_id: int, project_type: Union[ProjectType, int]
     ) -> PriceLineListResult:
         """
         Returns a list of all item related PriceLine
@@ -1382,7 +1754,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getPriceLine_List
         response_model = PriceLineListResult
 
-        arg = {"itemID": item_id, "projectType": project_type.value}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"itemID": item_id, "projectType": project_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -1391,7 +1770,9 @@ class DataItem30:
             unpack_dict=True,
         )
 
-    def get_status(self, project_type: ProjectType, item_id: int) -> IntegerResult:
+    def get_status(
+        self, project_type: Union[ProjectType, int], item_id: int
+    ) -> IntegerResult:
         """
         Method returns an instance of IntegerResult, which contains the ItemStatus depending
         on the itemID.
@@ -1405,7 +1786,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getStatus
         response_model = IntegerResult
 
-        arg = {"projectType": project_type.value, "itemID": item_id}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"projectType": project_type, "itemID": item_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -1415,7 +1803,7 @@ class DataItem30:
         )
 
     def set_status(
-        self, status: int, project_type: ProjectType, item_id: int
+        self, status: int, project_type: Union[ProjectType, int], item_id: int
     ) -> Result:
         """
         Method to set the ItemStatus for the specified item.
@@ -1430,7 +1818,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.setStatus
         response_model = Result
 
-        arg = {"status": status, "projectType": project_type.value, "itemID": item_id}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"status": status, "projectType": project_type, "itemID": item_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -1440,7 +1835,7 @@ class DataItem30:
         )
 
     def deregister_callback_observer(
-        self, item_id: int, project_type: ProjectType
+        self, item_id: int, project_type: Union[ProjectType, int]
     ) -> Result:
         """
         Deletes an observer.
@@ -1456,7 +1851,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.deregisterCallback_Observer
         response_model = Result
 
-        arg = {"ItemID": item_id, "ProjectType": project_type.value}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"ItemID": item_id, "ProjectType": project_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -1469,7 +1871,7 @@ class DataItem30:
         self,
         server_authentication_string: str,
         server_address: str,
-        event_type: EventType,
+        event_type: Union[EventType, int],
     ) -> Result:
         """
         Register to get notified when the specified EventType occurs for any item.
@@ -1493,7 +1895,7 @@ class DataItem30:
 
 
         In the first two cases, the address will be autocompleted by appending the corresponding
-        directory &#34;CallbackItem30?wsdl&#34;.
+        directory "CallbackItem30?wsdl".
 
 
         A list of all registered callbacks can be accessed with
@@ -1509,10 +1911,17 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.registerCallback_Notify
         response_model = Result
 
+        if type(event_type) == EventType:
+            event_type = event_type.value
+        elif type(event_type) == int:
+            event_type = event_type
+        else:
+            event_type = int(event_type)
+
         arg = {
             "ServerAuthenticationString": server_authentication_string,
             "ServerAddress": server_address,
-            "EventType": event_type.value,
+            "EventType": event_type,
         }
 
         return self.__client.make_request(
@@ -1522,7 +1931,7 @@ class DataItem30:
             unpack_dict=True,
         )
 
-    def deregister_callback_notify(self, event_type: EventType) -> Result:
+    def deregister_callback_notify(self, event_type: Union[EventType, int]) -> Result:
         """
         Deletes an registered notify request.
 
@@ -1536,9 +1945,16 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.deregisterCallback_Notify
         response_model = Result
 
+        if type(event_type) == EventType:
+            event_type = event_type.value
+        elif type(event_type) == int:
+            event_type = event_type
+        else:
+            event_type = int(event_type)
+
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=event_type.value,
+            argument=event_type,
             response_model=response_model,
             unpack_dict=False,
         )
@@ -1548,7 +1964,7 @@ class DataItem30:
         server_authentication_string: str,
         server_address: str,
         item_id: int,
-        project_type: ProjectType,
+        project_type: Union[ProjectType, int],
     ) -> Result:
         """
         Register to observe a specific object for any supported EventType.
@@ -1572,7 +1988,7 @@ class DataItem30:
 
 
         In the first two cases, the address will be autocompleted by appending the corresponding
-        directory &#34;CallbackItem30?wsdl&#34;.
+        directory "CallbackItem30?wsdl".
 
 
         A list of all registered callbacks can be accessed with
@@ -1589,11 +2005,18 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.registerCallback_Observer
         response_model = Result
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
         arg = {
             "ServerAuthenticationString": server_authentication_string,
             "ServerAddress": server_address,
             "ItemID": item_id,
-            "ProjectType": project_type.value,
+            "ProjectType": project_type,
         }
 
         return self.__client.make_request(
@@ -1647,7 +2070,7 @@ class DataItem30:
 
     def get_by_language(
         self,
-        project_type: ProjectType,
+        project_type: Union[ProjectType, int],
         project_id: int,
         source_language: str,
         target_language: str,
@@ -1666,8 +2089,15 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.get_ByLanguage
         response_model = IntegerResult
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
         arg = {
-            "projectType": project_type.value,
+            "projectType": project_type,
             "projectID": project_id,
             "sourceLanguage": source_language,
             "targetLanguage": target_language,
@@ -1680,7 +2110,9 @@ class DataItem30:
             unpack_dict=True,
         )
 
-    def get_pricelist(self, item_id: int, project_type: ProjectType) -> PricelistResult:
+    def get_pricelist(
+        self, item_id: int, project_type: Union[ProjectType, int]
+    ) -> PricelistResult:
         """
         Returns the current selected Pricelist for the specified item
 
@@ -1693,7 +2125,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getPricelist
         response_model = PricelistResult
 
-        arg = {"itemID": item_id, "projectType": project_type.value}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"itemID": item_id, "projectType": project_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -1703,7 +2142,7 @@ class DataItem30:
         )
 
     def set_item_reference(
-        self, project_type: ProjectType, item_id: int, reference: str
+        self, project_type: Union[ProjectType, int], item_id: int, reference: str
     ) -> Result:
         """
         Sets item reference.
@@ -1718,11 +2157,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.setItemReference
         response_model = Result
 
-        arg = {
-            "projectType": project_type.value,
-            "itemID": item_id,
-            "reference": reference,
-        }
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"projectType": project_type, "itemID": item_id, "reference": reference}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -1732,10 +2174,10 @@ class DataItem30:
         )
 
     def set_pricelist(
-        self, item_id: int, project_type: ProjectType, price_list_id: int
+        self, item_id: int, project_type: Union[ProjectType, int], price_list_id: int
     ) -> Result:
         """
-        Set´s the selected Pricelist for the specified item
+        SetÂ´s the selected Pricelist for the specified item
 
 
         :param item_id: int
@@ -1747,9 +2189,16 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.setPricelist
         response_model = Result
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
         arg = {
             "itemID": item_id,
-            "projectType": project_type.value,
+            "projectType": project_type,
             "priceListID": price_list_id,
         }
 
@@ -1761,7 +2210,7 @@ class DataItem30:
         )
 
     def get_best_pricelist(
-        self, project_type: ProjectType, item_id: int
+        self, project_type: Union[ProjectType, int], item_id: int
     ) -> IntegerResult:
         """
         Method returns the ID of the best fitting customer pricelist IntegerResult.
@@ -1775,7 +2224,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getBestPricelist
         response_model = IntegerResult
 
-        arg = {"projectType": project_type.value, "itemID": item_id}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"projectType": project_type, "itemID": item_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -1785,7 +2241,7 @@ class DataItem30:
         )
 
     def get_item_reference(
-        self, project_type: ProjectType, item_id: int
+        self, project_type: Union[ProjectType, int], item_id: int
     ) -> StringResult:
         """
         Method returns item reference StringResult.
@@ -1799,7 +2255,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getItemReference
         response_model = StringResult
 
-        arg = {"projectType": project_type.value, "itemID": item_id}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"projectType": project_type, "itemID": item_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -1811,7 +2274,7 @@ class DataItem30:
     def insert_price_line(
         self,
         item_id: int,
-        project_type: ProjectType,
+        project_type: Union[ProjectType, int],
         price_line_in: Union[PriceLineIN, dict],
         create_as_first_item: bool,
     ) -> PriceLineResult:
@@ -1834,9 +2297,16 @@ class DataItem30:
         else:
             price_line_in = price_line_in.dict()
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
         arg = {
             "itemID": item_id,
-            "projectType": project_type.value,
+            "projectType": project_type,
             "priceLineIN": price_line_in,
             "createAsFirstItem": create_as_first_item,
         }
@@ -1851,7 +2321,7 @@ class DataItem30:
     def update_price_line(
         self,
         item_id: int,
-        project_type: ProjectType,
+        project_type: Union[ProjectType, int],
         price_line_in: Union[PriceLineIN, dict],
     ) -> PriceLineResult:
         """
@@ -1872,9 +2342,16 @@ class DataItem30:
         else:
             price_line_in = price_line_in.dict()
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
         arg = {
             "itemID": item_id,
-            "projectType": project_type.value,
+            "projectType": project_type,
             "priceLineIN": price_line_in,
         }
 
@@ -1889,7 +2366,7 @@ class DataItem30:
         """
         Returns a PriceUnitResult object.
 
-        Possible PriceUnit´s can be obtained over getPriceUnit_List(java.lang.String, java.lang.String, java.lang.String)
+        Possible PriceUnitÂ´s can be obtained over getPriceUnit_List(java.lang.String, java.lang.String, java.lang.String)
 
 
         :param price_unit_id: int
@@ -1930,7 +2407,7 @@ class DataItem30:
         )
 
     def delete_price_line(
-        self, item_id: int, project_type: ProjectType, price_line_id: int
+        self, item_id: int, project_type: Union[ProjectType, int], price_line_id: int
     ) -> Result:
         """
         Deletes an existing PriceLine
@@ -1945,9 +2422,16 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.deletePriceLine
         response_model = Result
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
         arg = {
             "itemID": item_id,
-            "projectType": project_type.value,
+            "projectType": project_type,
             "priceLineID": price_line_id,
         }
 
@@ -1982,7 +2466,9 @@ class DataItem30:
             unpack_dict=False,
         )
 
-    def get_order_id(self, project_type: ProjectType, item_id: int) -> IntegerResult:
+    def get_order_id(
+        self, project_type: Union[ProjectType, int], item_id: int
+    ) -> IntegerResult:
         """
         This method is only available for a quote items.
 
@@ -1998,7 +2484,14 @@ class DataItem30:
         proxy = self.__client.plunet_server.DataItem30.getOrderID
         response_model = IntegerResult
 
-        arg = {"projectType": project_type.value, "itemID": item_id}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"projectType": project_type, "itemID": item_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,

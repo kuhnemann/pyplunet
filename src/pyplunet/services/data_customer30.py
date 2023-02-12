@@ -407,7 +407,7 @@ class DataCustomer30:
         self,
     ) -> IntegerArrayResult:
         """
-        Returns a list of all available accountID´s.
+        Returns a list of all available accountIDÂ´s.
 
 
         :return: IntegerArrayResult
@@ -468,8 +468,8 @@ class DataCustomer30:
 
     def get_source_of_contact(self, customer_id: int) -> StringResult:
         """
-        Returns the value of the &#39;source of contact&#39; test field.
-        Located in contacts -&gt; customers -&gt; marketing
+        Returns the value of the 'source of contact' test field.
+        Located in contacts -> customers -> marketing
 
 
         :param customer_id: int
@@ -512,7 +512,7 @@ class DataCustomer30:
         self,
         server_authentication_string: str,
         server_address: str,
-        event_type: EventType,
+        event_type: Union[EventType, int],
     ) -> Result:
         """
         Register to get notified when the specified event (EventType)
@@ -533,7 +533,7 @@ class DataCustomer30:
         http://mypath/subfolder?wsdl
 
         In the first two cases, the address will be autocompleted by appending
-        the corresponding directory &#34;CallbackCustomer30?wsdl&#34;.
+        the corresponding directory "CallbackCustomer30?wsdl".
 
         A list of all registered callbacks can be accessed with
         DataAdmin30.getListOfRegisteredCallbacks(String)
@@ -548,10 +548,17 @@ class DataCustomer30:
         proxy = self.__client.plunet_server.DataCustomer30.registerCallback_Notify
         response_model = Result
 
+        if type(event_type) == EventType:
+            event_type = event_type.value
+        elif type(event_type) == int:
+            event_type = event_type
+        else:
+            event_type = int(event_type)
+
         arg = {
             "ServerAuthenticationString": server_authentication_string,
             "ServerAddress": server_address,
-            "EventType": event_type.value,
+            "EventType": event_type,
         }
 
         return self.__client.make_request(
@@ -642,8 +649,8 @@ class DataCustomer30:
 
     def set_source_of_contact(self, customer_id: int, text: str) -> Result:
         """
-        Sets the value of the &#39;source of contact&#39; test field.
-        Located in contacts -&gt; customers -&gt; marketing
+        Sets the value of the 'source of contact' test field.
+        Located in contacts -> customers -> marketing
 
 
         :param customer_id: int
@@ -683,7 +690,7 @@ class DataCustomer30:
             unpack_dict=False,
         )
 
-    def deregister_callback_notify(self, event_type: EventType) -> Result:
+    def deregister_callback_notify(self, event_type: Union[EventType, int]) -> Result:
         """
         Deletes an registered notify request.
         Warning: notify requests can only be deleted by the user who has created them
@@ -696,9 +703,16 @@ class DataCustomer30:
         proxy = self.__client.plunet_server.DataCustomer30.deregisterCallback_Notify
         response_model = Result
 
+        if type(event_type) == EventType:
+            event_type = event_type.value
+        elif type(event_type) == int:
+            event_type = event_type
+        else:
+            event_type = int(event_type)
+
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=event_type.value,
+            argument=event_type,
             response_model=response_model,
             unpack_dict=False,
         )
@@ -725,7 +739,7 @@ class DataCustomer30:
         http://mypath/subfolder?wsdl
 
         In the first two cases, the address will be autocompleted by appending
-        the corresponding directory &#34;CallbackCustomer30?wsdl&#34;.
+        the corresponding directory "CallbackCustomer30?wsdl".
 
         A list of all registered callbacks can be accessed with
         DataAdmin30.getListOfRegisteredCallbacks(String)

@@ -34,7 +34,7 @@ class DataUser30:
 
     def get_user_list_by_resource_id(self, resource_id: int) -> UserListResult:
         """
-        Returns a List of all resource related user´s
+        Returns a List of all resource related userÂ´s
 
 
         :param resource_id: int

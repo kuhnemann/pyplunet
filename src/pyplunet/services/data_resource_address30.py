@@ -591,7 +591,9 @@ class DataResourceAddress30:
             unpack_dict=False,
         )
 
-    def set_address_type(self, address_type: AddressType, address_id: int) -> Result:
+    def set_address_type(
+        self, address_type: Union[AddressType, int], address_id: int
+    ) -> Result:
         """
         Method to set the AddressType. Returns an instance of Result.
 
@@ -604,7 +606,14 @@ class DataResourceAddress30:
         proxy = self.__client.plunet_server.DataResourceAddress30.setAddressType
         response_model = Result
 
-        arg = {"AddressType": address_type.value, "addressID": address_id}
+        if type(address_type) == AddressType:
+            address_type = address_type.value
+        elif type(address_type) == int:
+            address_type = address_type
+        else:
+            address_type = int(address_type)
+
+        arg = {"AddressType": address_type, "addressID": address_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,

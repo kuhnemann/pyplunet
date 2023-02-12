@@ -308,7 +308,7 @@ class DataPayable30:
         )
 
     def get_total_tax_amount(
-        self, payables_id: int, currency_tpe: int, tax_type: TaxType
+        self, payables_id: int, currency_tpe: int, tax_type: Union[TaxType, int]
     ) -> DoubleResult:
         """
         Returns the total tax price of the payment.
@@ -323,10 +323,17 @@ class DataPayable30:
         proxy = self.__client.plunet_server.DataPayable30.getTotalTaxAmount
         response_model = DoubleResult
 
+        if type(tax_type) == TaxType:
+            tax_type = tax_type.value
+        elif type(tax_type) == int:
+            tax_type = tax_type
+        else:
+            tax_type = int(tax_type)
+
         arg = {
             "payablesID": payables_id,
             "currencyTpe": currency_tpe,
-            "taxType": tax_type.value,
+            "taxType": tax_type,
         }
 
         return self.__client.make_request(
@@ -732,7 +739,7 @@ class DataPayable30:
     def get_price_unit(self, price_unit_id: int, language_code: str) -> PriceUnitResult:
         """
         Returns a PriceUnitResult object.
-        Possible PriceUnit´s can be obtained over DataItem30.getPriceUnit_List(String, String, String)
+        Possible PriceUnitÂ´s can be obtained over DataItem30.getPriceUnit_List(String, String, String)
 
 
         :param price_unit_id: int

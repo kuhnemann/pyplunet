@@ -190,7 +190,7 @@ class DataOrder30:
         self,
         source_order_id: int,
         target_id: int,
-        project_type: ProjectType,
+        project_type: Union[ProjectType, int],
         is_bidirectional: bool,
         memo: str,
     ) -> Result:
@@ -209,10 +209,17 @@ class DataOrder30:
         proxy = self.__client.plunet_server.DataOrder30.createLink
         response_model = Result
 
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
         arg = {
             "sourceOrderId": source_order_id,
             "targetId": target_id,
-            "projectType": project_type.value,
+            "projectType": project_type,
             "isBidirectional": is_bidirectional,
             "memo": memo,
         }
@@ -996,7 +1003,7 @@ class DataOrder30:
         self,
         server_authentication_string: str,
         server_address: str,
-        event_type: EventType,
+        event_type: Union[EventType, int],
     ) -> Result:
         """
         Register to get notified when the specified EventType occurs
@@ -1015,7 +1022,7 @@ class DataOrder30:
         http://mypath/subfolder?wsdl
 
         In the first two cases, the address will be autocompleted by appending
-        the corresponding directory &#34;CallbackOrder30?wsdl&#34;.
+        the corresponding directory "CallbackOrder30?wsdl".
 
         A list of all registered callbacks can be accessed with
         DataAdmin30.getListOfRegisteredCallbacks(String)
@@ -1030,10 +1037,17 @@ class DataOrder30:
         proxy = self.__client.plunet_server.DataOrder30.registerCallback_Notify
         response_model = Result
 
+        if type(event_type) == EventType:
+            event_type = event_type.value
+        elif type(event_type) == int:
+            event_type = event_type
+        else:
+            event_type = int(event_type)
+
         arg = {
             "ServerAuthenticationString": server_authentication_string,
             "ServerAddress": server_address,
-            "EventType": event_type.value,
+            "EventType": event_type,
         }
 
         return self.__client.make_request(
@@ -1043,7 +1057,7 @@ class DataOrder30:
             unpack_dict=True,
         )
 
-    def deregister_callback_notify(self, event_type: EventType) -> Result:
+    def deregister_callback_notify(self, event_type: Union[EventType, int]) -> Result:
         """
         Deletes an registered notify request.
         Notify requests can only be deleted by the user who has created them
@@ -1056,9 +1070,16 @@ class DataOrder30:
         proxy = self.__client.plunet_server.DataOrder30.deregisterCallback_Notify
         response_model = Result
 
+        if type(event_type) == EventType:
+            event_type = event_type.value
+        elif type(event_type) == int:
+            event_type = event_type
+        else:
+            event_type = int(event_type)
+
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=event_type.value,
+            argument=event_type,
             response_model=response_model,
             unpack_dict=False,
         )
@@ -1083,7 +1104,7 @@ class DataOrder30:
         http://mypath/subfolder?wsdl
 
         In the first two cases, the address will be autocompleted by appending
-        the corresponding directory &#34;CallbackOrder30?wsdl&#34;.
+        the corresponding directory "CallbackOrder30?wsdl".
 
         A list of all registered callbacks can be accessed with
         DataAdmin30.getListOfRegisteredCallbacks(String)
@@ -1402,7 +1423,9 @@ class DataOrder30:
             unpack_dict=True,
         )
 
-    def get_links(self, order_id: int, project_type: ProjectType) -> LinkListResult:
+    def get_links(
+        self, order_id: int, project_type: Union[ProjectType, int]
+    ) -> LinkListResult:
         """
         Outputs all incoming and outgoing links for an order.
 
@@ -1415,7 +1438,14 @@ class DataOrder30:
         proxy = self.__client.plunet_server.DataOrder30.getLinks
         response_model = LinkListResult
 
-        arg = {"orderId": order_id, "projectType": project_type.value}
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"orderId": order_id, "projectType": project_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,
