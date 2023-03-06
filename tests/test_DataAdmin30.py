@@ -1,5 +1,5 @@
 from __future__ import annotations
-from tests import get_test_client
+from tests import get_test_client, get_test_client_inmemory_cache, get_test_configured_sql_cache, get_test_client_no_caching
 from datetime import datetime
 from pydantic import BaseModel
 from src.pyplunet import PlunetClient
@@ -143,13 +143,16 @@ def test_DataAdmin30_get_list_of_registered_callbacks(pc: PlunetClient, test_set
 
 
 if __name__ == '__main__':
-    pc = get_test_client()
-    test_set = get_test_set()
-    test_DataAdmin30_get_system_currencies(pc, test_set)
-    test_DataAdmin30_get_available_document_templates(pc, test_set)
-    test_DataAdmin30_get_company_code_list(pc, test_set)
-    test_DataAdmin30_get_domestic_currency(pc, test_set)
-    test_DataAdmin30_get_available_services(pc, test_set)
-    test_DataAdmin30_get_available_countries(pc, test_set)
-    test_DataAdmin30_get_available_languages(pc, test_set)
-    test_DataAdmin30_get_list_of_registered_callbacks(pc, test_set)
+    test_clients = [get_test_client, get_test_client_inmemory_cache, get_test_configured_sql_cache, get_test_client_no_caching]
+    for client in test_clients:
+        print(client.__name__)
+        pc = client()
+        test_set = get_test_set()
+        test_DataAdmin30_get_system_currencies(pc, test_set)
+        test_DataAdmin30_get_available_document_templates(pc, test_set)
+        test_DataAdmin30_get_company_code_list(pc, test_set)
+        test_DataAdmin30_get_domestic_currency(pc, test_set)
+        test_DataAdmin30_get_available_services(pc, test_set)
+        test_DataAdmin30_get_available_countries(pc, test_set)
+        test_DataAdmin30_get_available_languages(pc, test_set)
+        test_DataAdmin30_get_list_of_registered_callbacks(pc, test_set)

@@ -18,7 +18,7 @@ lxml==4.9.1
     # via zeep
 platformdirs==2.6.0
     # via zeep
-plunetapi==0.2
+plunetapi==0.3
     # via pyplunet (pyproject.toml)
 pydantic>=1.10
 pytz==2022.6

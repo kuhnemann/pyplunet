@@ -36,7 +36,7 @@ from .services import (
 
 
 class PlunetClient:
-    def __init__(self, base_url, uuid: Optional[str] = None, cache_wsdl: bool = True):
+    def __init__(self, base_url, uuid: Optional[str] = None, cache_wsdl: bool = True, transport_options: Optional[dict] = None):
         """
         Client for interacting with a Plunet instance. Initialized with the base url
         of the instance. Session needs a UUID, which either can be supplied in initialization
@@ -46,7 +46,7 @@ class PlunetClient:
         :param uuid: Optional session UUID
         :param cache_wsdl: Boolean to regulate where
         """
-        self.plunet_server = PlunetAPI(base_url=base_url, cache_wsdl=cache_wsdl)
+        self.plunet_server = PlunetAPI(base_url=base_url, cache_wsdl=cache_wsdl, options=transport_options)
         self.uuid = uuid
         self.payable = DataPayable30(self)
         self.resource_contact = DataResourceContact30(self)
