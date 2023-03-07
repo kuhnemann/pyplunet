@@ -9,6 +9,7 @@ from .exceptions import (
     PlunetAuthFailed,
     PlunetClientError,
 )
+from .models import StringResult, BooleanResult
 from .services import (
     DataAdmin30,
     DataCreditNote30,
@@ -83,6 +84,37 @@ class PlunetClient:
             self.plunet_server.PlunetAPI.logout(self.uuid)
             self.uuid = None
         return
+
+    def get_plunet_version(self) -> StringResult:
+        result = self.plunet_server.PlunetAPI.getPlunetVersion()
+        if result.statusCode != 0:
+            raise PLUNET_ERRORS.get(
+                result.statusCode,
+                PlunetClientError(
+                    f"Error calling Plunet (could not map status code to error type). Result: {result}"
+                ),
+            )
+        else:
+            try:
+                return StringResult(**serialize_object(result))
+            except Exception:
+                raise PlunetClientError(f"Unable to parse result: {result}")
+
+    def validate(self, username: str, password: str) -> BooleanResult:
+        """
+        Will return BooleanResult if credentials validated are correct,
+        and throw InvalidCredentials error if not.
+        :param username:
+        :param password:
+        :return:
+        """
+        operation_proxy = self.plunet_server.PlunetAPI.validate
+        response_model = BooleanResult
+        argument = {"Username": username, "Password": password}
+        return self.make_request(operation_proxy, argument, response_model, unpack_dict=True)
+
+    def get_version(self) -> float:
+        return self.plunet_server.PlunetAPI.getVersion()
 
     def make_request(
         self,
