@@ -1,3 +1,4 @@
+import logging
 from typing import Callable, Optional, Union
 
 from plunetapi import PlunetAPI
@@ -9,7 +10,7 @@ from .exceptions import (
     PlunetAuthFailed,
     PlunetClientError,
 )
-from .models import StringResult, BooleanResult
+from .models import BooleanResult, StringResult
 from .services import (
     DataAdmin30,
     DataCreditNote30,
@@ -35,19 +36,35 @@ from .services import (
     RequestDocText30,
 )
 
+logger = logging.getLogger(__name__)
+
 
 class PlunetClient:
-    def __init__(self, base_url, uuid: Optional[str] = None, cache_wsdl: bool = True, transport_options: Optional[dict] = None):
-        """
-        Client for interacting with a Plunet instance. Initialized with the base url
-        of the instance. Session needs a UUID, which either can be supplied in initialization
-        or be obtained using the login() method.
+    """
+    Client for interacting with a Plunet instance. Initialized with the base url
+    of the instance. Session needs a UUID, which either can be supplied in initialization
+    or be obtained using the login() method.
 
-        :param base_url: URL for a Plunet instance
-        :param uuid: Optional session UUID
-        :param cache_wsdl: Boolean to regulate where
-        """
-        self.plunet_server = PlunetAPI(base_url=base_url, cache_wsdl=cache_wsdl, options=transport_options)
+    :param base_url: URL for a Plunet instance
+    :type base_url: str
+    :param uuid: Optional session UUID
+    :type uuid: str, optional
+    :param cache_wsdl: Boolean to turn on/off the zeep CachingClient
+    :type cache_wsdl: bool
+    :param transport_options: Dictionary with transport options that are passed to plunetapi and the underlying zeep client
+    :type transport_options: dict, optional
+    """
+
+    def __init__(
+        self,
+        base_url,
+        uuid: Optional[str] = None,
+        cache_wsdl: bool = True,
+        transport_options: Optional[dict] = None,
+    ):
+        self.plunet_server = PlunetAPI(
+            base_url=base_url, cache_wsdl=cache_wsdl, options=transport_options
+        )
         self.uuid = uuid
         self.payable = DataPayable30(self)
         self.resource_contact = DataResourceContact30(self)
@@ -111,7 +128,9 @@ class PlunetClient:
         operation_proxy = self.plunet_server.PlunetAPI.validate
         response_model = BooleanResult
         argument = {"Username": username, "Password": password}
-        return self.make_request(operation_proxy, argument, response_model, unpack_dict=True)
+        return self.make_request(
+            operation_proxy, argument, response_model, unpack_dict=True
+        )
 
     def get_version(self) -> float:
         return self.plunet_server.PlunetAPI.getVersion()

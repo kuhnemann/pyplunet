@@ -1,3 +1,28 @@
+__all__ = [
+    "DataPayable30",
+    "DataOutgoingInvoice30",
+    "DataCreditNote30",
+    "DataAdmin30",
+    "DataJob30",
+    "DataJobRound30",
+    "ReportJob30",
+    "DataOrder30",
+    "DataQuote30",
+    "DataRequest30",
+    "DataItem30",
+    "DataResource30",
+    "DataCustomer30",
+    "DataCustomerContact30",
+    "ReportCustomer30",
+    "DataResourceContact30",
+    "DataCustomerAddress30",
+    "DataResourceAddress30",
+    "DataDocument30",
+    "RequestDocText30",
+    "DataUser30",
+    "DataCustomFields30",
+]
+
 from .data_admin30 import DataAdmin30
 from .data_credit_note30 import DataCreditNote30
 from .data_custom_fields30 import DataCustomFields30
@@ -20,28 +45,3 @@ from .data_user30 import DataUser30
 from .report_customer30 import ReportCustomer30
 from .report_job30 import ReportJob30
 from .request_doc_text30 import RequestDocText30
-
-__all__ = [
-    DataPayable30,
-    DataOutgoingInvoice30,
-    DataCreditNote30,
-    DataAdmin30,
-    DataJob30,
-    DataJobRound30,
-    ReportJob30,
-    DataOrder30,
-    DataQuote30,
-    DataRequest30,
-    DataItem30,
-    DataResource30,
-    DataCustomer30,
-    DataCustomerContact30,
-    ReportCustomer30,
-    DataResourceContact30,
-    DataCustomerAddress30,
-    DataResourceAddress30,
-    DataDocument30,
-    RequestDocText30,
-    DataUser30,
-    DataCustomFields30,
-]

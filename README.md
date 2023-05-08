@@ -26,11 +26,6 @@
 </div>
 
 
-
-
-
-
-
 <!-- ABOUT THE PROJECT -->
 
 ## About The Project
@@ -38,13 +33,17 @@ Modern Python client for interacting with the Plunet SOAP API, without having to
 
 Ready to use out of the box, you can jump directly into the business logic. 
 
-Pip install, import and start working. It really is as easy as that!
+Pip install, import and start working. It really is as easy as that! 
 
-- Implements all services and methods as per Plunet 9.2
+- Implements all services and methods as per Plunet 9.2 (the latest version of ApiDocs available)
 - Fully typed for validation and code completion support
 - Fully documented methods with complete content of the Plunet JavaDocs.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+### New in 0.7.0
+- Retrying client that uses tenacity to retry on ConnectionError from zeep/requests
+- Improved typing for enums - all are still not covered but getting there
 
 ### Built With
 
@@ -68,6 +67,11 @@ Install via pip
 
    ```sh
    pip install pyplunet
+   ```
+
+To include tenacity:
+   ```sh
+   pip install pyplunet[retry] 
    ```
 
 Or clone the repo

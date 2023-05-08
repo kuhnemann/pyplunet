@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Union
+from datetime import datetime
+from typing import TYPE_CHECKING, List, Union
 
 from ..enums import ProjectType
 from ..models import (
@@ -17,10 +18,11 @@ from ..models import (
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
+    from ..retrying_client import RetryingPlunetClient
 
 
 class DataJobRound30:
-    def __init__(self, client: PlunetClient):
+    def __init__(self, client: Union[PlunetClient, RetryingPlunetClient]):
         self.__client = client
 
     def delete(self, round_id: int) -> Result:
@@ -42,44 +44,6 @@ class DataJobRound30:
             argument=round_id,
             response_model=response_model,
             unpack_dict=False,
-        )
-
-    def set_ranking_methods(
-        self,
-        job_round_ranking_method_list: Union[JobRoundRankingMethodList, dict],
-        round_id: int,
-    ) -> Result:
-        """
-        Sets the rankings methods of a round.
-
-        If no value is selected, the ranking will be performed by resourceId.
-
-
-        :param job_round_ranking_method_list: JobRoundRankingMethodList
-        :param round_id: int
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.DataJobRound30.setRankingMethods
-        response_model = Result
-
-        if type(job_round_ranking_method_list) != JobRoundRankingMethodList:
-            job_round_ranking_method_list = JobRoundRankingMethodList(
-                **job_round_ranking_method_list
-            ).dict()
-        else:
-            job_round_ranking_method_list = job_round_ranking_method_list.dict()
-
-        arg = {
-            "JobRoundRankingMethodList": job_round_ranking_method_list,
-            "roundID": round_id,
-        }
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
         )
 
     def get_ranking_methods(self, round_id: int) -> JobRoundRankingMethodListResult:
@@ -112,56 +76,6 @@ class DataJobRound30:
 
         proxy = self.__client.plunet_server.DataJobRound30.getResourcesForRound
         response_model = IntegerArrayResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=round_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def get_assigned_round_id(
-        self, job_id: int, project_type: Union[ProjectType, int]
-    ) -> IntegerResult:
-        """
-        Returns the roundId of the assigned round of the job.
-
-
-        :param job_id: int
-        :param project_type: ProjectType
-        :return: IntegerResult
-        """
-
-        proxy = self.__client.plunet_server.DataJobRound30.getAssignedRoundID
-        response_model = IntegerResult
-
-        if type(project_type) == ProjectType:
-            project_type = project_type.value
-        elif type(project_type) == int:
-            project_type = project_type
-        else:
-            project_type = int(project_type)
-
-        arg = {"jobID": job_id, "projectType": project_type}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def get_search_criteria(self, round_id: int) -> JobRoundSearchcriteriaResult:
-        """
-        Returns the search criteria of a round.
-
-
-        :param round_id: int
-        :return: JobRoundSearchcriteriaResult
-        """
-
-        proxy = self.__client.plunet_server.DataJobRound30.getSearchCriteria
-        response_model = JobRoundSearchcriteriaResult
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -222,6 +136,25 @@ class DataJobRound30:
             unpack_dict=False,
         )
 
+    def get_search_criteria(self, round_id: int) -> JobRoundSearchcriteriaResult:
+        """
+        Returns the search criteria of a round.
+
+
+        :param round_id: int
+        :return: JobRoundSearchcriteriaResult
+        """
+
+        proxy = self.__client.plunet_server.DataJobRound30.getSearchCriteria
+        response_model = JobRoundSearchcriteriaResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=round_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
     def set_search_criteria(
         self,
         job_round_search_criteria_in: Union[JobRoundSearchCriteriaIN, dict],
@@ -258,26 +191,90 @@ class DataJobRound30:
             unpack_dict=True,
         )
 
-    def update_round(self, round_in: Union[JobRoundIN, dict]) -> Result:
+    def set_ranking_methods(
+        self,
+        job_round_ranking_method_list: Union[JobRoundRankingMethodList, dict],
+        round_id: int,
+    ) -> Result:
         """
-        Updates a round.
+        Sets the rankings methods of a round.
+
+        If no value is selected, the ranking will be performed by resourceId.
 
 
-        :param round_in: JobRoundIN
+        :param job_round_ranking_method_list: JobRoundRankingMethodList
+        :param round_id: int
         :return: Result
         """
 
-        proxy = self.__client.plunet_server.DataJobRound30.updateRound
+        proxy = self.__client.plunet_server.DataJobRound30.setRankingMethods
         response_model = Result
 
-        if type(round_in) != JobRoundIN:
-            round_in = JobRoundIN(**round_in).dict()
+        if type(job_round_ranking_method_list) != JobRoundRankingMethodList:
+            job_round_ranking_method_list = JobRoundRankingMethodList(
+                **job_round_ranking_method_list
+            ).dict()
         else:
-            round_in = round_in.dict()
+            job_round_ranking_method_list = job_round_ranking_method_list.dict()
+
+        arg = {
+            "JobRoundRankingMethodList": job_round_ranking_method_list,
+            "roundID": round_id,
+        }
 
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=round_in,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_assigned_round_id(
+        self, job_id: int, project_type: Union[ProjectType, int]
+    ) -> IntegerResult:
+        """
+        Returns the roundId of the assigned round of the job.
+
+
+        :param job_id: int
+        :param project_type: ProjectType
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataJobRound30.getAssignedRoundID
+        response_model = IntegerResult
+
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"jobID": job_id, "projectType": project_type}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_round_object(self, round_id: int) -> JobRoundResult:
+        """
+        Returns a job round object.
+
+
+        :param round_id: int
+        :return: JobRoundResult
+        """
+
+        proxy = self.__client.plunet_server.DataJobRound30.getRoundObject
+        response_model = JobRoundResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=round_id,
             response_model=response_model,
             unpack_dict=False,
         )
@@ -315,35 +312,28 @@ class DataJobRound30:
             unpack_dict=True,
         )
 
-    def get_all_round_i_ds(
-        self, job_id: int, project_type: Union[ProjectType, int]
-    ) -> IntegerArrayResult:
+    def update_round(self, round_in: Union[JobRoundIN, dict]) -> Result:
         """
-        Returns all roundIDs corresponding to the job.
+        Updates a round.
 
 
-        :param job_id: int
-        :param project_type: ProjectType
-        :return: IntegerArrayResult
+        :param round_in: JobRoundIN
+        :return: Result
         """
 
-        proxy = self.__client.plunet_server.DataJobRound30.getAllRoundIDs
-        response_model = IntegerArrayResult
+        proxy = self.__client.plunet_server.DataJobRound30.updateRound
+        response_model = Result
 
-        if type(project_type) == ProjectType:
-            project_type = project_type.value
-        elif type(project_type) == int:
-            project_type = project_type
+        if type(round_in) != JobRoundIN:
+            round_in = JobRoundIN(**round_in).dict()
         else:
-            project_type = int(project_type)
-
-        arg = {"jobID": job_id, "projectType": project_type}
+            round_in = round_in.dict()
 
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=arg,
+            argument=round_in,
             response_model=response_model,
-            unpack_dict=True,
+            unpack_dict=False,
         )
 
     def add_round(
@@ -390,21 +380,33 @@ class DataJobRound30:
             unpack_dict=True,
         )
 
-    def get_round_object(self, round_id: int) -> JobRoundResult:
+    def get_all_round_i_ds(
+        self, job_id: int, project_type: Union[ProjectType, int]
+    ) -> IntegerArrayResult:
         """
-        Returns a job round object.
+        Returns all roundIDs corresponding to the job.
 
 
-        :param round_id: int
-        :return: JobRoundResult
+        :param job_id: int
+        :param project_type: ProjectType
+        :return: IntegerArrayResult
         """
 
-        proxy = self.__client.plunet_server.DataJobRound30.getRoundObject
-        response_model = JobRoundResult
+        proxy = self.__client.plunet_server.DataJobRound30.getAllRoundIDs
+        response_model = IntegerArrayResult
+
+        if type(project_type) == ProjectType:
+            project_type = project_type.value
+        elif type(project_type) == int:
+            project_type = project_type
+        else:
+            project_type = int(project_type)
+
+        arg = {"jobID": job_id, "projectType": project_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=round_id,
+            argument=arg,
             response_model=response_model,
-            unpack_dict=False,
+            unpack_dict=True,
         )

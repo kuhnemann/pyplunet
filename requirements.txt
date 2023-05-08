@@ -20,7 +20,8 @@ platformdirs==2.6.0
     # via zeep
 plunetapi==0.3
     # via pyplunet (pyproject.toml)
-pydantic>=1.10
+pydantic==1.10.7
+    # via pyplunet (pyproject.toml)
 pytz==2022.6
     # via zeep
 requests==2.28.1
@@ -36,9 +37,9 @@ six==1.16.0
     # via
     #   isodate
     #   requests-file
+typing-extensions==4.5.0
+    # via pydantic
 urllib3==1.26.13
     # via requests
 zeep==4.2.1
     # via plunetapi
-
-python-dotenv~=0.21.1

@@ -1,15 +1,17 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from datetime import datetime
+from typing import TYPE_CHECKING, List, Union
 
 from ..models import IntegerArrayResult, IntegerResult, Result, StringResult
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
+    from ..retrying_client import RetryingPlunetClient
 
 
 class RequestDocText30:
-    def __init__(self, client: PlunetClient):
+    def __init__(self, client: Union[PlunetClient, RetryingPlunetClient]):
         self.__client = client
 
     def update(self, request_doc_text_id: int) -> Result:
@@ -75,23 +77,32 @@ class RequestDocText30:
             unpack_dict=False,
         )
 
-    def get_additional_info(self, request_doc_text_id: int) -> StringResult:
+    def set_additional_info(
+        self, additional_info: str, request_doc_text_id: int
+    ) -> Result:
         """
-        Returns an instance of StringResult, which contains the additional information of the currently fetched request text.
+        Method to add additional information to the currently fetched request text.
+        Returns an instance of Result.
 
 
+        :param additional_info: str
         :param request_doc_text_id: int
-        :return: StringResult
+        :return: Result
         """
 
-        proxy = self.__client.plunet_server.RequestDocText30.getAdditionalInfo
-        response_model = StringResult
+        proxy = self.__client.plunet_server.RequestDocText30.setAdditionalInfo
+        response_model = Result
+
+        arg = {
+            "additionalInfo": additional_info,
+            "requestDocTextID": request_doc_text_id,
+        }
 
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=request_doc_text_id,
+            argument=arg,
             response_model=response_model,
-            unpack_dict=False,
+            unpack_dict=True,
         )
 
     def set_customer_text_id(
@@ -143,34 +154,6 @@ class RequestDocText30:
             unpack_dict=False,
         )
 
-    def set_additional_info(
-        self, additional_info: str, request_doc_text_id: int
-    ) -> Result:
-        """
-        Method to add additional information to the currently fetched request text.
-        Returns an instance of Result.
-
-
-        :param additional_info: str
-        :param request_doc_text_id: int
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.RequestDocText30.setAdditionalInfo
-        response_model = Result
-
-        arg = {
-            "additionalInfo": additional_info,
-            "requestDocTextID": request_doc_text_id,
-        }
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
     def get_all_by_request_id(self, request_id: int) -> IntegerArrayResult:
         """
         Returns an instance of IntegerArrayResult, which contains a list of request text identifier for a specific request.
@@ -186,6 +169,25 @@ class RequestDocText30:
         return self.__client.make_request(
             operation_proxy=proxy,
             argument=request_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_additional_info(self, request_doc_text_id: int) -> StringResult:
+        """
+        Returns an instance of StringResult, which contains the additional information of the currently fetched request text.
+
+
+        :param request_doc_text_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.RequestDocText30.getAdditionalInfo
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=request_doc_text_id,
             response_model=response_model,
             unpack_dict=False,
         )
@@ -221,6 +223,90 @@ class RequestDocText30:
             unpack_dict=True,
         )
 
+    def set_word_count(self, word_count: int, request_doc_text_id: int) -> Result:
+        """
+        Method to set the word count of the currently fetched request text.
+        Returns an instance of Result.
+
+
+        :param word_count: int
+        :param request_doc_text_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.RequestDocText30.setWordCount
+        response_model = Result
+
+        arg = {"wordCount": word_count, "requestDocTextID": request_doc_text_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def set_source_text(self, source_text: str, request_doc_text_id: int) -> Result:
+        """
+        Method to set the source text.
+        Returns an instance of Result.
+
+
+        :param source_text: str
+        :param request_doc_text_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.RequestDocText30.setSourceText
+        response_model = Result
+
+        arg = {"sourceText": source_text, "requestDocTextID": request_doc_text_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_source_text(self, request_doc_text_id: int) -> StringResult:
+        """
+        Method returns an instance of StringResult, which contains the sourcetext of the currently fetched request text.
+
+
+        :param request_doc_text_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.RequestDocText30.getSourceText
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=request_doc_text_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_word_count(self, request_doc_text_id: int) -> IntegerResult:
+        """
+        Returns an instance of IntegerResult, which contains the word count of the currently fetched text.
+
+
+        :param request_doc_text_id: int
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.RequestDocText30.getWordCount
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=request_doc_text_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
     def set_source_text2(
         self, source_text: str, encoding: str, request_doc_text_id: int
     ) -> Result:
@@ -249,90 +335,6 @@ class RequestDocText30:
             "encoding": encoding,
             "requestDocTextID": request_doc_text_id,
         }
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def get_source_text(self, request_doc_text_id: int) -> StringResult:
-        """
-        Method returns an instance of StringResult, which contains the sourcetext of the currently fetched request text.
-
-
-        :param request_doc_text_id: int
-        :return: StringResult
-        """
-
-        proxy = self.__client.plunet_server.RequestDocText30.getSourceText
-        response_model = StringResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=request_doc_text_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def set_word_count(self, word_count: int, request_doc_text_id: int) -> Result:
-        """
-        Method to set the word count of the currently fetched request text.
-        Returns an instance of Result.
-
-
-        :param word_count: int
-        :param request_doc_text_id: int
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.RequestDocText30.setWordCount
-        response_model = Result
-
-        arg = {"wordCount": word_count, "requestDocTextID": request_doc_text_id}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def get_word_count(self, request_doc_text_id: int) -> IntegerResult:
-        """
-        Returns an instance of IntegerResult, which contains the word count of the currently fetched text.
-
-
-        :param request_doc_text_id: int
-        :return: IntegerResult
-        """
-
-        proxy = self.__client.plunet_server.RequestDocText30.getWordCount
-        response_model = IntegerResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=request_doc_text_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def set_source_text(self, source_text: str, request_doc_text_id: int) -> Result:
-        """
-        Method to set the source text.
-        Returns an instance of Result.
-
-
-        :param source_text: str
-        :param request_doc_text_id: int
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.RequestDocText30.setSourceText
-        response_model = Result
-
-        arg = {"sourceText": source_text, "requestDocTextID": request_doc_text_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,

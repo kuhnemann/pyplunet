@@ -1,5 +1,5 @@
 from __future__ import annotations
-from tests import get_test_client
+from tests import test_client_factory
 from datetime import datetime
 from pydantic import BaseModel
 from src.pyplunet import PlunetClient
@@ -7,8 +7,8 @@ from src.pyplunet.exceptions import PlunetAPIError
 
 
 from src.pyplunet.models import (
-        SearchFilter_Customer,
-        IntegerArrayResult
+        IntegerArrayResult,
+        SearchFilter_Customer
 )
 
 
@@ -37,6 +37,18 @@ def test_ReportCustomer30_search(pc: PlunetClient, test_set: test_set_ReportCust
 
 
 if __name__ == '__main__':
-    pc = get_test_client()
+    test_clients = [
+        test_client_factory.get_test_client,
+        test_client_factory.get_test_client_inmemory_cache,
+        test_client_factory.get_test_configured_sql_cache,
+        test_client_factory.get_test_client_no_caching,
+        test_client_factory.get_test_retrying_client,
+        test_client_factory.get_test_retrying_client_inmemory_cache,
+        test_client_factory.get_test_retrying_configured_sql_cache,
+        test_client_factory.get_test_retrying_client_no_caching,
+    ]
     test_set = get_test_set()
-    test_ReportCustomer30_search(pc, test_set)
+    for client in test_clients:
+        print(client.__name__)
+        pc = client()
+        test_ReportCustomer30_search(pc, test_set)

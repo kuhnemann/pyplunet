@@ -1,17 +1,57 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Union
+from datetime import datetime
+from typing import TYPE_CHECKING, List, Union
 
 from ..enums import FolderTypes
 from ..models import FileResult, Result, StringArrayResult
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
+    from ..retrying_client import RetryingPlunetClient
 
 
 class DataDocument30:
-    def __init__(self, client: PlunetClient):
+    def __init__(self, client: Union[PlunetClient, RetryingPlunetClient]):
         self.__client = client
+
+    def download_document(
+        self, main_id: int, folder_type: Union[FolderTypes, int], file_path_name: str
+    ) -> FileResult:
+        """
+        Returns a FileResult containing the specified file as byte-stream.
+
+        The FilePathName can be obtained over getFileList(String, int, int)
+
+
+        :param main_id: int
+        :param folder_type: FolderTypes
+        :param file_path_name: str
+        :return: FileResult
+        """
+
+        proxy = self.__client.plunet_server.DataDocument30.download_Document
+        response_model = FileResult
+
+        if type(folder_type) == FolderTypes:
+            folder_type = folder_type.value
+        elif type(folder_type) == int:
+            folder_type = folder_type
+        else:
+            folder_type = int(folder_type)
+
+        arg = {
+            "MainID": main_id,
+            "FolderType": folder_type,
+            "FilePathName": file_path_name,
+        }
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
 
     def upload_document(
         self,
@@ -110,44 +150,6 @@ class DataDocument30:
             folder_type = int(folder_type)
 
         arg = {"MainID": main_id, "FolderType": folder_type}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def download_document(
-        self, main_id: int, folder_type: Union[FolderTypes, int], file_path_name: str
-    ) -> FileResult:
-        """
-        Returns a FileResult containing the specified file as byte-stream.
-
-        The FilePathName can be obtained over getFileList(String, int, int)
-
-
-        :param main_id: int
-        :param folder_type: FolderTypes
-        :param file_path_name: str
-        :return: FileResult
-        """
-
-        proxy = self.__client.plunet_server.DataDocument30.download_Document
-        response_model = FileResult
-
-        if type(folder_type) == FolderTypes:
-            folder_type = folder_type.value
-        elif type(folder_type) == int:
-            folder_type = folder_type
-        else:
-            folder_type = int(folder_type)
-
-        arg = {
-            "MainID": main_id,
-            "FolderType": folder_type,
-            "FilePathName": file_path_name,
-        }
 
         return self.__client.make_request(
             operation_proxy=proxy,

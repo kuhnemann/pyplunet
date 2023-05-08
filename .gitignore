@@ -132,7 +132,7 @@ dmypy.json
 .DS_Store
 /docs/
 /parse_enums.py
-/render.py
+/render_ws.py
 /test.py
 /templates/
 /parse_errors.py
@@ -142,3 +142,4 @@ dmypy.json
 /enums_root.py
 /clean.sh
 /Plunet API Javadoc/
+/wsdl_xsd/

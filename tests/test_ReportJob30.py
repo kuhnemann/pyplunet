@@ -1,5 +1,5 @@
 from __future__ import annotations
-from tests import get_test_client
+from tests import test_client_factory
 from datetime import datetime
 from pydantic import BaseModel
 from src.pyplunet import PlunetClient
@@ -37,6 +37,18 @@ def test_ReportJob30_search(pc: PlunetClient, test_set: test_set_ReportJob30):
 
 
 if __name__ == '__main__':
-    pc = get_test_client()
+    test_clients = [
+        test_client_factory.get_test_client,
+        test_client_factory.get_test_client_inmemory_cache,
+        test_client_factory.get_test_configured_sql_cache,
+        test_client_factory.get_test_client_no_caching,
+        test_client_factory.get_test_retrying_client,
+        test_client_factory.get_test_retrying_client_inmemory_cache,
+        test_client_factory.get_test_retrying_configured_sql_cache,
+        test_client_factory.get_test_retrying_client_no_caching,
+    ]
     test_set = get_test_set()
-    test_ReportJob30_search(pc, test_set)
+    for client in test_clients:
+        print(client.__name__)
+        pc = client()
+        test_ReportJob30_search(pc, test_set)

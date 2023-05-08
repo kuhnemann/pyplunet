@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from datetime import datetime
+from typing import TYPE_CHECKING, List, Union
 
 from ..models import (
     CallbackListResult,
@@ -15,25 +16,25 @@ from ..models import (
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
+    from ..retrying_client import RetryingPlunetClient
 
 
 class DataAdmin30:
-    def __init__(self, client: PlunetClient):
+    def __init__(self, client: Union[PlunetClient, RetryingPlunetClient]):
         self.__client = client
 
-    def get_system_currencies(
+    def get_domestic_currency(
         self,
-    ) -> CurrencyList:
+    ) -> StringResult:
         """
-        Returns a list of all currencies configured within the administration
-        area
+        Returns the default currency.
 
 
-        :return: CurrencyList
+        :return: StringResult
         """
 
-        proxy = self.__client.plunet_server.DataAdmin30.getSystemCurrencies
-        response_model = CurrencyList
+        proxy = self.__client.plunet_server.DataAdmin30.getDomesticCurrency
+        response_model = StringResult
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -63,6 +64,26 @@ class DataAdmin30:
             unpack_dict=False,
         )
 
+    def get_list_of_registered_callbacks(
+        self,
+    ) -> CallbackListResult:
+        """
+        Returns a list of all registered callbacks (observer & notifies) to the current user
+
+
+        :return: CallbackListResult
+        """
+
+        proxy = self.__client.plunet_server.DataAdmin30.getListOfRegisteredCallbacks
+        response_model = CallbackListResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=None,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
     def get_company_code_list(
         self,
     ) -> CompanyCodeListResult:
@@ -75,26 +96,6 @@ class DataAdmin30:
 
         proxy = self.__client.plunet_server.DataAdmin30.getCompanyCodeList
         response_model = CompanyCodeListResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=None,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def get_domestic_currency(
-        self,
-    ) -> StringResult:
-        """
-        Returns the default currency.
-
-
-        :return: StringResult
-        """
-
-        proxy = self.__client.plunet_server.DataAdmin30.getDomesticCurrency
-        response_model = StringResult
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -146,6 +147,27 @@ class DataAdmin30:
             unpack_dict=False,
         )
 
+    def get_system_currencies(
+        self,
+    ) -> CurrencyList:
+        """
+        Returns a list of all currencies configured within the administration
+        area
+
+
+        :return: CurrencyList
+        """
+
+        proxy = self.__client.plunet_server.DataAdmin30.getSystemCurrencies
+        response_model = CurrencyList
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=None,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
     def get_available_languages(self, language_code: str) -> LanguageListResult:
         """
         Method returns an instance of LanguageListResult,
@@ -163,26 +185,6 @@ class DataAdmin30:
         return self.__client.make_request(
             operation_proxy=proxy,
             argument=language_code,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def get_list_of_registered_callbacks(
-        self,
-    ) -> CallbackListResult:
-        """
-        Returns a list of all registered callbacks (observer & notifies) to the current user
-
-
-        :return: CallbackListResult
-        """
-
-        proxy = self.__client.plunet_server.DataAdmin30.getListOfRegisteredCallbacks
-        response_model = CallbackListResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=None,
             response_model=response_model,
             unpack_dict=False,
         )

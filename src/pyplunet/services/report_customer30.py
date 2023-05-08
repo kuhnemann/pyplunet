@@ -1,15 +1,17 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Union
+from datetime import datetime
+from typing import TYPE_CHECKING, List, Union
 
 from ..models import IntegerArrayResult, SearchFilter_Customer
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
+    from ..retrying_client import RetryingPlunetClient
 
 
 class ReportCustomer30:
-    def __init__(self, client: PlunetClient):
+    def __init__(self, client: Union[PlunetClient, RetryingPlunetClient]):
         self.__client = client
 
     def search(
