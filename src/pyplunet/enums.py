@@ -11,7 +11,7 @@ class StrIntEnum(Enum):
                     return member
         except ValueError:
             pass
-        raise ValueError(f"{value} ({type(value)}) is not a valid {cls.__name__}. Valid values: {', '.join([str(x) for x in cls])}")
+        raise ValueError(f"{value} ({type(value)}) is not a valid {cls.__name__}.")
 
 
 class SearchSelection_Resource(StrIntEnum):
