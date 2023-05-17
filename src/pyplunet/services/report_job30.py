@@ -7,11 +7,10 @@ from ..models import IntegerArrayResult, SearchFilter_Job
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
-    from ..retrying_client import RetryingPlunetClient
 
 
 class ReportJob30:
-    def __init__(self, client: Union[PlunetClient, RetryingPlunetClient]):
+    def __init__(self, client: PlunetClient):
         self.__client = client
 
     def search(

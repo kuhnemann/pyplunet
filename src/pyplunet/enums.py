@@ -1,12 +1,25 @@
 from enum import Enum
 
+class StrIntEnum(Enum):
 
-class SearchSelection_Resource(Enum):
+    @classmethod
+    def _missing_(cls, value):
+        try:
+            int_value = int(value)
+            for member in cls:
+                if member.name == value or member.value == int_value:
+                    return member
+        except ValueError:
+            pass
+        raise ValueError(f"{value} ({type(value)}) is not a valid {cls.__name__}. Valid values: {', '.join([str(x) for x in cls])}")
+
+
+class SearchSelection_Resource(StrIntEnum):
     AGENCY = 9
     RESOURCE = 1
 
 
-class FolderTypes(Enum):
+class FolderTypes(StrIntEnum):
     CUSTOMER = 19
     INVOICE = 13
     ORDER_FINAL = 12
@@ -34,18 +47,18 @@ class FolderTypes(Enum):
     RESOURCE = 18
 
 
-class InvoiceType(Enum):
+class InvoiceType(StrIntEnum):
     CREDIT_NOTES = 2
     PAYABLES = 3
     RECEIVABLES = 1
 
 
-class WorkingStatus(Enum):
+class WorkingStatus(StrIntEnum):
     EXTERNAL = 2
     INTERNAL = 1
 
 
-class QuoteStatusType(Enum):
+class QuoteStatusType(StrIntEnum):
     ACCEPTED = 7
     CANCELED = 5
     CHANGE_INTO_ORDER = 4
@@ -58,7 +71,7 @@ class QuoteStatusType(Enum):
     REVISED = 2
 
 
-class Format(Enum):
+class Format(StrIntEnum):
     ABBREVIATED_VERSION = 1
     OUTPUT_AS_IN_ORDER = 6
     QUANTITY_NOT_WEIGHTED = 4
@@ -68,38 +81,38 @@ class Format(Enum):
     WEIGHTED_QUANTITY = 2
 
 
-class WorkflowType(Enum):
+class WorkflowType(StrIntEnum):
     ORDER = 1
     QUOTE_ORDER = 2
     STANDARD = 0
 
 
-class AddressType(Enum):
+class AddressType(StrIntEnum):
     DELIVERY = 1
     INVOICE = 2
     OTHER = 3
 
 
-class JobRequestRankingMethod(Enum):
+class JobRequestRankingMethod(StrIntEnum):
     JOB_FEEDBACK = 3
     JOBS_FOR_CUSTOMER = 2
     PRICE = 4
     RANKING_RESOURCE_ASSESSMENT = 1
 
 
-class FormOfAddressType(Enum):
+class FormOfAddressType(StrIntEnum):
     COMPANY = 3
     MADAM = 2
     SIR = 1
 
 
-class JobRoundAssignmentMethod(Enum):
+class JobRoundAssignmentMethod(StrIntEnum):
     FIRST_COME_FIRST_SERVE = 2
     MANUAL = 1
     TOP_RANKED = 4
 
 
-class TimeFrameRelation_Quote(Enum):
+class TimeFrameRelation_Quote(StrIntEnum):
     EVENT_END_DATE = 9
     EVENT_START_DATE = 8
     INSTRUCTED_DATE = 10
@@ -112,7 +125,7 @@ class TimeFrameRelation_Quote(Enum):
     REQUEST_DATE = 5
 
 
-class DocumentStatus(Enum):
+class DocumentStatus(StrIntEnum):
     DOCUMENTS_APPROVED = 7
     DOCUMENTS_AVAILABLE = 1
     DOCUMENTS_DOWNLOADED = 2
@@ -128,23 +141,23 @@ class APIVersion(Enum):
     Version_30 = "Version_30"
 
 
-class CurrencyType(Enum):
+class CurrencyType(StrIntEnum):
     HOMECURRENCY = 2
     PROJECTCURRENCY = 1
 
 
-class CompanyCodeType(Enum):
+class CompanyCodeType(StrIntEnum):
     INVOICE = 1
     RIGHTS = 2
 
 
-class CustomerType(Enum):
+class CustomerType(StrIntEnum):
     DIRECT = 0
     DIRECT_INDIRECT = 1
     INDIRECT = 2
 
 
-class JobRoundStatus(Enum):
+class JobRoundStatus(StrIntEnum):
     ASSIGNMENT_ERROR = 2
     CANCELED = 5
     IN_PREPARATION = 0
@@ -154,7 +167,7 @@ class JobRoundStatus(Enum):
     REQUESTED = 1
 
 
-class CatType(Enum):
+class CatType(StrIntEnum):
     ACROSS = 5
     CATALYST = 14
     DEJAVU = 12
@@ -173,13 +186,13 @@ class CatType(Enum):
     XTM = 10
 
 
-class SearchSelection_TeamMember(Enum):
+class SearchSelection_TeamMember(StrIntEnum):
     PROJECT_MANAGER = 4
     RESOURCE = 1
     SUPERVISOR = 8
 
 
-class ItemStatus(Enum):
+class ItemStatus(StrIntEnum):
     ACCEPTED = 12
     APPROVED = 3
     CANCELED = 5
@@ -196,7 +209,7 @@ class ItemStatus(Enum):
     WITHOUT_INVOICE = 10
 
 
-class ArchivStatus(Enum):
+class ArchivStatus(StrIntEnum):
     ACTIVE = 1
     ARCHIVED = 3
     COMPLETED = 6
@@ -205,23 +218,23 @@ class ArchivStatus(Enum):
     QUOTE_MOVED_TO_ORDER = 4
 
 
-class JobRoundAssignmentLimitType(Enum):
+class JobRoundAssignmentLimitType(StrIntEnum):
     ALL = 0
     LIMIT_X = 1
     MANUAL_SELECTED = 2
 
 
-class SearchSelection_Customer(Enum):
+class SearchSelection_Customer(StrIntEnum):
     ACCOUNT_MANAGER = 7
     CUSTOMER = 1
     INDIRECT_CUSTOMER = 3
 
 
-class TimeFrameRelation_Request(Enum):
+class TimeFrameRelation_Request(StrIntEnum):
     REQUEST_DATE = 1
 
 
-class PayableStatus(Enum):
+class PayableStatus(StrIntEnum):
     CANCELED = 3
     CREATED_BY_EXTERNAL_USER = 4
     IN_PREPARATION = 5
@@ -230,7 +243,7 @@ class PayableStatus(Enum):
     PAID = 2
 
 
-class RequestStatusType(Enum):
+class RequestStatusType(StrIntEnum):
     CANCELED = 5
     CHANGED_INTO_ORDER = 7
     CHANGED_INTO_QUOTE = 6
@@ -240,7 +253,7 @@ class RequestStatusType(Enum):
     REJECTED = 9
 
 
-class ResourceStatus(Enum):
+class ResourceStatus(StrIntEnum):
     ACTIVE = 1
     BLOCKED = 3
     DELETION_REQUESTED = 10
@@ -253,12 +266,12 @@ class ResourceStatus(Enum):
     QUALIFIED = 8
 
 
-class ProjectType(Enum):
+class ProjectType(StrIntEnum):
     ORDER = 3
     QUOTE = 1
 
 
-class PropertyUsageArea(Enum):
+class PropertyUsageArea(StrIntEnum):
     CUSTOMER = 1
     ORDER = 6
     ORDER_ITEM = 10
@@ -270,14 +283,14 @@ class PropertyUsageArea(Enum):
     RESOURCE = 2
 
 
-class ResourceType(Enum):
+class ResourceType(StrIntEnum):
     PROJECT_MANAGER = 2
     RESOURCES = 0
     SUPERVISOR = 3
     TEAM_MEMBER = 1
 
 
-class CustomerStatus(Enum):
+class CustomerStatus(StrIntEnum):
     ACTIVE = 1
     AQUISITION_ADDRESS = 6
     BLOCKED = 5
@@ -288,7 +301,7 @@ class CustomerStatus(Enum):
     NOT_ACTIVE = 2
 
 
-class JobStatus(Enum):
+class JobStatus(StrIntEnum):
     APPROVED = 3
     ASSIGNED_WAITING = 7
     CANCELED = 4
@@ -305,19 +318,19 @@ class JobStatus(Enum):
     WITHOUT_INVOICE = 11
 
 
-class CallbackType(Enum):
+class CallbackType(StrIntEnum):
     NOTIFY = 2
     OBSERVER = 1
 
 
-class WorkflowStatus(Enum):
+class WorkflowStatus(StrIntEnum):
     CANCELED = 2
     INPREPARATION = 0
     RELEASED = 1
     RELEASED_FOR_SELECTION = 3
 
 
-class SearchScope(Enum):
+class SearchScope(StrIntEnum):
     DATE_OF_ORDER = 1
     END_dATE_EVENT = 8
     INSTALLMENT_DATE = 6
@@ -329,7 +342,7 @@ class SearchScope(Enum):
     START_DATE_EVENT = 7
 
 
-class TaxType(Enum):
+class TaxType(StrIntEnum):
     INFO = 3
     INFO_SUM = 6
     PRICE_BLOCK = 12
@@ -350,27 +363,27 @@ class TaxType(Enum):
     WITHOUT_TAX = 2
 
 
-class TimeFrameRelation_Invoice(Enum):
+class TimeFrameRelation_Invoice(StrIntEnum):
     INVOICE_DATE = 1
     PAYABLE_UNTIL = 3
     PAYED = 4
     VALUTA = 2
 
 
-class ExportedType(Enum):
+class ExportedType(StrIntEnum):
     BOTH = 3
     EXPORTED = 1
     NOT_EXPORTED = 2
 
 
-class JobActionLink(Enum):
+class JobActionLink(StrIntEnum):
     ACCEPT_JOB = 1
     DECLINE_JOB = 2
     DOWNLOADLINK_DOCUMENTS_JOB = 4
     JUMP_INTO_JOB = 3
 
 
-class TextModuleType(Enum):
+class TextModuleType(StrIntEnum):
     DATE_FIELD = 3
     HYPER_LINK = 7
     LIST_BOX = 2
@@ -380,7 +393,7 @@ class TextModuleType(Enum):
     TEXT_FIELD = 1
 
 
-class InvoiceStatusType(Enum):
+class InvoiceStatusType(StrIntEnum):
     CANCELED = 3
     CANCELLATION_VOUCHER = 7
     IN_PREPARATION = 5
@@ -391,7 +404,7 @@ class InvoiceStatusType(Enum):
     UNDEFINED = 0
 
 
-class EventType(Enum):
+class EventType(StrIntEnum):
     DELIVERY_DATE_CHANGED = 5
     ENTRY_DELETED = 3
     NEW_ENTRY_CREATED = 2
@@ -400,14 +413,14 @@ class EventType(Enum):
     UNDEFINED = 0
 
 
-class ContactPersonStatus(Enum):
+class ContactPersonStatus(StrIntEnum):
     ACTIVE = 1
     CONTACTED = 3
     DELETION_REQUESTED = 4
     NOT_ACTIVE = 2
 
 
-class TextModuleUsageArea(Enum):
+class TextModuleUsageArea(StrIntEnum):
     CUSTOMER = 1
     ORDER = 6
     ORDER_CUSTOMER_LOGIN = 19
@@ -424,13 +437,13 @@ class TextModuleUsageArea(Enum):
     VENDOR = 3
 
 
-class ContactType(Enum):
+class ContactType(StrIntEnum):
     CUSTOMER = 1
     MISCELLANEOUS = 3
     RESOURCE = 2
 
 
-class CreditNoteStatus(Enum):
+class CreditNoteStatus(StrIntEnum):
     CANCELLATION_VOUCHER = 5
     CANCELLED = 4
     CLEARED = 3
@@ -439,24 +452,25 @@ class CreditNoteStatus(Enum):
     PAID = 6
 
 
-class ProjectManagementType(Enum):
+class ProjectManagementType(StrIntEnum):
     MEMBER_OF_PROJECT_TEAM = 1
     PROJECT_MANAGEMENT = 0
     PROJECT_MANAGER = 2
     SUPERVISOR = 3
 
 
-class PropertyType(Enum):
+class PropertyType(StrIntEnum):
     MULTI_SELECT = 2
     SINGLE_SELECT = 1
 
 
-class OrderActionLink(Enum):
+class OrderActionLink(StrIntEnum):
     JUMP_INTO_ORDER = 1
     JUMP_INTO_ORDER_ASSET = 2
 
 
-class ProjectClassType(Enum):
+class ProjectClassType(StrIntEnum):
     ALL = 0
     INTERPRETING = 2
     TRANSLATION = 1
+

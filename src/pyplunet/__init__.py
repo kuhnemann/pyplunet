@@ -1,5 +1,5 @@
 __version__ = "0.7.0"
-__all__ = ["PlunetClient", "RetryingPlunetClient"]
+__all__ = ["PlunetClient"]
 
 from .client import PlunetClient
-from .retrying_client import RetryingPlunetClient
+

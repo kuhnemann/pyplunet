@@ -8,30 +8,38 @@ from ..models import FileResult, Result, StringArrayResult
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
-    from ..retrying_client import RetryingPlunetClient
 
 
 class DataDocument30:
-    def __init__(self, client: Union[PlunetClient, RetryingPlunetClient]):
+    def __init__(self, client: PlunetClient):
         self.__client = client
 
-    def download_document(
-        self, main_id: int, folder_type: Union[FolderTypes, int], file_path_name: str
-    ) -> FileResult:
+    def get_file_list(
+        self, main_id: int, folder_type: Union[FolderTypes, int]
+    ) -> StringArrayResult:
         """
-        Returns a FileResult containing the specified file as byte-stream.
+        Returns a StringArrayResult containing all files with all sub folders after the,
+        on the main and folder-type depending directory.
 
-        The FilePathName can be obtained over getFileList(String, int, int)
+        Example: MainID = 500 (OrderID) and FolderTypes.ORDER_REFERENCE
+
+
+        Returns:
+
+
+        de-de/examplefile_1.txt
+        de-de/examplefile_2.txt
+        testfiles5.csv
+        en/testfiles6.pdf
 
 
         :param main_id: int
         :param folder_type: FolderTypes
-        :param file_path_name: str
-        :return: FileResult
+        :return: StringArrayResult
         """
 
-        proxy = self.__client.plunet_server.DataDocument30.download_Document
-        response_model = FileResult
+        proxy = self.__client.plunet_server.DataDocument30.getFileList
+        response_model = StringArrayResult
 
         if type(folder_type) == FolderTypes:
             folder_type = folder_type.value
@@ -40,11 +48,7 @@ class DataDocument30:
         else:
             folder_type = int(folder_type)
 
-        arg = {
-            "MainID": main_id,
-            "FolderType": folder_type,
-            "FilePathName": file_path_name,
-        }
+        arg = {"MainID": main_id, "FolderType": folder_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -115,32 +119,23 @@ class DataDocument30:
             unpack_dict=True,
         )
 
-    def get_file_list(
-        self, main_id: int, folder_type: Union[FolderTypes, int]
-    ) -> StringArrayResult:
+    def download_document(
+        self, main_id: int, folder_type: Union[FolderTypes, int], file_path_name: str
+    ) -> FileResult:
         """
-        Returns a StringArrayResult containing all files with all sub folders after the,
-        on the main and folder-type depending directory.
+        Returns a FileResult containing the specified file as byte-stream.
 
-        Example: MainID = 500 (OrderID) and FolderTypes.ORDER_REFERENCE
-
-
-        Returns:
-
-
-        de-de/examplefile_1.txt
-        de-de/examplefile_2.txt
-        testfiles5.csv
-        en/testfiles6.pdf
+        The FilePathName can be obtained over getFileList(String, int, int)
 
 
         :param main_id: int
         :param folder_type: FolderTypes
-        :return: StringArrayResult
+        :param file_path_name: str
+        :return: FileResult
         """
 
-        proxy = self.__client.plunet_server.DataDocument30.getFileList
-        response_model = StringArrayResult
+        proxy = self.__client.plunet_server.DataDocument30.download_Document
+        response_model = FileResult
 
         if type(folder_type) == FolderTypes:
             folder_type = folder_type.value
@@ -149,7 +144,11 @@ class DataDocument30:
         else:
             folder_type = int(folder_type)
 
-        arg = {"MainID": main_id, "FolderType": folder_type}
+        arg = {
+            "MainID": main_id,
+            "FolderType": folder_type,
+            "FilePathName": file_path_name,
+        }
 
         return self.__client.make_request(
             operation_proxy=proxy,

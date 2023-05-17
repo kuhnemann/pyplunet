@@ -16,11 +16,10 @@ from ..models import (
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
-    from ..retrying_client import RetryingPlunetClient
 
 
 class DataAdmin30:
-    def __init__(self, client: Union[PlunetClient, RetryingPlunetClient]):
+    def __init__(self, client: PlunetClient):
         self.__client = client
 
     def get_domestic_currency(
@@ -60,68 +59,6 @@ class DataAdmin30:
         return self.__client.make_request(
             operation_proxy=proxy,
             argument=None,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def get_list_of_registered_callbacks(
-        self,
-    ) -> CallbackListResult:
-        """
-        Returns a list of all registered callbacks (observer & notifies) to the current user
-
-
-        :return: CallbackListResult
-        """
-
-        proxy = self.__client.plunet_server.DataAdmin30.getListOfRegisteredCallbacks
-        response_model = CallbackListResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=None,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def get_company_code_list(
-        self,
-    ) -> CompanyCodeListResult:
-        """
-        Returns a list of all possible company-codes.
-
-
-        :return: CompanyCodeListResult
-        """
-
-        proxy = self.__client.plunet_server.DataAdmin30.getCompanyCodeList
-        response_model = CompanyCodeListResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=None,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def get_available_services(self, language_code: str) -> ServiceListResult:
-        """
-        Method returns an instance of ServiceListResult,
-        which contains an array of the available services/job types in the system,
-        returned in the language specified by the language code - Internal API user can
-        access all services, customers only these that have been marked as available for customers.
-
-
-        :param language_code: str
-        :return: ServiceListResult
-        """
-
-        proxy = self.__client.plunet_server.DataAdmin30.getAvailableServices
-        response_model = ServiceListResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=language_code,
             response_model=response_model,
             unpack_dict=False,
         )
@@ -168,6 +105,28 @@ class DataAdmin30:
             unpack_dict=False,
         )
 
+    def get_available_services(self, language_code: str) -> ServiceListResult:
+        """
+        Method returns an instance of ServiceListResult,
+        which contains an array of the available services/job types in the system,
+        returned in the language specified by the language code - Internal API user can
+        access all services, customers only these that have been marked as available for customers.
+
+
+        :param language_code: str
+        :return: ServiceListResult
+        """
+
+        proxy = self.__client.plunet_server.DataAdmin30.getAvailableServices
+        response_model = ServiceListResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=language_code,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
     def get_available_languages(self, language_code: str) -> LanguageListResult:
         """
         Method returns an instance of LanguageListResult,
@@ -185,6 +144,46 @@ class DataAdmin30:
         return self.__client.make_request(
             operation_proxy=proxy,
             argument=language_code,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_company_code_list(
+        self,
+    ) -> CompanyCodeListResult:
+        """
+        Returns a list of all possible company-codes.
+
+
+        :return: CompanyCodeListResult
+        """
+
+        proxy = self.__client.plunet_server.DataAdmin30.getCompanyCodeList
+        response_model = CompanyCodeListResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=None,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_list_of_registered_callbacks(
+        self,
+    ) -> CallbackListResult:
+        """
+        Returns a list of all registered callbacks (observer & notifies) to the current user
+
+
+        :return: CallbackListResult
+        """
+
+        proxy = self.__client.plunet_server.DataAdmin30.getListOfRegisteredCallbacks
+        response_model = CallbackListResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=None,
             response_model=response_model,
             unpack_dict=False,
         )

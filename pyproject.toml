@@ -24,7 +24,6 @@ requires-python = ">=3.9"
 
 [project.optional-dependencies]
 dev = ["black", "bumpver", "isort", "pip-tools", "pytest"]
-retry = ["tenactity>=8.2.2"]
 
 [project.urls]
 Homepage = "https://github.com/kuhnemann/pyplunet"

@@ -8,11 +8,10 @@ from ..models import AddressIN, IntegerArrayResult, IntegerResult, Result, Strin
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
-    from ..retrying_client import RetryingPlunetClient
 
 
 class DataCustomerAddress30:
-    def __init__(self, client: Union[PlunetClient, RetryingPlunetClient]):
+    def __init__(self, client: PlunetClient):
         self.__client = client
 
     def update(
@@ -151,45 +150,6 @@ class DataCustomerAddress30:
             unpack_dict=True,
         )
 
-    def get_address_type(self, address_id: int) -> IntegerResult:
-        """
-        Returns an instance of StringResult, which contains the AddressType of
-        the currently selected customer.
-
-
-        :param address_id: int
-        :return: IntegerResult
-        """
-
-        proxy = self.__client.plunet_server.DataCustomerAddress30.getAddressType
-        response_model = IntegerResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=address_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def get_description(self, address_id: int) -> StringResult:
-        """
-        Returns an instance of StringResult, which contains the address description.
-
-
-        :param address_id: int
-        :return: StringResult
-        """
-
-        proxy = self.__client.plunet_server.DataCustomerAddress30.getDescription
-        response_model = StringResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=address_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
     def set_description(self, description: str, address_id: int) -> Result:
         """
         Method to set the address description. Returns an instance of Result.
@@ -212,116 +172,16 @@ class DataCustomerAddress30:
             unpack_dict=True,
         )
 
-    def get_sales_taxation_type(self, address_id: int, language: str) -> StringResult:
+    def get_description(self, address_id: int) -> StringResult:
         """
-        Returns the defined sales tax id./b>
-        This is not a standard feature and requires an active module
-
-
-        :param address_id: int
-        :param language: str
-        :return: StringResult
-        """
-
-        proxy = self.__client.plunet_server.DataCustomerAddress30.getSalesTaxationType
-        response_model = StringResult
-
-        arg = {"AddressID": address_id, "language": language}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def set_address_type(
-        self, address_type: Union[AddressType, int], address_id: int
-    ) -> Result:
-        """
-        Method to set the AddressType. Returns an instance of Result.
-
-
-        :param address_type: AddressType
-        :param address_id: int
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.DataCustomerAddress30.setAddressType
-        response_model = Result
-
-        if type(address_type) == AddressType:
-            address_type = address_type.value
-        elif type(address_type) == int:
-            address_type = address_type
-        else:
-            address_type = int(address_type)
-
-        arg = {"AddressType": address_type, "addressID": address_id}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def get_taxation_type(self, address_id: int, language: str) -> StringResult:
-        """
-        Returns the defined taxation type for the specified address
-        This is not a standard feature and requires an active module
-
-
-        :param address_id: int
-        :param language: str
-        :return: StringResult
-        """
-
-        proxy = self.__client.plunet_server.DataCustomerAddress30.getTaxationType
-        response_model = StringResult
-
-        arg = {"AddressID": address_id, "language": language}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def set_street2(self, street2: str, address_id: int) -> Result:
-        """
-        Method to set street 2. Returns an instance of Result.
-
-
-        :param street2: str
-        :param address_id: int
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.DataCustomerAddress30.setStreet2
-        response_model = Result
-
-        arg = {"Street2": street2, "AddressID": address_id}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def get_street2(self, address_id: int) -> StringResult:
-        """
-        Returns an instance of StringResult, which contains street 2
-        depending on the transfered AddressID.
+        Returns an instance of StringResult, which contains the address description.
 
 
         :param address_id: int
         :return: StringResult
         """
 
-        proxy = self.__client.plunet_server.DataCustomerAddress30.getStreet2
+        proxy = self.__client.plunet_server.DataCustomerAddress30.getDescription
         response_model = StringResult
 
         return self.__client.make_request(
@@ -331,26 +191,24 @@ class DataCustomerAddress30:
             unpack_dict=False,
         )
 
-    def set_city(self, city: str, address_id: int) -> Result:
+    def get_zip(self, address_id: int) -> StringResult:
         """
-        Method to set city. Returns an instance of Result.
+        Returns an instance of StringResult, which contains the zip code
+        depending on the transfered AddressID.
 
 
-        :param city: str
         :param address_id: int
-        :return: Result
+        :return: StringResult
         """
 
-        proxy = self.__client.plunet_server.DataCustomerAddress30.setCity
-        response_model = Result
-
-        arg = {"City": city, "AddressID": address_id}
+        proxy = self.__client.plunet_server.DataCustomerAddress30.getZip
+        response_model = StringResult
 
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=arg,
+            argument=address_id,
             response_model=response_model,
-            unpack_dict=True,
+            unpack_dict=False,
         )
 
     def get_city(self, address_id: int) -> StringResult:
@@ -415,26 +273,6 @@ class DataCustomerAddress30:
             unpack_dict=False,
         )
 
-    def get_address_id(
-        self,
-    ) -> IntegerResult:
-        """
-        Deprecated.
-
-
-        :return: IntegerResult
-        """
-
-        proxy = self.__client.plunet_server.DataCustomerAddress30.getAddressID
-        response_model = IntegerResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=None,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
     def set_office(self, external_id: str, address_id: int) -> Result:
         """
         Method to set the office name. Returns an instance of Result.
@@ -477,20 +315,20 @@ class DataCustomerAddress30:
             unpack_dict=False,
         )
 
-    def set_street(self, street: str, address_id: int) -> Result:
+    def set_city(self, city: str, address_id: int) -> Result:
         """
-        Method to set street. Returns an instance of Result.
+        Method to set city. Returns an instance of Result.
 
 
-        :param street: str
+        :param city: str
         :param address_id: int
         :return: Result
         """
 
-        proxy = self.__client.plunet_server.DataCustomerAddress30.setStreet
+        proxy = self.__client.plunet_server.DataCustomerAddress30.setCity
         response_model = Result
 
-        arg = {"Street": street, "AddressID": address_id}
+        arg = {"City": city, "AddressID": address_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -499,22 +337,22 @@ class DataCustomerAddress30:
             unpack_dict=True,
         )
 
-    def get_zip(self, address_id: int) -> StringResult:
+    def get_address_id(
+        self,
+    ) -> IntegerResult:
         """
-        Returns an instance of StringResult, which contains the zip code
-        depending on the transfered AddressID.
+        Deprecated.
 
 
-        :param address_id: int
-        :return: StringResult
+        :return: IntegerResult
         """
 
-        proxy = self.__client.plunet_server.DataCustomerAddress30.getZip
-        response_model = StringResult
+        proxy = self.__client.plunet_server.DataCustomerAddress30.getAddressID
+        response_model = IntegerResult
 
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=address_id,
+            argument=None,
             response_model=response_model,
             unpack_dict=False,
         )
@@ -539,6 +377,70 @@ class DataCustomerAddress30:
             unpack_dict=False,
         )
 
+    def set_street(self, street: str, address_id: int) -> Result:
+        """
+        Method to set street. Returns an instance of Result.
+
+
+        :param street: str
+        :param address_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataCustomerAddress30.setStreet
+        response_model = Result
+
+        arg = {"Street": street, "AddressID": address_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def set_street2(self, street2: str, address_id: int) -> Result:
+        """
+        Method to set street 2. Returns an instance of Result.
+
+
+        :param street2: str
+        :param address_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataCustomerAddress30.setStreet2
+        response_model = Result
+
+        arg = {"Street2": street2, "AddressID": address_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_street2(self, address_id: int) -> StringResult:
+        """
+        Returns an instance of StringResult, which contains street 2
+        depending on the transfered AddressID.
+
+
+        :param address_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataCustomerAddress30.getStreet2
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=address_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
     def set_zip(self, zip: str, address_id: int) -> Result:
         """
         Method to set zip code. Returns an instance of Result.
@@ -553,6 +455,144 @@ class DataCustomerAddress30:
         response_model = Result
 
         arg = {"Zip": zip, "AddressID": address_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_address_type(self, address_id: int) -> IntegerResult:
+        """
+        Returns an instance of StringResult, which contains the AddressType of
+        the currently selected customer.
+
+
+        :param address_id: int
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataCustomerAddress30.getAddressType
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=address_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_address_type(
+        self, address_type: Union[AddressType, int], address_id: int
+    ) -> Result:
+        """
+        Method to set the AddressType. Returns an instance of Result.
+
+
+        :param address_type: AddressType
+        :param address_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataCustomerAddress30.setAddressType
+        response_model = Result
+
+        if type(address_type) == AddressType:
+            address_type = address_type.value
+        elif type(address_type) == int:
+            address_type = address_type
+        else:
+            address_type = int(address_type)
+
+        arg = {"AddressType": address_type, "addressID": address_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_taxation_type(self, address_id: int, language: str) -> StringResult:
+        """
+        Returns the defined taxation type for the specified address
+        This is not a standard feature and requires an active module
+
+
+        :param address_id: int
+        :param language: str
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataCustomerAddress30.getTaxationType
+        response_model = StringResult
+
+        arg = {"AddressID": address_id, "language": language}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def set_cost_center(self, cost_center: str, address_id: int) -> Result:
+        """
+        Method to set the cost center. Returns an instance of Result.
+
+
+        :param cost_center: str
+        :param address_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataCustomerAddress30.setCostCenter
+        response_model = Result
+
+        arg = {"CostCenter": cost_center, "AddressID": address_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_cost_center(self, address_id: int) -> StringResult:
+        """
+        Returns an instance of StringResult, which contains the cost center
+        of the specified customer contact.
+
+
+        :param address_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataCustomerAddress30.getCostCenter
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=address_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_name1(self, name: str, address_id: int) -> Result:
+        """
+        Method to set the name1 / last name. Returns an instance of Result.
+
+
+        :param name: str
+        :param address_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataCustomerAddress30.setName1
+        response_model = Result
+
+        arg = {"Name": name, "AddressID": address_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -610,50 +650,6 @@ class DataCustomerAddress30:
             unpack_dict=True,
         )
 
-    def set_name1(self, name: str, address_id: int) -> Result:
-        """
-        Method to set the name1 / last name. Returns an instance of Result.
-
-
-        :param name: str
-        :param address_id: int
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.DataCustomerAddress30.setName1
-        response_model = Result
-
-        arg = {"Name": name, "AddressID": address_id}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def set_cost_center(self, cost_center: str, address_id: int) -> Result:
-        """
-        Method to set the cost center. Returns an instance of Result.
-
-
-        :param cost_center: str
-        :param address_id: int
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.DataCustomerAddress30.setCostCenter
-        response_model = Result
-
-        arg = {"CostCenter": cost_center, "AddressID": address_id}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
     def set_name2(self, name: str, address_id: int) -> Result:
         """
         Method to set the name2 / first name. Returns an instance of Result.
@@ -696,22 +692,25 @@ class DataCustomerAddress30:
             unpack_dict=False,
         )
 
-    def get_cost_center(self, address_id: int) -> StringResult:
+    def get_sales_taxation_type(self, address_id: int, language: str) -> StringResult:
         """
-        Returns an instance of StringResult, which contains the cost center
-        of the specified customer contact.
+        Returns the defined sales tax id./b>
+        This is not a standard feature and requires an active module
 
 
         :param address_id: int
+        :param language: str
         :return: StringResult
         """
 
-        proxy = self.__client.plunet_server.DataCustomerAddress30.getCostCenter
+        proxy = self.__client.plunet_server.DataCustomerAddress30.getSalesTaxationType
         response_model = StringResult
+
+        arg = {"AddressID": address_id, "language": language}
 
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=address_id,
+            argument=arg,
             response_model=response_model,
-            unpack_dict=False,
+            unpack_dict=True,
         )

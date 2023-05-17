@@ -15,11 +15,10 @@ from ..models import (
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
-    from ..retrying_client import RetryingPlunetClient
 
 
 class DataCustomerContact30:
-    def __init__(self, client: Union[PlunetClient, RetryingPlunetClient]):
+    def __init__(self, client: PlunetClient):
         self.__client = client
 
     def update(
@@ -81,24 +80,50 @@ class DataCustomerContact30:
             unpack_dict=False,
         )
 
-    def get_contact_object(self, contact_id: int) -> CustomerContactResult:
+    def get_address_id(self, contact_id: int) -> IntegerResult:
         """
-        Returns an instance of CustomerContactResult, which contains a specific customer contact
-        object.
+        Returns an instance of IntegerResult, which contains the address id of the customer
+        contact.
+
+        Use the DataResourceAddress25 service, to manage addresses for this customer contact.
 
 
         :param contact_id: int
-        :return: CustomerContactResult
+        :return: IntegerResult
         """
 
-        proxy = self.__client.plunet_server.DataCustomerContact30.getContactObject
-        response_model = CustomerContactResult
+        proxy = self.__client.plunet_server.DataCustomerContact30.getAddressID
+        response_model = IntegerResult
 
         return self.__client.make_request(
             operation_proxy=proxy,
             argument=contact_id,
             response_model=response_model,
             unpack_dict=False,
+        )
+
+    def set_address_id(self, address_id: int, contact_id: int) -> Result:
+        """
+        Method to set the default address for this customer contact.
+
+        Use the DataResourceAddress25 service, to manage addresses for this customer contact.
+
+
+        :param address_id: int
+        :param contact_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataCustomerContact30.setAddressID
+        response_model = Result
+
+        arg = {"AddressID": address_id, "ContactID": contact_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
         )
 
     def set_supervisor1(self, login_name: str, contact_id: int) -> Result:
@@ -112,6 +137,48 @@ class DataCustomerContact30:
         """
 
         proxy = self.__client.plunet_server.DataCustomerContact30.setSupervisor1
+        response_model = Result
+
+        arg = {"LoginName": login_name, "ContactID": contact_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_all_contacts(self, customer_id: int) -> IntegerArrayResult:
+        """
+        Returns an instance of IntegerArrayResult, which contains a list of all available customer
+        contact ids.
+
+
+        :param customer_id: int
+        :return: IntegerArrayResult
+        """
+
+        proxy = self.__client.plunet_server.DataCustomerContact30.getAllContacts
+        response_model = IntegerArrayResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=customer_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_supervisor2(self, login_name: str, contact_id: int) -> Result:
+        """
+        Method to set the supervisor 2.
+
+
+        :param login_name: str
+        :param contact_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataCustomerContact30.setSupervisor2
         response_model = Result
 
         arg = {"LoginName": login_name, "ContactID": contact_id}
@@ -142,20 +209,22 @@ class DataCustomerContact30:
             unpack_dict=False,
         )
 
-    def set_supervisor2(self, login_name: str, contact_id: int) -> Result:
+    def set_customer_id(self, customer_id: int, contact_id: int) -> Result:
         """
-        Method to set the supervisor 2.
+        Method to set the CustomerID.
+
+        Returns an instance of Result.
 
 
-        :param login_name: str
+        :param customer_id: int
         :param contact_id: int
         :return: Result
         """
 
-        proxy = self.__client.plunet_server.DataCustomerContact30.setSupervisor2
+        proxy = self.__client.plunet_server.DataCustomerContact30.setCustomerID
         response_model = Result
 
-        arg = {"LoginName": login_name, "ContactID": contact_id}
+        arg = {"CustomerID": customer_id, "ContactID": contact_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -183,42 +252,61 @@ class DataCustomerContact30:
             unpack_dict=False,
         )
 
-    def get_all_contacts(self, customer_id: int) -> IntegerArrayResult:
+    def get_contact_object(self, contact_id: int) -> CustomerContactResult:
         """
-        Returns an instance of IntegerArrayResult, which contains a list of all available customer
-        contact ids.
+        Returns an instance of CustomerContactResult, which contains a specific customer contact
+        object.
 
 
-        :param customer_id: int
-        :return: IntegerArrayResult
+        :param contact_id: int
+        :return: CustomerContactResult
         """
 
-        proxy = self.__client.plunet_server.DataCustomerContact30.getAllContacts
-        response_model = IntegerArrayResult
+        proxy = self.__client.plunet_server.DataCustomerContact30.getContactObject
+        response_model = CustomerContactResult
 
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=customer_id,
+            argument=contact_id,
             response_model=response_model,
             unpack_dict=False,
         )
 
-    def set_customer_id(self, customer_id: int, contact_id: int) -> Result:
+    def seek_by_external_id(self, external_id: str) -> IntegerArrayResult:
         """
-        Method to set the CustomerID.
+        Returns an instance of IntegerArrayResult, which contains a list of customer contactIDs.
+
+
+        :param external_id: str
+        :return: IntegerArrayResult
+        """
+
+        proxy = self.__client.plunet_server.DataCustomerContact30.seekByExternalID
+        response_model = IntegerArrayResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=external_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_cost_center(self, cost_center: str, contact_id: int) -> Result:
+        """
+        Method to set the cost center.
 
         Returns an instance of Result.
 
 
-        :param customer_id: int
+        :param cost_center: str
         :param contact_id: int
         :return: Result
         """
 
-        proxy = self.__client.plunet_server.DataCustomerContact30.setCustomerID
+        proxy = self.__client.plunet_server.DataCustomerContact30.setCostCenter
         response_model = Result
 
-        arg = {"CustomerID": customer_id, "ContactID": contact_id}
+        arg = {"CostCenter": cost_center, "ContactID": contact_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -227,41 +315,37 @@ class DataCustomerContact30:
             unpack_dict=True,
         )
 
-    def set_address_id(self, address_id: int, contact_id: int) -> Result:
+    def get_cost_center(self, contact_id: int) -> StringResult:
         """
-        Method to set the default address for this customer contact.
+        Returns an instance of StringResult, which contains the cost center of the currently selected
+        customer contact.
 
-        Use the DataResourceAddress25 service, to manage addresses for this customer contact.
 
-
-        :param address_id: int
         :param contact_id: int
-        :return: Result
+        :return: StringResult
         """
 
-        proxy = self.__client.plunet_server.DataCustomerContact30.setAddressID
-        response_model = Result
-
-        arg = {"AddressID": address_id, "ContactID": contact_id}
+        proxy = self.__client.plunet_server.DataCustomerContact30.getCostCenter
+        response_model = StringResult
 
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=arg,
+            argument=contact_id,
             response_model=response_model,
-            unpack_dict=True,
+            unpack_dict=False,
         )
 
-    def get_status(self, contact_id: int) -> IntegerResult:
+    def get_user_id(self, contact_id: int) -> IntegerResult:
         """
-        Returns an instance of IntegerResult, which contains the ContactPersonStatus as
-        integer.
+        Returns an instance of IntegerResult, which contains the user id of the selected customer
+        contact.
 
 
         :param contact_id: int
         :return: IntegerResult
         """
 
-        proxy = self.__client.plunet_server.DataCustomerContact30.getStatus
+        proxy = self.__client.plunet_server.DataCustomerContact30.getUserId
         response_model = IntegerResult
 
         return self.__client.make_request(
@@ -295,39 +379,17 @@ class DataCustomerContact30:
             unpack_dict=True,
         )
 
-    def get_all_contact_objects(self, customer_id: int) -> CustomerContactListResult:
+    def get_customer_id(self, contact_id: int) -> IntegerResult:
         """
-        Returns an instance of CustomerContactListResult, which contains a list of all available
-        customer contact objects.
-
-
-        :param customer_id: int
-        :return: CustomerContactListResult
-        """
-
-        proxy = self.__client.plunet_server.DataCustomerContact30.getAllContactObjects
-        response_model = CustomerContactListResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=customer_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def get_address_id(self, contact_id: int) -> IntegerResult:
-        """
-        Returns an instance of IntegerResult, which contains the address id of the customer
-        contact.
-
-        Use the DataResourceAddress25 service, to manage addresses for this customer contact.
+        Returns an instance of IntegerResult, which contains CustomerID of the currently selected
+        customer contact.
 
 
         :param contact_id: int
         :return: IntegerResult
         """
 
-        proxy = self.__client.plunet_server.DataCustomerContact30.getAddressID
+        proxy = self.__client.plunet_server.DataCustomerContact30.getCustomerID
         response_model = IntegerResult
 
         return self.__client.make_request(
@@ -337,24 +399,96 @@ class DataCustomerContact30:
             unpack_dict=False,
         )
 
-    def get_fax(self, contact_id: int) -> StringResult:
+    def get_status(self, contact_id: int) -> IntegerResult:
         """
-        Returns an instance of StringResult, which contains the fax address of the currently selected
-        customer contact.
+        Returns an instance of IntegerResult, which contains the ContactPersonStatus as
+        integer.
 
 
         :param contact_id: int
-        :return: StringResult
+        :return: IntegerResult
         """
 
-        proxy = self.__client.plunet_server.DataCustomerContact30.getFax
-        response_model = StringResult
+        proxy = self.__client.plunet_server.DataCustomerContact30.getStatus
+        response_model = IntegerResult
 
         return self.__client.make_request(
             operation_proxy=proxy,
             argument=contact_id,
             response_model=response_model,
             unpack_dict=False,
+        )
+
+    def set_name1(self, name: str, contact_id: int) -> Result:
+        """
+        Method to set the name1 / last name.
+
+        Returns an instance of Result.
+
+
+        :param name: str
+        :param contact_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataCustomerContact30.setName1
+        response_model = Result
+
+        arg = {"Name": name, "ContactID": contact_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def set_phone(self, phone_number: str, contact_id: int) -> Result:
+        """
+        Method to set phone number.
+
+        Returns an instance of Result.
+
+
+        :param phone_number: str
+        :param contact_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataCustomerContact30.setPhone
+        response_model = Result
+
+        arg = {"PhoneNumber": phone_number, "ContactID": contact_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def set_mobile_phone(self, phone_number: str, contact_id: int) -> Result:
+        """
+        Method to set mobile number.
+
+        Returns an instance of Result.
+
+
+        :param phone_number: str
+        :param contact_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataCustomerContact30.setMobilePhone
+        response_model = Result
+
+        arg = {"PhoneNumber": phone_number, "ContactID": contact_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
         )
 
     def get_name1(self, contact_id: int) -> StringResult:
@@ -375,6 +509,30 @@ class DataCustomerContact30:
             argument=contact_id,
             response_model=response_model,
             unpack_dict=False,
+        )
+
+    def set_external_id(self, external_id: str, contact_id: int) -> Result:
+        """
+        Method to set the external ID.
+
+        Returns an instance of Result.
+
+
+        :param external_id: str
+        :param contact_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataCustomerContact30.setExternalID
+        response_model = Result
+
+        arg = {"ExternalID": external_id, "ContactID": contact_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
         )
 
     def set_fax(self, fax: str, contact_id: int) -> Result:
@@ -432,50 +590,6 @@ class DataCustomerContact30:
             unpack_dict=False,
         )
 
-    def get_phone(self, contact_id: int) -> StringResult:
-        """
-        Returns an instance of StringResult, which contains the phone number of the currently selected
-        customer contact.
-
-
-        :param contact_id: int
-        :return: StringResult
-        """
-
-        proxy = self.__client.plunet_server.DataCustomerContact30.getPhone
-        response_model = StringResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=contact_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def set_name1(self, name: str, contact_id: int) -> Result:
-        """
-        Method to set the name1 / last name.
-
-        Returns an instance of Result.
-
-
-        :param name: str
-        :param contact_id: int
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.DataCustomerContact30.setName1
-        response_model = Result
-
-        arg = {"Name": name, "ContactID": contact_id}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
     def get_mobile_phone(self, contact_id: int) -> StringResult:
         """
         Returns an instance of StringResult, which contains the mobile phone number of the currently
@@ -496,22 +610,42 @@ class DataCustomerContact30:
             unpack_dict=False,
         )
 
-    def set_external_id(self, external_id: str, contact_id: int) -> Result:
+    def get_fax(self, contact_id: int) -> StringResult:
         """
-        Method to set the external ID.
+        Returns an instance of StringResult, which contains the fax address of the currently selected
+        customer contact.
+
+
+        :param contact_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataCustomerContact30.getFax
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=contact_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_email(self, e_mail: str, contact_id: int) -> Result:
+        """
+        Method to set the e-mail address.
 
         Returns an instance of Result.
 
 
-        :param external_id: str
+        :param e_mail: str
         :param contact_id: int
         :return: Result
         """
 
-        proxy = self.__client.plunet_server.DataCustomerContact30.setExternalID
+        proxy = self.__client.plunet_server.DataCustomerContact30.setEmail
         response_model = Result
 
-        arg = {"ExternalID": external_id, "ContactID": contact_id}
+        arg = {"EMail": e_mail, "ContactID": contact_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -520,42 +654,38 @@ class DataCustomerContact30:
             unpack_dict=True,
         )
 
-    def set_cost_center(self, cost_center: str, contact_id: int) -> Result:
+    def get_phone(self, contact_id: int) -> StringResult:
         """
-        Method to set the cost center.
+        Returns an instance of StringResult, which contains the phone number of the currently selected
+        customer contact.
 
-        Returns an instance of Result.
 
-
-        :param cost_center: str
         :param contact_id: int
-        :return: Result
+        :return: StringResult
         """
 
-        proxy = self.__client.plunet_server.DataCustomerContact30.setCostCenter
-        response_model = Result
-
-        arg = {"CostCenter": cost_center, "ContactID": contact_id}
+        proxy = self.__client.plunet_server.DataCustomerContact30.getPhone
+        response_model = StringResult
 
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=arg,
+            argument=contact_id,
             response_model=response_model,
-            unpack_dict=True,
+            unpack_dict=False,
         )
 
-    def get_user_id(self, contact_id: int) -> IntegerResult:
+    def get_email(self, contact_id: int) -> StringResult:
         """
-        Returns an instance of IntegerResult, which contains the user id of the selected customer
-        contact.
+        Returns an instance of StringResult, which contains the e-mail address of the currently
+        selected customer contact.
 
 
         :param contact_id: int
-        :return: IntegerResult
+        :return: StringResult
         """
 
-        proxy = self.__client.plunet_server.DataCustomerContact30.getUserId
-        response_model = IntegerResult
+        proxy = self.__client.plunet_server.DataCustomerContact30.getEmail
+        response_model = StringResult
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -588,57 +718,9 @@ class DataCustomerContact30:
             unpack_dict=True,
         )
 
-    def set_email(self, e_mail: str, contact_id: int) -> Result:
+    def get_name2(self, contact_id: int) -> StringResult:
         """
-        Method to set the e-mail address.
-
-        Returns an instance of Result.
-
-
-        :param e_mail: str
-        :param contact_id: int
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.DataCustomerContact30.setEmail
-        response_model = Result
-
-        arg = {"EMail": e_mail, "ContactID": contact_id}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def set_phone(self, phone_number: str, contact_id: int) -> Result:
-        """
-        Method to set phone number.
-
-        Returns an instance of Result.
-
-
-        :param phone_number: str
-        :param contact_id: int
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.DataCustomerContact30.setPhone
-        response_model = Result
-
-        arg = {"PhoneNumber": phone_number, "ContactID": contact_id}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def get_email(self, contact_id: int) -> StringResult:
-        """
-        Returns an instance of StringResult, which contains the e-mail address of the currently
+        Returns an instance of StringResult, which contains the name2 / first name of the currently
         selected customer contact.
 
 
@@ -646,7 +728,7 @@ class DataCustomerContact30:
         :return: StringResult
         """
 
-        proxy = self.__client.plunet_server.DataCustomerContact30.getEmail
+        proxy = self.__client.plunet_server.DataCustomerContact30.getName2
         response_model = StringResult
 
         return self.__client.make_request(
@@ -676,105 +758,22 @@ class DataCustomerContact30:
             unpack_dict=False,
         )
 
-    def set_mobile_phone(self, phone_number: str, contact_id: int) -> Result:
+    def get_all_contact_objects(self, customer_id: int) -> CustomerContactListResult:
         """
-        Method to set mobile number.
+        Returns an instance of CustomerContactListResult, which contains a list of all available
+        customer contact objects.
 
-        Returns an instance of Result.
 
-
-        :param phone_number: str
-        :param contact_id: int
-        :return: Result
+        :param customer_id: int
+        :return: CustomerContactListResult
         """
 
-        proxy = self.__client.plunet_server.DataCustomerContact30.setMobilePhone
-        response_model = Result
-
-        arg = {"PhoneNumber": phone_number, "ContactID": contact_id}
+        proxy = self.__client.plunet_server.DataCustomerContact30.getAllContactObjects
+        response_model = CustomerContactListResult
 
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def get_name2(self, contact_id: int) -> StringResult:
-        """
-        Returns an instance of StringResult, which contains the name2 / first name of the currently
-        selected customer contact.
-
-
-        :param contact_id: int
-        :return: StringResult
-        """
-
-        proxy = self.__client.plunet_server.DataCustomerContact30.getName2
-        response_model = StringResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=contact_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def seek_by_external_id(self, external_id: str) -> IntegerArrayResult:
-        """
-        Returns an instance of IntegerArrayResult, which contains a list of customer contactIDs.
-
-
-        :param external_id: str
-        :return: IntegerArrayResult
-        """
-
-        proxy = self.__client.plunet_server.DataCustomerContact30.seekByExternalID
-        response_model = IntegerArrayResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=external_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def get_cost_center(self, contact_id: int) -> StringResult:
-        """
-        Returns an instance of StringResult, which contains the cost center of the currently selected
-        customer contact.
-
-
-        :param contact_id: int
-        :return: StringResult
-        """
-
-        proxy = self.__client.plunet_server.DataCustomerContact30.getCostCenter
-        response_model = StringResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=contact_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def get_customer_id(self, contact_id: int) -> IntegerResult:
-        """
-        Returns an instance of IntegerResult, which contains CustomerID of the currently selected
-        customer contact.
-
-
-        :param contact_id: int
-        :return: IntegerResult
-        """
-
-        proxy = self.__client.plunet_server.DataCustomerContact30.getCustomerID
-        response_model = IntegerResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=contact_id,
+            argument=customer_id,
             response_model=response_model,
             unpack_dict=False,
         )

@@ -15,11 +15,10 @@ from ..models import (
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
-    from ..retrying_client import RetryingPlunetClient
 
 
 class DataCustomFields30:
-    def __init__(self, client: Union[PlunetClient, RetryingPlunetClient]):
+    def __init__(self, client: PlunetClient):
         self.__client = client
 
     def get_property(
@@ -57,97 +56,6 @@ class DataCustomFields30:
             "PropertyNameEnglish": property_name_english,
             "PropertyUsageArea": property_usage_area,
             "MainID": main_id,
-        }
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def set_property_value_list(
-        self,
-        property_name_english: str,
-        property_usage_area: Union[PropertyUsageArea, int],
-        property_value_list: Union[IntegerList, dict],
-        main_id: int,
-    ) -> Result:
-        """
-        Changes the current selected property value for the specific object
-        (mainID) to the specified property value ID.
-        Possible property values for the property can be obtained over
-        getProperty(String, String, int, int).
-        Properties can be configured over admin/properties.
-        The PropertyNameEnglish can be obtained there.
-        The type of the MainID is related to the used PropertyUsageArea.
-        e.g. Should the property be related to an order, the propertyusageArea
-        must be set to PropertyUsageArea.ORDER
-        Note:
-        Properties can also be modified over general plunet api calls. Please
-        check PropertyUsageArea for more details, which call can affect
-        which kind of properties.
-
-
-        :param property_name_english: str
-        :param property_usage_area: PropertyUsageArea
-        :param property_value_list: IntegerList
-        :param main_id: int
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.DataCustomFields30.setPropertyValueList
-        response_model = Result
-
-        if type(property_value_list) != IntegerList:
-            property_value_list = IntegerList(**property_value_list).dict()
-        else:
-            property_value_list = property_value_list.dict()
-
-        if type(property_usage_area) == PropertyUsageArea:
-            property_usage_area = property_usage_area.value
-        elif type(property_usage_area) == int:
-            property_usage_area = property_usage_area
-        else:
-            property_usage_area = int(property_usage_area)
-
-        arg = {
-            "PropertyNameEnglish": property_name_english,
-            "PropertyUsageArea": property_usage_area,
-            "PropertyValueList": property_value_list,
-            "MainID": main_id,
-        }
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def get_property_value_text(
-        self, property_name_english: str, property_value_id: int, language_code: str
-    ) -> StringResult:
-        """
-        Returns the value text dependent on the language-code and propertyValueID.
-        Language-Codes can be configured over admin/languages
-        Properties can be configured over admin/properties.
-        The PropertyNameEnglish can be obtained there.
-
-
-        :param property_name_english: str
-        :param property_value_id: int
-        :param language_code: str
-        :return: StringResult
-        """
-
-        proxy = self.__client.plunet_server.DataCustomFields30.getPropertyValueText
-        response_model = StringResult
-
-        arg = {
-            "PropertyNameEnglish": property_name_english,
-            "PropertyValueID": property_value_id,
-            "languageCode": language_code,
         }
 
         return self.__client.make_request(
@@ -270,6 +178,97 @@ class DataCustomFields30:
             "PropertyNameEnglish": property_name_english,
             "PropertyUsageArea": property_usage_area,
             "PropertyValueID": property_value_id,
+            "MainID": main_id,
+        }
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_property_value_text(
+        self, property_name_english: str, property_value_id: int, language_code: str
+    ) -> StringResult:
+        """
+        Returns the value text dependent on the language-code and propertyValueID.
+        Language-Codes can be configured over admin/languages
+        Properties can be configured over admin/properties.
+        The PropertyNameEnglish can be obtained there.
+
+
+        :param property_name_english: str
+        :param property_value_id: int
+        :param language_code: str
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataCustomFields30.getPropertyValueText
+        response_model = StringResult
+
+        arg = {
+            "PropertyNameEnglish": property_name_english,
+            "PropertyValueID": property_value_id,
+            "languageCode": language_code,
+        }
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def set_property_value_list(
+        self,
+        property_name_english: str,
+        property_usage_area: Union[PropertyUsageArea, int],
+        property_value_list: Union[IntegerList, dict],
+        main_id: int,
+    ) -> Result:
+        """
+        Changes the current selected property value for the specific object
+        (mainID) to the specified property value ID.
+        Possible property values for the property can be obtained over
+        getProperty(String, String, int, int).
+        Properties can be configured over admin/properties.
+        The PropertyNameEnglish can be obtained there.
+        The type of the MainID is related to the used PropertyUsageArea.
+        e.g. Should the property be related to an order, the propertyusageArea
+        must be set to PropertyUsageArea.ORDER
+        Note:
+        Properties can also be modified over general plunet api calls. Please
+        check PropertyUsageArea for more details, which call can affect
+        which kind of properties.
+
+
+        :param property_name_english: str
+        :param property_usage_area: PropertyUsageArea
+        :param property_value_list: IntegerList
+        :param main_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataCustomFields30.setPropertyValueList
+        response_model = Result
+
+        if type(property_value_list) != IntegerList:
+            property_value_list = IntegerList(**property_value_list).dict()
+        else:
+            property_value_list = property_value_list.dict()
+
+        if type(property_usage_area) == PropertyUsageArea:
+            property_usage_area = property_usage_area.value
+        elif type(property_usage_area) == int:
+            property_usage_area = property_usage_area
+        else:
+            property_usage_area = int(property_usage_area)
+
+        arg = {
+            "PropertyNameEnglish": property_name_english,
+            "PropertyUsageArea": property_usage_area,
+            "PropertyValueList": property_value_list,
             "MainID": main_id,
         }
 

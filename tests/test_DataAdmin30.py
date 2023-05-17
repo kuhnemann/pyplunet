@@ -148,10 +148,6 @@ if __name__ == '__main__':
         test_client_factory.get_test_client_inmemory_cache,
         test_client_factory.get_test_configured_sql_cache,
         test_client_factory.get_test_client_no_caching,
-        test_client_factory.get_test_retrying_client,
-        test_client_factory.get_test_retrying_client_inmemory_cache,
-        test_client_factory.get_test_retrying_configured_sql_cache,
-        test_client_factory.get_test_retrying_client_no_caching,
     ]
     test_set = get_test_set()
     for client in test_clients:

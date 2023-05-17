@@ -41,9 +41,9 @@ Pip install, import and start working. It really is as easy as that!
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-### New in 0.7.0
-- Retrying client that uses tenacity to retry on ConnectionError from zeep/requests
-- Improved typing for enums - all are still not covered but getting there
+### New in 0.8.0
+- Decided to remove the retrying client 
+- Improved flexibility for enums, which now accept both integers and strings that are possible to cast as ints
 
 ### Built With
 
@@ -67,11 +67,6 @@ Install via pip
 
    ```sh
    pip install pyplunet
-   ```
-
-To include tenacity:
-   ```sh
-   pip install pyplunet[retry] 
    ```
 
 Or clone the repo

@@ -7,29 +7,28 @@ from ..models import UserListResult, UserResult
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
-    from ..retrying_client import RetryingPlunetClient
 
 
 class DataUser30:
-    def __init__(self, client: Union[PlunetClient, RetryingPlunetClient]):
+    def __init__(self, client: PlunetClient):
         self.__client = client
 
-    def get_user_by_login_name(self, user_login_name: str) -> UserResult:
+    def get_user_by_id(self, user_id: int) -> UserResult:
         """
         Returns a UserResult if a user can be found
-        depending on the transfered login-name
+        depending on the transfered user id
 
 
-        :param user_login_name: str
+        :param user_id: int
         :return: UserResult
         """
 
-        proxy = self.__client.plunet_server.DataUser30.getUserByLoginName
+        proxy = self.__client.plunet_server.DataUser30.getUserByID
         response_model = UserResult
 
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=user_login_name,
+            argument=user_id,
             response_model=response_model,
             unpack_dict=False,
         )
@@ -53,22 +52,22 @@ class DataUser30:
             unpack_dict=False,
         )
 
-    def get_user_by_id(self, user_id: int) -> UserResult:
+    def get_user_by_login_name(self, user_login_name: str) -> UserResult:
         """
         Returns a UserResult if a user can be found
-        depending on the transfered user id
+        depending on the transfered login-name
 
 
-        :param user_id: int
+        :param user_login_name: str
         :return: UserResult
         """
 
-        proxy = self.__client.plunet_server.DataUser30.getUserByID
+        proxy = self.__client.plunet_server.DataUser30.getUserByLoginName
         response_model = UserResult
 
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=user_id,
+            argument=user_login_name,
             response_model=response_model,
             unpack_dict=False,
         )
