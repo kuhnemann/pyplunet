@@ -243,6 +243,7 @@ class PayableStatus(StrIntEnum):
     INVOICE_CHECKED = 6
     OUTSTANDING = 1
     PAID = 2
+    ALL = -1
 
 
 class RequestStatusType(StrIntEnum):
