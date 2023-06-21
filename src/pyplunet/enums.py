@@ -1,7 +1,7 @@
 from enum import Enum
 
-class StrIntEnum(Enum):
 
+class StrIntEnum(Enum):
     @classmethod
     def _missing_(cls, value):
         try:
@@ -56,6 +56,7 @@ class InvoiceType(StrIntEnum):
 class WorkingStatus(StrIntEnum):
     EXTERNAL = 2
     INTERNAL = 1
+    ALL = -1
 
 
 class QuoteStatusType(StrIntEnum):
@@ -155,6 +156,7 @@ class CustomerType(StrIntEnum):
     DIRECT = 0
     DIRECT_INDIRECT = 1
     INDIRECT = 2
+    ALL = -1
 
 
 class JobRoundStatus(StrIntEnum):
@@ -264,6 +266,7 @@ class ResourceStatus(StrIntEnum):
     PREMIUM = 5
     PROBATION = 7
     QUALIFIED = 8
+    ALL = -1
 
 
 class ProjectType(StrIntEnum):
@@ -288,6 +291,7 @@ class ResourceType(StrIntEnum):
     RESOURCES = 0
     SUPERVISOR = 3
     TEAM_MEMBER = 1
+    ALL = -1
 
 
 class CustomerStatus(StrIntEnum):
@@ -299,6 +303,7 @@ class CustomerStatus(StrIntEnum):
     NEW = 4
     NEW_AUTO = 7
     NOT_ACTIVE = 2
+    ALL = -1
 
 
 class JobStatus(StrIntEnum):
@@ -402,6 +407,7 @@ class InvoiceStatusType(StrIntEnum):
     REMINDER_CREATED = 4
     UNCOLLECTABLE = 6
     UNDEFINED = 0
+    ALL = -1
 
 
 class EventType(StrIntEnum):
@@ -450,6 +456,7 @@ class CreditNoteStatus(StrIntEnum):
     IN_PREPARATION = 1
     OPEN = 2
     PAID = 6
+    ALL = -1
 
 
 class ProjectManagementType(StrIntEnum):

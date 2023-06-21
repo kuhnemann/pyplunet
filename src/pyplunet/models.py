@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from pydantic import BaseModel as BM
 
@@ -1199,7 +1199,7 @@ class SearchFilter_CreditNote(BaseModel):
     customerID: int
     languageCode: str
     propertiesList: Optional[List[Optional[Property]]]
-    creditNoteStatus: CreditNoteStatus
+    creditNoteStatus: Union[CreditNoteStatus, int]
     textmodulesList: Optional[List[Optional[Textmodule]]]
     timeFrame: SelectionEntry_TimeFrame
 
@@ -2143,3 +2143,6 @@ class PropertyResult(BaseModel):
     statusCodeAlphanumeric: Optional[str]
     statusMessage: Optional[str]
     warning_StatusCodeList: Optional[List[Optional[int]]] = None
+
+
+SearchFilter_CreditNote.update_forward_refs()
