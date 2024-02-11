@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import TYPE_CHECKING, List, Union
 
-from ..enums import CatType, CurrencyType, EventType, ProjectType
+from ..enums import CatType, CurrencyType, EventType, ProjectType, JobActionLink, JobStatus
 from ..models import (
     DateResult,
     IntegerResult,
@@ -725,7 +725,7 @@ class DataJob30:
         project_type: Union[ProjectType, int],
         job_id: int,
         user_id: int,
-        action_link_type: int,
+        action_link_type: Union[JobActionLink, int],
     ) -> StringResult:
         """
         Method to obtain any kind of job related action link.
@@ -748,6 +748,12 @@ class DataJob30:
         else:
             project_type = int(project_type)
 
+        if type(action_link_type) == JobActionLink:
+            action_link_type = action_link_type.value
+        elif type(action_link_type) == int:
+            action_link_type = action_link_type
+        else:
+            action_link_type = int(action_link_type)
         arg = {
             "projectType": project_type,
             "jobID": job_id,
@@ -1182,7 +1188,7 @@ class DataJob30:
         )
 
     def set_job_status(
-        self, project_type: Union[ProjectType, int], job_id: int, status: int
+        self, project_type: Union[ProjectType, int], job_id: int, status: Union[JobStatus, int]
     ) -> Result:
         """
         Method to set the status for the specified job.
@@ -1203,6 +1209,13 @@ class DataJob30:
             project_type = project_type
         else:
             project_type = int(project_type)
+
+        if type(status) == JobStatus:
+            status = status.value
+        elif type(status) == int:
+            status = status
+        else:
+            status = int(status)
 
         arg = {"projectType": project_type, "jobID": job_id, "status": status}
 
@@ -2140,7 +2153,7 @@ class DataJob30:
         )
 
     def get_job_list_for_view(
-        self, job_i_ds: str, project_type: Union[ProjectType, int]
+        self, job_ids: List[str], project_type: Union[ProjectType, int]
     ) -> JobListResult:
         """
         Method returns an instance of JobListResult, containing a list of Job objects.
@@ -2148,7 +2161,7 @@ class DataJob30:
         display this information in your application.
 
 
-        :param job_i_ds: str
+        :param job_ids: str
         :param project_type: ProjectType
         :return: JobListResult
         """
@@ -2163,7 +2176,7 @@ class DataJob30:
         else:
             project_type = int(project_type)
 
-        arg = {"jobIDs": job_i_ds, "projectType": project_type}
+        arg = {"jobIDs": ";".join(job_ids), "projectType": project_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,

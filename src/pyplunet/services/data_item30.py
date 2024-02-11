@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import TYPE_CHECKING, List, Union
 
-from ..enums import CatType, CurrencyType, DocumentStatus, EventType, ProjectType
+from ..enums import CatType, CurrencyType, DocumentStatus, EventType, ProjectType, ItemStatus
 from ..models import (
     DateResult,
     DoubleResult,
@@ -931,7 +931,7 @@ class DataItem30:
         )
 
     def set_status(
-        self, status: int, project_type: Union[ProjectType, int], item_id: int
+        self, status: Union[ItemStatus, int], project_type: Union[ProjectType, int], item_id: int
     ) -> Result:
         """
         Method to set the ItemStatus for the specified item.
@@ -952,6 +952,13 @@ class DataItem30:
             project_type = project_type
         else:
             project_type = int(project_type)
+
+        if type(status) == ItemStatus:
+            status = status.value
+        elif type(status) == int:
+            status = status
+        else:
+            status = int(status)
 
         arg = {"status": status, "projectType": project_type, "itemID": item_id}
 
@@ -1209,7 +1216,7 @@ class DataItem30:
     def get_items_by_status3_by_currency_type(
         self,
         project_type: Union[ProjectType, int],
-        status: int,
+        status: Union[ItemStatus, int],
         document_status: Union[DocumentStatus, int],
         currency_type: Union[CurrencyType, int],
     ) -> ItemListResult:
@@ -1250,6 +1257,13 @@ class DataItem30:
             currency_type = currency_type
         else:
             currency_type = int(currency_type)
+
+        if type(status) == ItemStatus:
+            status = status.value
+        elif type(status) == int:
+            status = status
+        else:
+            status = int(status)
 
         arg = {
             "projectType": project_type,
@@ -1563,7 +1577,7 @@ class DataItem30:
         self,
         project_id: int,
         project_type: Union[ProjectType, int],
-        status: int,
+        status: Union[ItemStatus, int],
         document_status: Union[DocumentStatus, int],
         current_type: Union[CurrencyType, int],
     ) -> ItemListResult:
@@ -1606,6 +1620,13 @@ class DataItem30:
             current_type = current_type
         else:
             current_type = int(current_type)
+
+        if type(status) == ItemStatus:
+            status = status.value
+        elif type(status) == int:
+            status = status
+        else:
+            status = int(status)
 
         arg = {
             "projectID": project_id,
@@ -1907,7 +1928,7 @@ class DataItem30:
         )
 
     def get_items_by_status2(
-        self, project_id: int, project_type: Union[ProjectType, int], status: int
+        self, project_id: int, project_type: Union[ProjectType, int], status: Union[ItemStatus, int]
     ) -> ItemListResult:
         """
         Method returns an instance of ItemListResult, which contains a list of item objects for a
@@ -1932,6 +1953,13 @@ class DataItem30:
         else:
             project_type = int(project_type)
 
+        if type(status) == ItemStatus:
+            status = status.value
+        elif type(status) == int:
+            status = status
+        else:
+            status = int(status)
+
         arg = {"projectID": project_id, "projectType": project_type, "status": status}
 
         return self.__client.make_request(
@@ -1944,7 +1972,7 @@ class DataItem30:
     def get_items_by_status3(
         self,
         project_type: Union[ProjectType, int],
-        status: int,
+        status: Union[ItemStatus, int],
         document_status: Union[DocumentStatus, int],
     ) -> ItemListResult:
         """
@@ -1975,6 +2003,13 @@ class DataItem30:
             document_status = document_status
         else:
             document_status = int(document_status)
+
+        if type(status) == ItemStatus:
+            status = status.value
+        elif type(status) == int:
+            status = status
+        else:
+            status = int(status)
 
         arg = {
             "projectType": project_type,
@@ -2085,7 +2120,7 @@ class DataItem30:
         )
 
     def get_jobs_with_status(
-        self, status: int, project_type: Union[ProjectType, int], item_id: int
+        self, status: Union[ItemStatus, int], project_type: Union[ProjectType, int], item_id: int
     ) -> IntegerArrayResult:
         """
         Method returns an instance of IntegerArrayResult, which contains a list of IDs of job, which
@@ -2107,6 +2142,13 @@ class DataItem30:
             project_type = project_type
         else:
             project_type = int(project_type)
+
+        if type(status) == ItemStatus:
+            status = status.value
+        elif type(status) == int:
+            status = status
+        else:
+            status = int(status)
 
         arg = {"Status": status, "projectType": project_type, "itemID": item_id}
 
@@ -2249,7 +2291,7 @@ class DataItem30:
         )
 
     def get_items_by_status1(
-        self, project_type: Union[ProjectType, int], status: int
+        self, project_type: Union[ProjectType, int], status: Union[ItemStatus, int]
     ) -> ItemListResult:
         """
         Method returns an instance of ItemListResult, which contains a list of item objects. Items are
@@ -2270,6 +2312,13 @@ class DataItem30:
             project_type = project_type
         else:
             project_type = int(project_type)
+
+        if type(status) == ItemStatus:
+            status = status.value
+        elif type(status) == int:
+            status = status
+        else:
+            status = int(status)
 
         arg = {"projectType": project_type, "status": status}
 
@@ -2355,7 +2404,7 @@ class DataItem30:
         self,
         project_id: int,
         project_type: Union[ProjectType, int],
-        status: int,
+        status: Union[ItemStatus, int],
         document_status: Union[DocumentStatus, int],
     ) -> ItemListResult:
         """
@@ -2388,6 +2437,13 @@ class DataItem30:
             document_status = document_status
         else:
             document_status = int(document_status)
+
+        if type(status) == ItemStatus:
+            status = status.value
+        elif type(status) == int:
+            status = status
+        else:
+            status = int(status)
 
         arg = {
             "projectID": project_id,

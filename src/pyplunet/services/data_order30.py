@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import TYPE_CHECKING, List, Union
 
-from ..enums import EventType, ProjectType
+from ..enums import EventType, ProjectType, ArchivStatus, OrderActionLink
 from ..models import (
     BooleanResult,
     DateResult,
@@ -661,7 +661,7 @@ class DataOrder30:
             unpack_dict=False,
         )
 
-    def set_project_status(self, order_id: int, project_status: int) -> Result:
+    def set_project_status(self, order_id: int, project_status: Union[ArchivStatus, int]) -> Result:
         """
         Method allows to set the ArchivStatus to ARCHIVED(3).
         Other status changes are not supported due to underlying automated workflows.
@@ -669,12 +669,19 @@ class DataOrder30:
 
 
         :param order_id: int
-        :param project_status: int
+        :param project_status: ArchivStatus
         :return: Result
         """
 
         proxy = self.__client.plunet_server.DataOrder30.setProjectStatus
         response_model = Result
+
+        if type(project_status) == ArchivStatus:
+            project_status = project_status.value
+        elif type(project_status) == int:
+            project_status = project_status
+        else:
+            project_status = int(project_status)
 
         arg = {"orderID": order_id, "projectStatus": project_status}
 
@@ -758,7 +765,7 @@ class DataOrder30:
         )
 
     def get_action_link(
-        self, order_id: int, user_id: int, action_link_type: int
+        self, order_id: int, user_id: int, action_link_type: Union[OrderActionLink, int]
     ) -> StringResult:
         """
         Method to obtain any kind of order related action link.
@@ -766,12 +773,19 @@ class DataOrder30:
 
         :param order_id: int
         :param user_id: int
-        :param action_link_type: int
+        :param action_link_type: OrderActionLink
         :return: StringResult
         """
 
         proxy = self.__client.plunet_server.DataOrder30.getActionLink
         response_model = StringResult
+
+        if type(action_link_type) == OrderActionLink:
+            action_link_type = action_link_type.value
+        elif type(action_link_type) == int:
+            action_link_type = action_link_type
+        else:
+            action_link_type = int(action_link_type)
 
         arg = {
             "orderID": order_id,

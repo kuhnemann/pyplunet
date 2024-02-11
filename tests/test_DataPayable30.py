@@ -216,7 +216,7 @@ def test_DataPayable30_get_total_tax_amount(pc: PlunetClient, test_set: test_set
     try:
         resp = pc.payable.get_total_tax_amount(
                 payables_id=test_set.payables_id,
-                currency_tpe=test_set.currency_tpe,
+                currency_type=test_set.currency_tpe,
                 tax_type=test_set.tax_type
         )
     except PlunetAPIError as e:
@@ -233,7 +233,7 @@ def test_DataPayable30_get_total_net_amount(pc: PlunetClient, test_set: test_set
     try:
         resp = pc.payable.get_total_net_amount(
                 payables_id=test_set.payables_id,
-                currency_tpe=test_set.currency_tpe
+                currency_type=test_set.currency_tpe
         )
     except PlunetAPIError as e:
         error = e

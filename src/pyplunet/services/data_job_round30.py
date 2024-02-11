@@ -122,7 +122,7 @@ class DataJobRound30:
             unpack_dict=True,
         )
 
-    def get_all_round_i_ds(
+    def get_all_round_ids(
         self, job_id: int, project_type: Union[ProjectType, int]
     ) -> IntegerArrayResult:
         """

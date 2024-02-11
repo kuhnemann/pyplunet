@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import TYPE_CHECKING, List, Union
 
-from ..enums import TaxType
+from ..enums import TaxType, CurrencyType, PayableStatus
 from ..models import (
     BooleanResult,
     DateResult,
@@ -135,14 +135,14 @@ class DataPayable30:
         )
 
     def get_total_tax_amount(
-        self, payables_id: int, currency_tpe: int, tax_type: Union[TaxType, int]
+        self, payables_id: int, currency_type: Union[CurrencyType, int], tax_type: Union[TaxType, int]
     ) -> DoubleResult:
         """
         Returns the total tax price of the payment.
 
 
         :param payables_id: int
-        :param currency_tpe: int
+        :param currency_type: CurrencyType
         :param tax_type: TaxType
         :return: DoubleResult
         """
@@ -157,9 +157,16 @@ class DataPayable30:
         else:
             tax_type = int(tax_type)
 
+        if type(currency_type) == CurrencyType:
+            currency_type = currency_type.value
+        elif type(currency_type) == int:
+            currency_type = currency_type
+        else:
+            currency_type = int(currency_type)
+
         arg = {
             "payablesID": payables_id,
-            "currencyTpe": currency_tpe,
+            "currencyTpe": currency_type,
             "taxType": tax_type,
         }
 
@@ -226,20 +233,27 @@ class DataPayable30:
             unpack_dict=False,
         )
 
-    def get_total_net_amount(self, payables_id: int, currency_tpe: int) -> DoubleResult:
+    def get_total_net_amount(self, payables_id: int, currency_type: Union[CurrencyType, int]) -> DoubleResult:
         """
         Returns the total net price of the payment,
 
 
         :param payables_id: int
-        :param currency_tpe: int
+        :param currency_type: CurrencyType
         :return: DoubleResult
         """
 
         proxy = self.__client.plunet_server.DataPayable30.getTotalNetAmount
         response_model = DoubleResult
 
-        arg = {"payablesID": payables_id, "currencyTpe": currency_tpe}
+        if type(currency_type) == CurrencyType:
+            currency_type = currency_type.value
+        elif type(currency_type) == int:
+            currency_type = currency_type
+        else:
+            currency_type = int(currency_type)
+
+        arg = {"payablesID": payables_id, "currencyTpe": currency_type}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -857,18 +871,25 @@ class DataPayable30:
             unpack_dict=False,
         )
 
-    def set_status(self, status: int, payables_id: int) -> Result:
+    def set_status(self, status: Union[PayableStatus, int], payables_id: int) -> Result:
         """
         Defines the PayableStatus.
 
 
-        :param status: int
+        :param status: PayableStatus
         :param payables_id: int
         :return: Result
         """
 
         proxy = self.__client.plunet_server.DataPayable30.setStatus
         response_model = Result
+
+        if type(status) == PayableStatus:
+            status = status.value
+        elif type(status) == int:
+            status = status
+        else:
+            status = int(status)
 
         arg = {"Status": status, "payablesID": payables_id}
 

@@ -3,7 +3,11 @@ from __future__ import annotations
 from datetime import datetime
 from typing import List, Optional, Union
 
-from pydantic import BaseModel as BM
+# to deal with scenario with pydantic v2 on the system
+try:
+    from pydantic import v1 as pydantic
+except ImportError:
+    import pydantic
 
 from .enums import (
     AddressType,
@@ -23,11 +27,13 @@ from .enums import (
     TaxType,
     TextModuleType,
     TextModuleUsageArea,
-    WorkingStatus,
+    WorkingStatus, InvoiceStatusType, JobRoundAssignmentMethod, JobRoundAssignmentLimitType, JobRoundStatus,
+    JobRequestRankingMethod, QuoteStatusType, SearchSelection_Customer, SearchSelection_Resource, RequestStatusType,
+    FormOfAddressType, WorkflowStatus, WorkflowType, ContactPersonStatus, ArchivStatus, ExportedType,
 )
 
 
-class BaseModel(BM):
+class BaseModel(pydantic.BaseModel):
     class Config:
         use_enum_values = True
 
@@ -148,6 +154,7 @@ class Textmodule(BaseModel):
     selectedValues: Optional[List[Optional[str]]] = None
     stringValue: Optional[str]
     textModuleType: TextModuleType
+    textModuleLabel: Optional[str]
 
 
 class SelectionEntry_TimeFrame(BaseModel):
@@ -184,7 +191,7 @@ class Invoice(BaseModel):
     orderIDs: Optional[List[Optional[int]]] = None
     outgoing: float
     paid: float
-    status: int
+    status: InvoiceStatusType
     subject: Optional[str]
     tax: float
     valueDate: Optional[datetime]
@@ -306,11 +313,11 @@ class Callback(BaseModel):
 
     benutzerID: int
     callbackType: CallbackType
-    dataService: int
+    dataService: int  # TODO: Map out services
     errorCount: int
     eventType: EventType
     mainID: int
-    objectType: int
+    objectType: int  # TODO: Map out object types
     serverAddress: Optional[str]
 
 
@@ -366,7 +373,7 @@ class Job(BaseModel):
     projectType: ProjectType
     resourceID: int
     startDate: Optional[datetime]
-    status: int
+    status: JobStatus
 
 
 class TrackingTimeList(BaseModel):
@@ -410,8 +417,8 @@ class JobRound(BaseModel):
     """
 
     assignmentLimitToFirstX: int
-    assignmentLimitType: int
-    assignmentMethod: int
+    assignmentLimitType: JobRoundAssignmentLimitType
+    assignmentMethod: JobRoundAssignmentMethod
     jobID: int
     jobRoundID: int
     jobRoundNumber: int
@@ -420,7 +427,7 @@ class JobRound(BaseModel):
     sendNotificationOnJobAccept: bool
     sendNotificationOnJobReject: bool
     startNextRoundAutomatically: bool
-    status: int
+    status: JobRoundStatus
 
 
 class JobRoundRankingMethod(BaseModel):
@@ -429,7 +436,7 @@ class JobRoundRankingMethod(BaseModel):
         DataJobRound30
     """
 
-    methodType: int
+    methodType: JobRequestRankingMethod
     priority: int
 
 
@@ -521,7 +528,7 @@ class Quote(BaseModel):
     quoteNumber: Optional[str]
     rate: float
     requestID: int
-    status: int
+    status: QuoteStatusType
     subject: Optional[str]
 
 
@@ -532,7 +539,7 @@ class SelectionEntry_Customer(BaseModel):
         DataRequest30
     """
 
-    customerEntryType: int
+    customerEntryType: SearchSelection_Customer
     mainID: int
 
 
@@ -543,7 +550,7 @@ class SelectionEntry_Resource(BaseModel):
     """
 
     mainID: int
-    resourceEntryType: int
+    resourceEntryType: SearchSelection_Resource
 
 
 class Request(BaseModel):
@@ -561,7 +568,7 @@ class Request(BaseModel):
     quoteID: int
     quoteIDList: Optional[List[Optional[int]]] = None
     requestID: int
-    status: int
+    status: RequestStatusType
     subject: Optional[str]
 
 
@@ -582,7 +589,7 @@ class Item(BaseModel):
     projectType: ProjectType
     reference: Optional[str]
     sourceLanguage: Optional[str]
-    status: int
+    status: ItemStatus
     targetLanguage: Optional[str]
     totalPrice: float
 
@@ -599,7 +606,7 @@ class Resource(BaseModel):
     email: Optional[str]
     externalID: Optional[str]
     fax: Optional[str]
-    formOfAddress: int
+    formOfAddress: FormOfAddressType
     fullName: Optional[str]
     mobilePhone: Optional[str]
     name1: Optional[str]
@@ -609,7 +616,7 @@ class Resource(BaseModel):
     resourceID: int
     resourceType: ResourceType
     skypeID: Optional[str]
-    status: int
+    status: ResourceStatus
     supervisor1: Optional[str]
     supervisor2: Optional[str]
     userId: int
@@ -627,7 +634,7 @@ class Account(BaseModel):
     accountDescription: Optional[str]
     accountID: int
     accountNumber: Optional[str]
-    accountType: int
+    accountType: int  # TODO: Ask Alex
     active: bool
 
 
@@ -662,7 +669,7 @@ class Customer(BaseModel):
     email: Optional[str]
     externalID: Optional[str]
     fax: Optional[str]
-    formOfAddress: int
+    formOfAddress: FormOfAddressType
     fullName: Optional[str]
     mobilePhone: Optional[str]
     name1: Optional[str]
@@ -670,7 +677,7 @@ class Customer(BaseModel):
     opening: Optional[str]
     phone: Optional[str]
     skypeID: Optional[str]
-    status: int
+    status: CustomerStatus
     userId: int
     website: Optional[str]
 
@@ -683,8 +690,8 @@ class Workflow(BaseModel):
 
     description: Optional[str]
     name: Optional[str]
-    status: int
-    type: int
+    status: WorkflowStatus
+    type: WorkflowType
     workflowId: int
 
 
@@ -705,7 +712,7 @@ class CustomerContact(BaseModel):
     name1: Optional[str]
     name2: Optional[str]
     phone: Optional[str]
-    status: int
+    status: ContactPersonStatus
     supervisor1: Optional[str]
     supervisor2: Optional[str]
     userId: int
@@ -723,7 +730,7 @@ class ResourceContact(BaseModel):
     email: Optional[str]
     externalID: Optional[str]
     fax: Optional[str]
-    formOfAddress: int
+    formOfAddress: FormOfAddressType
     mobilePhone: Optional[str]
     name1: Optional[str]
     name2: Optional[str]
@@ -732,7 +739,7 @@ class ResourceContact(BaseModel):
     resourceContactID: int
     resourceID: int
     skypeID: Optional[str]
-    status: int
+    status: ContactPersonStatus
     userId: int
 
 
@@ -1158,6 +1165,7 @@ class SearchFilter_Invoice(BaseModel):
     invoiceStatus: int
     textmodulesList: Optional[List[Optional[Textmodule]]]
     timeFrame: SelectionEntry_TimeFrame
+    exported: ExportedType
 
 
 class PricelistEntryList(BaseModel):
@@ -1202,6 +1210,7 @@ class SearchFilter_CreditNote(BaseModel):
     creditNoteStatus: Union[CreditNoteStatus, int]
     textmodulesList: Optional[List[Optional[Textmodule]]]
     timeFrame: SelectionEntry_TimeFrame
+    exported: ExportedType
 
 
 class CreditNoteItemIN(BaseModel):
@@ -1347,7 +1356,7 @@ class JobIN(BaseModel):
     projectType: ProjectType
     resourceID: int
     startDate: Optional[datetime]
-    status: int
+    status: JobStatus
 
 
 class JobTrackingTimeResult(BaseModel):
@@ -1392,8 +1401,8 @@ class JobRoundIN(BaseModel):
     """
 
     assignmentLimitToFirstX: int
-    assignmentLimitType: int
-    assignmentMethod: int
+    assignmentLimitType: JobRoundAssignmentLimitType
+    assignmentMethod: JobRoundAssignmentMethod
     jobID: int
     jobRoundID: int
     jobRoundNumber: int
@@ -1402,7 +1411,7 @@ class JobRoundIN(BaseModel):
     sendNotificationOnJobAccept: bool
     sendNotificationOnJobReject: bool
     startNextRoundAutomatically: bool
-    status: int
+    status: JobRoundStatus
 
 
 class JobRoundSearchCriteriaIN(BaseModel):
@@ -1476,11 +1485,11 @@ class SearchFilter_Job(BaseModel):
     """
 
     customerID: int
-    item_Status: int
+    item_Status: ItemStatus
     job_CreationDate_from: Optional[datetime]
     job_CreationDate_to: Optional[datetime]
     job_SourceLanguage: Optional[str]
-    job_Status: int
+    job_Status: JobStatus
     job_TargetLanguage: Optional[str]
     job_resourceID: int
 
@@ -1540,13 +1549,13 @@ class SearchFilter_Order(BaseModel):
     customerID: int
     itemStatus: Optional[List[Optional[ItemStatus]]]
     languageCode: str
-    orderStatus: int
+    orderStatus: ArchivStatus  # TODO: Ask Alex
     projectDescription: Optional[str]
     projectName: Optional[str]
     projectType: ProjectType
     propertiesList: Optional[List[Optional[Property]]]
     sourceLanguage: Optional[str]
-    statusProjectFileArchiving: int
+    statusProjectFileArchiving: ArchivStatus  # TODO: Ask Alex
     targetLanguage: Optional[str]
     teamMember: Optional[SelectionEntry_TeamMember]
     textmodulesList: Optional[List[Optional[Textmodule]]]
@@ -1633,7 +1642,7 @@ class QuoteIN(BaseModel):
     projectName: Optional[str]
     quoteID: int
     referenceNumber: Optional[str]
-    status: int
+    status: QuoteStatusType
     subject: Optional[str]
 
 
@@ -1649,7 +1658,7 @@ class SearchFilter_Quote(BaseModel):
     SelectionEntry_Resource: Optional[SelectionEntry_Resource]
     SelectionEntry_TeamMember: Optional[SelectionEntry_TeamMember]
     sourceLanguage: Optional[str]
-    quoteStatus: int
+    quoteStatus: QuoteStatusType
     targetLanguage: Optional[str]
     textmodulesList: Optional[List[Optional[Textmodule]]]
     timeFrame: Optional[SelectionEntry_TimeFrame]
@@ -1668,7 +1677,7 @@ class RequestIN(BaseModel):
     quotationDate: Optional[datetime]
     quoteID: int
     requestID: int
-    status: int
+    status: RequestStatusType
     subject: Optional[str]
 
 
@@ -1740,7 +1749,7 @@ class ItemIN(BaseModel):
     projectID: int
     projectType: ProjectType
     reference: Optional[str]
-    status: int
+    status: ItemStatus
     totalPrice: float
 
 
@@ -1829,7 +1838,7 @@ class ResourceIN(BaseModel):
     email: Optional[str]
     externalID: Optional[str]
     fax: Optional[str]
-    formOfAddress: int
+    formOfAddress: FormOfAddressType
     fullName: Optional[str]
     mobilePhone: Optional[str]
     name1: Optional[str]
@@ -1839,7 +1848,7 @@ class ResourceIN(BaseModel):
     resourceID: int
     resourceType: ResourceType
     skypeID: Optional[str]
-    status: int
+    status: ResourceStatus
     supervisor1: Optional[str]
     supervisor2: Optional[str]
     userId: int
@@ -1887,7 +1896,7 @@ class CustomerIN(BaseModel):
     email: Optional[str]
     externalID: Optional[str]
     fax: Optional[str]
-    formOfAddress: int
+    formOfAddress: FormOfAddressType
     fullName: Optional[str]
     mobilePhone: Optional[str]
     name1: Optional[str]
@@ -1895,7 +1904,7 @@ class CustomerIN(BaseModel):
     opening: Optional[str]
     phone: Optional[str]
     skypeID: Optional[str]
-    status: int
+    status: CustomerStatus
     userId: int
     website: Optional[str]
 
@@ -1975,7 +1984,7 @@ class CustomerContactIN(BaseModel):
     name1: Optional[str]
     name2: Optional[str]
     phone: Optional[str]
-    status: int
+    status: ContactPersonStatus
     supervisor1: Optional[str]
     supervisor2: Optional[str]
     userId: int
@@ -2005,7 +2014,7 @@ class ResourceContactIN(BaseModel):
     email: Optional[str]
     externalID: Optional[str]
     fax: Optional[str]
-    formOfAddress: int
+    formOfAddress: FormOfAddressType
     mobilePhone: Optional[str]
     name1: Optional[str]
     name2: Optional[str]
@@ -2014,7 +2023,7 @@ class ResourceContactIN(BaseModel):
     resourceContactID: int
     resourceID: int
     skypeID: Optional[str]
-    status: int
+    status: ContactPersonStatus
     userId: int
 
 
@@ -2117,6 +2126,7 @@ class TextmoduleIN(BaseModel):
     selectedValues: Optional[List[Optional[str]]] = None
     stringValue: Optional[str]
     textModuleUsageArea: TextModuleUsageArea
+    textModuleLabel: Optional[str]
 
 
 class TextmoduleResult(BaseModel):

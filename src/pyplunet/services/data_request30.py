@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import TYPE_CHECKING, List, Union
 
-from ..enums import EventType
+from ..enums import EventType, RequestStatusType
 from ..models import (
     BooleanResult,
     DateResult,
@@ -767,18 +767,25 @@ class DataRequest30:
             unpack_dict=True,
         )
 
-    def set_status(self, status: int, request_id: int) -> Result:
+    def set_status(self, status: Union[RequestStatusType, int], request_id: int) -> Result:
         """
         Sets the RequestStatusType. Returns an instance of Result.
 
 
-        :param status: int
+        :param status: RequestStatusType
         :param request_id: int
         :return: Result
         """
 
         proxy = self.__client.plunet_server.DataRequest30.setStatus
         response_model = Result
+
+        if type(status) == RequestStatusType:
+            status = status.value
+        elif type(status) == int:
+            status = status
+        else:
+            status = int(status)
 
         arg = {"Status": status, "requestID": request_id}
 

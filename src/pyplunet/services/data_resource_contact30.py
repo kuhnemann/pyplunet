@@ -3,6 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import TYPE_CHECKING, List, Union
 
+from enums_root import ContactPersonStatus, FormOfAddressType
 from ..models import (
     IntegerArrayResult,
     IntegerResult,
@@ -199,7 +200,7 @@ class DataResourceContact30:
             unpack_dict=False,
         )
 
-    def set_status(self, status: int, contact_id: int) -> Result:
+    def set_status(self, status: Union[ContactPersonStatus, int], contact_id: int) -> Result:
         """
         Method to set the status of the resource contact. Returns an instance of Result. Status
         codes:
@@ -208,13 +209,20 @@ class DataResourceContact30:
         1 = active
 
 
-        :param status: int
+        :param status: ContactPersonStatus
         :param contact_id: int
         :return: Result
         """
 
         proxy = self.__client.plunet_server.DataResourceContact30.setStatus
         response_model = Result
+
+        if type(status) == ContactPersonStatus:
+            status = status.value
+        elif type(status) == int:
+            status = status
+        else:
+            status = int(status)
 
         arg = {"Status": status, "ContactID": contact_id}
 
@@ -583,7 +591,7 @@ class DataResourceContact30:
             unpack_dict=False,
         )
 
-    def set_form_of_address(self, form_of_address: int, contact_id: int) -> Result:
+    def set_form_of_address(self, form_of_address: Union[FormOfAddressType, int], contact_id: int) -> Result:
         """
         Method to set the form of address. Returns an instance of Result. Form of address:
 
@@ -592,13 +600,20 @@ class DataResourceContact30:
         3 = Company
 
 
-        :param form_of_address: int
+        :param form_of_address: FormOfAddressType
         :param contact_id: int
         :return: Result
         """
 
         proxy = self.__client.plunet_server.DataResourceContact30.setFormOfAddress
         response_model = Result
+
+        if type(form_of_address) == FormOfAddressType:
+            form_of_address = form_of_address.value
+        elif type(form_of_address) == int:
+            form_of_address = form_of_address
+        else:
+            form_of_address = int(form_of_address)
 
         arg = {"FormOfAddress": form_of_address, "ContactID": contact_id}
 

@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import TYPE_CHECKING, List, Union
 
-from ..enums import EventType, ProjectClassType
+from ..enums import EventType, ProjectClassType, ArchivStatus, QuoteStatusType
 from ..models import (
     DateResult,
     DoubleResult,
@@ -361,7 +361,7 @@ class DataQuote30:
             unpack_dict=False,
         )
 
-    def set_project_status(self, quote_id: int, project_status: int) -> Result:
+    def set_project_status(self, quote_id: int, project_status: Union[ArchivStatus, int]) -> Result:
         """
         Method allows to set the ArchivStatus to ARCHIVED (3).
         Other status changes are not supported due to underlying automated workflows.
@@ -369,12 +369,19 @@ class DataQuote30:
 
 
         :param quote_id: int
-        :param project_status: int
+        :param project_status: ArchivStatus
         :return: Result
         """
 
         proxy = self.__client.plunet_server.DataQuote30.setProjectStatus
         response_model = Result
+
+        if type(project_status) == ArchivStatus:
+            project_status = project_status.value
+        elif type(project_status) == int:
+            project_status = project_status
+        else:
+            project_status = int(project_status)
 
         arg = {"quoteID": quote_id, "projectStatus": project_status}
 
@@ -405,18 +412,25 @@ class DataQuote30:
             unpack_dict=False,
         )
 
-    def set_status(self, status: int, quote_id: int) -> Result:
+    def set_status(self, status: Union[QuoteStatusType, int], quote_id: int) -> Result:
         """
         Sets the QuoteStatusType.
 
 
-        :param status: int
+        :param status: QuoteStatusType
         :param quote_id: int
         :return: Result
         """
 
         proxy = self.__client.plunet_server.DataQuote30.setStatus
         response_model = Result
+
+        if type(status) == QuoteStatusType:
+            status = status.value
+        elif type(status) == int:
+            status = status
+        else:
+            status = int(status)
 
         arg = {"Status": status, "quoteID": quote_id}
 

@@ -496,7 +496,7 @@ def test_DataJob30_set_contact_person_id(pc: PlunetClient, test_set: test_set_Da
 def test_DataJob30_get_job_list_for_view(pc: PlunetClient, test_set: test_set_DataJob30):
     try:
         resp = pc.job.get_job_list_for_view(
-                job_i_ds=test_set.job_i_ds,
+                job_ids=test_set.job_i_ds,
                 project_type=test_set.project_type
         )
     except PlunetAPIError as e:

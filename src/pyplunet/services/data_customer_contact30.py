@@ -3,6 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import TYPE_CHECKING, List, Union
 
+from ..enums import ContactPersonStatus
 from ..models import (
     CustomerContactIN,
     CustomerContactListResult,
@@ -355,7 +356,7 @@ class DataCustomerContact30:
             unpack_dict=False,
         )
 
-    def set_status(self, status: int, contact_id: int) -> Result:
+    def set_status(self, status: Union[ContactPersonStatus, int], contact_id: int) -> Result:
         """
         Method to set the status of the customer contact.
 
@@ -369,6 +370,13 @@ class DataCustomerContact30:
 
         proxy = self.__client.plunet_server.DataCustomerContact30.setStatus
         response_model = Result
+
+        if type(status) == ContactPersonStatus:
+            status = status.value
+        elif type(status) == int:
+            status = status
+        else:
+            status = int(status)
 
         arg = {"Status": status, "ContactID": contact_id}
 

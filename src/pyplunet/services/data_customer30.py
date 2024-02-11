@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import TYPE_CHECKING, List, Union
 
-from ..enums import EventType
+from ..enums import EventType, CustomerStatus
 from ..models import (
     AccountResult,
     CustomerIN,
@@ -252,7 +252,7 @@ class DataCustomer30:
             unpack_dict=False,
         )
 
-    def set_status(self, status: int, customer_id: int) -> Result:
+    def set_status(self, status: Union[CustomerStatus, int], customer_id: int) -> Result:
         """
         Method to set the CustomerStatus. Returns an instance of Result.
 
@@ -264,6 +264,14 @@ class DataCustomer30:
 
         proxy = self.__client.plunet_server.DataCustomer30.setStatus
         response_model = Result
+
+        if type(status) == CustomerStatus:
+            status = status.value
+        elif type(status) == int:
+            status = status
+        else:
+            status = int(status)
+
 
         arg = {"Status": status, "customerID": customer_id}
 
@@ -840,7 +848,7 @@ class DataCustomer30:
             unpack_dict=False,
         )
 
-    def get_all_customer_objects(self, status: int) -> CustomerListResult:
+    def get_all_customer_objects(self, status: Union[CustomerStatus, int]) -> CustomerListResult:
         """
         Returns an instance of CustomerListResult, which contains a list of
         customers, which are filtered by the CustomerStatus.
@@ -852,6 +860,13 @@ class DataCustomer30:
 
         proxy = self.__client.plunet_server.DataCustomer30.getAllCustomerObjects
         response_model = CustomerListResult
+
+        if type(status) == CustomerStatus:
+            status = status.value
+        elif type(status) == int:
+            status = status
+        else:
+            status = int(status)
 
         return self.__client.make_request(
             operation_proxy=proxy,

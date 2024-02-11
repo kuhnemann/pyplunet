@@ -253,9 +253,9 @@ def test_DataJobRound30_add_round(pc: PlunetClient, test_set: test_set_DataJobRo
 
 
 
-def test_DataJobRound30_get_all_round_i_ds(pc: PlunetClient, test_set: test_set_DataJobRound30):
+def test_DataJobRound30_get_all_round_ids(pc: PlunetClient, test_set: test_set_DataJobRound30):
     try:
-        resp = pc.job_round.get_all_round_i_ds(
+        resp = pc.job_round.get_all_round_ids(
                 job_id=test_set.job_id,
                 project_type=test_set.project_type
         )
@@ -296,4 +296,4 @@ if __name__ == '__main__':
         test_DataJobRound30_assign_resource(pc, test_set)
         test_DataJobRound30_update_round(pc, test_set)
         test_DataJobRound30_add_round(pc, test_set)
-        test_DataJobRound30_get_all_round_i_ds(pc, test_set)
+        test_DataJobRound30_get_all_round_ids(pc, test_set)

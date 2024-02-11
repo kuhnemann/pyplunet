@@ -482,3 +482,8 @@ class ProjectClassType(StrIntEnum):
     INTERPRETING = 2
     TRANSLATION = 1
 
+
+class AccountType(StrIntEnum):
+    REVENUE = 1
+    EXPENSE = 2
+

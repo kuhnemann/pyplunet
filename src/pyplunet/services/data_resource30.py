@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import TYPE_CHECKING, List, Union
 
-from ..enums import EventType, ResourceType, WorkingStatus
+from ..enums import EventType, ResourceType, WorkingStatus, ResourceStatus, FormOfAddressType
 from ..models import (
     AccountResult,
     IntegerArrayResult,
@@ -575,19 +575,26 @@ class DataResource30:
             unpack_dict=False,
         )
 
-    def set_status(self, status: int, resource_id: int) -> Result:
+    def set_status(self, status: Union[ResourceStatus, int], resource_id: int) -> Result:
         """
         Method to set the ResourceStatus of the resource. Returns an
         instance of Result.
 
 
-        :param status: int
+        :param status: ResourceStatus
         :param resource_id: int
         :return: Result
         """
 
         proxy = self.__client.plunet_server.DataResource30.setStatus
         response_model = Result
+
+        if type(status) == ResourceStatus:
+            status = status.value
+        elif type(status) == int:
+            status = status
+        else:
+            status = int(status)
 
         arg = {"Status": status, "resourceID": resource_id}
 
@@ -916,19 +923,26 @@ class DataResource30:
             unpack_dict=False,
         )
 
-    def set_form_of_address(self, form_of_address: int, resource_id: int) -> Result:
+    def set_form_of_address(self, form_of_address: Union[FormOfAddressType, int], resource_id: int) -> Result:
         """
         Method to set the FormOfAddressType. Returns an instance of
         Result.
 
 
-        :param form_of_address: int
+        :param form_of_address: FormOfAddressType
         :param resource_id: int
         :return: Result
         """
 
         proxy = self.__client.plunet_server.DataResource30.setFormOfAddress
         response_model = Result
+
+        if type(form_of_address) == FormOfAddressType:
+            form_of_address = form_of_address.value
+        elif type(form_of_address) == int:
+            form_of_address = form_of_address
+        else:
+            form_of_address = int(form_of_address)
 
         arg = {"FormOfAddress": form_of_address, "resourceID": resource_id}
 
@@ -1225,7 +1239,7 @@ class DataResource30:
         )
 
     def get_all_resource_objects(
-        self, working_status: Union[WorkingStatus, int], status: int
+        self, working_status: Union[WorkingStatus, int], status: Union[ResourceStatus, int]
     ) -> ResourceListResult:
         """
         Returns an instance of ResourceListResult, which contains a list
@@ -1234,7 +1248,7 @@ class DataResource30:
 
 
         :param working_status: WorkingStatus
-        :param status: int
+        :param status: ResourceStatus
         :return: ResourceListResult
         """
 
@@ -1247,6 +1261,13 @@ class DataResource30:
             working_status = working_status
         else:
             working_status = int(working_status)
+
+        if type(status) == ResourceStatus:
+            status = status.value
+        elif type(status) == int:
+            status = status
+        else:
+            status = int(status)
 
         arg = {"WorkingStatus": working_status, "Status": status}
 

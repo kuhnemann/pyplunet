@@ -75,7 +75,7 @@ class test_set_DataOutgoingInvoice30(BaseModel):
 
 def get_test_set() -> test_set_DataOutgoingInvoice30:
     return test_set_DataOutgoingInvoice30(
-            invoice_id= ,
+            invoice_id=1,
             subject= ,
             search_filter= ,
             account_id= ,
