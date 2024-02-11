@@ -143,3 +143,4 @@ dmypy.json
 /clean.sh
 /Plunet API Javadoc/
 /wsdl_xsd/
+/tests/test_zeep.db
