@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import TYPE_CHECKING, List, Union
 
-from enums_root import ContactPersonStatus, FormOfAddressType
+from ..enums import ContactPersonStatus, FormOfAddressType
 from ..models import (
     IntegerArrayResult,
     IntegerResult,

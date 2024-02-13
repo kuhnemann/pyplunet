@@ -23,7 +23,7 @@
 
 
   </p>
-</div>
+
 
 
 <!-- ABOUT THE PROJECT -->
@@ -35,11 +35,19 @@ Ready to use out of the box, you can jump directly into the business logic.
 
 Pip install, import and start working. It really is as easy as that! 
 
-- Implements all services and methods as per Plunet 9.2 (the latest version of ApiDocs available)
+- Implements all services and methods as per Plunet 9.11 (the latest version of ApiDocs available)
 - Fully typed for validation and code completion support
 - Fully documented methods with complete content of the Plunet JavaDocs.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+### New in 0.9.1
+- Updated readme
+- Fixed typo
+
+### New in 0.9.0
+- Added methods and fields up to Plunet 9.11
+- Added missing status and type enums
 
 ### New in 0.8.0
 - Decided to remove the retrying client 
