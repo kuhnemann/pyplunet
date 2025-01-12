@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Union
 
-
 from ..models import (
     Result,
     ResourceContactIN,
