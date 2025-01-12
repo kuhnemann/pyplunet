@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-from datetime import datetime
-from typing import TYPE_CHECKING, List, Union
+from typing import TYPE_CHECKING, Union
+
 
 from ..models import IntegerArrayResult, SearchFilter_Job
+
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
@@ -27,7 +28,7 @@ class ReportJob30:
         proxy = self.__client.plunet_server.ReportJob30.search
         response_model = IntegerArrayResult
 
-        if type(search_filter_job) != SearchFilter_Job:
+        if type(search_filter_job) is not SearchFilter_Job:
             search_filter_job = SearchFilter_Job(**search_filter_job).dict()
         else:
             search_filter_job = search_filter_job.dict()

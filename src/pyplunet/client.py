@@ -89,6 +89,15 @@ class PlunetClient:
         self.report_job = ReportJob30(self)
         self.request_doc_text = RequestDocText30(self)
 
+    @property
+    def plunet_version(self) -> str:
+        result = self.make_request(self.plunet_server.PlunetAPI.getPlunetVersion, None, StringResult)
+        return result.data
+
+    @property
+    def api_version(self) -> float:
+        return self.plunet_server.PlunetAPI.getVersion()
+
     def login(self, username, password) -> None:
         uuid = self.plunet_server.PlunetAPI.login(username, password)
         if uuid == "refused":
@@ -102,20 +111,6 @@ class PlunetClient:
             self.uuid = None
         return
 
-    def get_plunet_version(self) -> StringResult:
-        result = self.plunet_server.PlunetAPI.getPlunetVersion()
-        if result.statusCode != 0:
-            raise PLUNET_ERRORS.get(
-                result.statusCode,
-                PlunetClientError(
-                    f"Error calling Plunet (could not map status code to error type). Result: {result}"
-                ),
-            )
-        else:
-            try:
-                return StringResult(**serialize_object(result))
-            except Exception:
-                raise PlunetClientError(f"Unable to parse result: {result}")
 
     def validate(self, username: str, password: str) -> BooleanResult:
         """
@@ -132,8 +127,6 @@ class PlunetClient:
             operation_proxy, argument, response_model, unpack_dict=True
         )
 
-    def get_version(self) -> float:
-        return self.plunet_server.PlunetAPI.getVersion()
 
     def make_request(
         self,

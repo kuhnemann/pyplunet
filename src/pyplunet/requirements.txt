@@ -1,2 +1,2 @@
-plunetapi>=0.2
-pydantic>=1.10
+plunetapi>=0.4
+pydantic>=2.0.0

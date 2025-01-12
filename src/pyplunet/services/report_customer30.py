@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-from datetime import datetime
-from typing import TYPE_CHECKING, List, Union
+from typing import TYPE_CHECKING, Union
 
-from ..models import IntegerArrayResult, SearchFilter_Customer
+
+from ..models import SearchFilter_Customer, IntegerArrayResult
+
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
@@ -17,6 +18,7 @@ class ReportCustomer30:
         self, search_filter_customer: Union[SearchFilter_Customer, dict]
     ) -> IntegerArrayResult:
         """
+        Deprecated. A better solution is already added at DataCustomer30.search(String, SearchFilter_Customer)
         Search for all customers which fulfill the requirements of the provided search-object.
 
 
@@ -27,7 +29,7 @@ class ReportCustomer30:
         proxy = self.__client.plunet_server.ReportCustomer30.search
         response_model = IntegerArrayResult
 
-        if type(search_filter_customer) != SearchFilter_Customer:
+        if type(search_filter_customer) is not SearchFilter_Customer:
             search_filter_customer = SearchFilter_Customer(
                 **search_filter_customer
             ).dict()

@@ -1,53 +1,33 @@
 from __future__ import annotations
-
+from pydantic import BaseModel as BM
+from pydantic import ConfigDict
+from typing import Optional, List
 from datetime import datetime
-from typing import List, Optional, Union
-
-# to deal with scenario with pydantic v2 on the system
-try:
-    from pydantic import v1 as pydantic
-except ImportError:
-    import pydantic
 
 from .enums import (
-    AddressType,
-    CallbackType,
     ContactType,
-    CreditNoteStatus,
-    CustomerStatus,
-    CustomerType,
-    EventType,
-    ItemStatus,
-    JobStatus,
-    PayableStatus,
-    ProjectType,
-    PropertyType,
-    ResourceStatus,
-    ResourceType,
+    WorkingStatus,
+    CallbackType,
     TaxType,
+    CreditNoteStatus,
+    ItemStatus,
     TextModuleType,
+    CustomerType,
+    CustomerStatus,
+    AddressType,
     TextModuleUsageArea,
-    WorkingStatus, InvoiceStatusType, JobRoundAssignmentMethod, JobRoundAssignmentLimitType, JobRoundStatus,
-    JobRequestRankingMethod, QuoteStatusType, SearchSelection_Customer, SearchSelection_Resource, RequestStatusType,
-    FormOfAddressType, WorkflowStatus, WorkflowType, ContactPersonStatus, ArchivStatus, ExportedType,
+    JobStatus,
+    ResourceType,
+    ResourceStatus,
+    ProjectType,
+    EventType,
+    PayableStatus,
+    PropertyType,
 )
 
 
-class BaseModel(pydantic.BaseModel):
-    class Config:
-        use_enum_values = True
-
-
-class JobTrackingTime(BaseModel):
-    """
-    Used in:
-        DataJob30
-    """
-
-    resourceID: int
-    comment: Optional[str]
-    dateFrom: Optional[datetime]
-    dateTo: Optional[datetime]
+class BaseModel(BM):
+    model_config = ConfigDict(use_enum_values=True)
 
 
 class Amount(BaseModel):
@@ -56,10 +36,10 @@ class Amount(BaseModel):
         DataJob30
     """
 
-    baseUnitName: Optional[str]
-    grossQuantity: Optional[float]
-    netQuantity: Optional[float]
-    serviceType: Optional[str]
+    baseUnitName: Optional[str] = None
+    grossQuantity: Optional[float] = None
+    netQuantity: Optional[float] = None
+    serviceType: Optional[str] = None
 
 
 class Tax(BaseModel):
@@ -71,9 +51,9 @@ class Tax(BaseModel):
     """
 
     active: bool
-    expenseAccount: Optional[str]
-    revenueAccount: Optional[str]
-    taxDescription: Optional[str]
+    expenseAccount: Optional[str] = None
+    revenueAccount: Optional[str] = None
+    taxDescription: Optional[str] = None
     taxRate: float
     taxType: TaxType
 
@@ -90,7 +70,7 @@ class PriceLine(BaseModel):
 
     amount: float
     amount_perUnit: float
-    memo: Optional[str]
+    memo: Optional[str] = None
     priceLineID: int
     priceUnitID: int
     sequence: int
@@ -104,15 +84,17 @@ class PriceUnit(BaseModel):
     Used in:
         DataPayable30,
         DataOutgoingInvoice30,
+        DataAdmin30,
         DataJob30,
         DataItem30
     """
 
-    articleNumber: Optional[str]
-    description: Optional[str]
-    memo: Optional[str]
+    active: bool
+    articleNumber: Optional[str] = None
+    description: Optional[str] = None
+    memo: Optional[str] = None
     priceUnitID: int
-    service: Optional[str]
+    service: Optional[str] = None
 
 
 class PayableItem(BaseModel):
@@ -121,14 +103,15 @@ class PayableItem(BaseModel):
         DataPayable30
     """
 
-    briefDescription: Optional[str]
+    briefDescription: Optional[str] = None
     invoiceID: int
     itemNumber: int
-    jobDate: Optional[datetime]
-    jobNo: Optional[str]
+    jobDate: Optional[datetime] = None
+    jobNo: Optional[str] = None
     jobStatus: JobStatus
     payableItemID: int
     projectType: ProjectType
+    taxType: TaxType
     totalprice: float
 
 
@@ -138,6 +121,7 @@ class Textmodule(BaseModel):
         DataPayable30,
         DataOutgoingInvoice30,
         DataCreditNote30,
+        DataAdmin30,
         DataOrder30,
         DataQuote30,
         DataRequest30,
@@ -147,14 +131,14 @@ class Textmodule(BaseModel):
         DataCustomFields30
     """
 
-    availableValues: Optional[List[Optional[str]]] = None
-    dateValue: Optional[datetime]
-    flag: Optional[str]
-    flag_MainTextModule: Optional[str]
-    selectedValues: Optional[List[Optional[str]]] = None
-    stringValue: Optional[str]
+    availableValues: Optional[List[str]] = None
+    dateValue: Optional[datetime] = None
+    flag: Optional[str] = None
+    flag_MainTextModule: Optional[str] = None
+    selectedValues: Optional[List[str]] = None
+    stringValue: Optional[str] = None
+    textModuleLabel: Optional[str] = None
     textModuleType: TextModuleType
-    textModuleLabel: Optional[str]
 
 
 class SelectionEntry_TimeFrame(BaseModel):
@@ -179,22 +163,22 @@ class Invoice(BaseModel):
         DataOutgoingInvoice30
     """
 
-    briefDescription: Optional[str]
-    currencyCode: Optional[str]
+    briefDescription: Optional[str] = None
+    currencyCode: Optional[str] = None
     customerID: int
     gross: float
-    invoiceDate: Optional[datetime]
-    invoiceDocuments: Optional[List[Optional[str]]] = None
+    invoiceDate: Optional[datetime] = None
+    invoiceDocuments: Optional[List[str]] = None
     invoiceID: int
-    invoiceNr: Optional[str]
+    invoiceNr: Optional[str] = None
     net: float
-    orderIDs: Optional[List[Optional[int]]] = None
+    orderIDs: Optional[List[int]] = None
     outgoing: float
     paid: float
-    status: InvoiceStatusType
-    subject: Optional[str]
+    status: int
+    subject: Optional[str] = None
     tax: float
-    valueDate: Optional[datetime]
+    valueDate: Optional[datetime] = None
 
 
 class InvoiceItem(BaseModel):
@@ -203,13 +187,15 @@ class InvoiceItem(BaseModel):
         DataOutgoingInvoice30
     """
 
-    briefDescription: Optional[str]
-    comment: Optional[str]
+    briefDescription: Optional[str] = None
+    comment: Optional[str] = None
     invoiceID: int
     invoiceItemID: int
-    itemNumber: Optional[str]
+    itemNumber: Optional[str] = None
     languageCombinationID: int
     orderID: int
+    orderItemId: int
+    taxType: TaxType
     totalPrice: float
 
 
@@ -224,10 +210,12 @@ class Pricelist(BaseModel):
 
     ResourcePricelistID: int
     pricelistID: int
-    PricelistNameEN: Optional[str]
-    currency: Optional[str]
-    memo: Optional[str]
+    PricelistNameEN: Optional[str] = None
+    currency: Optional[str] = None
+    memo: Optional[str] = None
     withWhiteSpace: bool
+    adminPriceListId: int
+    adminPriceListPartnerType: Optional[ContactType] = None
 
 
 class Property(BaseModel):
@@ -235,6 +223,7 @@ class Property(BaseModel):
     Used in:
         DataOutgoingInvoice30,
         DataCreditNote30,
+        DataAdmin30,
         DataJobRound30,
         DataOrder30,
         DataQuote30,
@@ -245,12 +234,12 @@ class Property(BaseModel):
         DataCustomFields30
     """
 
-    avaliablePropertyValueIDList: Optional[List[Optional[int]]] = None
-    mainPropertyNameEnglish: Optional[str]
-    propertyNameEnglish: Optional[str]
+    avaliablePropertyValueIDList: Optional[List[int]] = None
+    mainPropertyNameEnglish: Optional[str] = None
+    propertyNameEnglish: Optional[str] = None
     propertyType: PropertyType
     selectedPropertyValueID: int
-    selectedPropertyValueList: Optional[List[Optional[int]]] = None
+    selectedPropertyValueList: Optional[List[int]] = None
 
 
 class PricelistEntry(BaseModel):
@@ -272,23 +261,26 @@ class CreditNoteItem(BaseModel):
         DataCreditNote30
     """
 
-    briefDescription: Optional[str]
+    briefDescription: Optional[str] = None
     creditNoteID: int
     creditNoteItemID: int
-    itemNumber: Optional[str]
+    itemNumber: Optional[str] = None
     taxTypeID: int
     totalPrice: float
 
 
-class Currency(BaseModel):
+class PropertyResult(BaseModel):
     """
     Used in:
-        DataAdmin30
+        DataAdmin30,
+        DataCustomFields30
     """
 
-    currencyID: int
-    description: Optional[str]
-    isoCode: Optional[str]
+    data: Optional[Property] = None
+    statusCode: int
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class Language(BaseModel):
@@ -299,10 +291,57 @@ class Language(BaseModel):
 
     active: bool
     favorite: bool
-    folderName: Optional[str]
+    folderName: Optional[str] = None
     id: int
-    isoCode: Optional[str]
-    name: Optional[str]
+    isoCode: Optional[str] = None
+    name: Optional[str] = None
+
+
+class Currency(BaseModel):
+    """
+    Used in:
+        DataAdmin30
+    """
+
+    currencyID: int
+    description: Optional[str] = None
+    isoCode: Optional[str] = None
+
+
+class PropertyValue(BaseModel):
+    """
+    Used in:
+        DataAdmin30
+    """
+
+    active: bool
+    id: int
+    label: Optional[str] = None
+
+
+class Country(BaseModel):
+    """
+    Used in:
+        DataAdmin30
+    """
+
+    ID: int
+    isoCode: Optional[str] = None
+    name: Optional[str] = None
+
+
+class Workflow(BaseModel):
+    """
+    Used in:
+        DataAdmin30,
+        DataCustomer30
+    """
+
+    description: Optional[str] = None
+    name: Optional[str] = None
+    status: int
+    type: int
+    workflowId: int
 
 
 class Callback(BaseModel):
@@ -313,12 +352,12 @@ class Callback(BaseModel):
 
     benutzerID: int
     callbackType: CallbackType
-    dataService: int  # TODO: Map out services
+    dataService: int
     errorCount: int
     eventType: EventType
     mainID: int
-    objectType: int  # TODO: Map out object types
-    serverAddress: Optional[str]
+    objectType: int
+    serverAddress: Optional[str] = None
 
 
 class CompanyCode(BaseModel):
@@ -329,20 +368,9 @@ class CompanyCode(BaseModel):
 
     companyCodeID: int
     companyCodeRights: bool
-    description_Long: Optional[str]
-    description_Short: Optional[str]
+    description_Long: Optional[str] = None
+    description_Short: Optional[str] = None
     isCompanyCodeInvoice: bool
-
-
-class Country(BaseModel):
-    """
-    Used in:
-        DataAdmin30
-    """
-
-    ID: int
-    isoCode: Optional[str]
-    name: Optional[str]
 
 
 class Service(BaseModel):
@@ -351,10 +379,10 @@ class Service(BaseModel):
         DataAdmin30
     """
 
-    abbreviation: Optional[str]
+    abbreviation: Optional[str] = None
     id: int
-    jobCategory: Optional[str]
-    name: Optional[str]
+    jobCategory: Optional[str] = None
+    name: Optional[str] = None
 
 
 class Job(BaseModel):
@@ -364,16 +392,16 @@ class Job(BaseModel):
     """
 
     countSourceFiles: int
-    dueDate: Optional[datetime]
+    dueDate: Optional[datetime] = None
     itemID: int
     jobID: int
-    jobTypeFull: Optional[str]
-    jobTypeShort: Optional[str]
+    jobTypeFull: Optional[str] = None
+    jobTypeShort: Optional[str] = None
     projectID: int
     projectType: ProjectType
     resourceID: int
-    startDate: Optional[datetime]
-    status: JobStatus
+    startDate: Optional[datetime] = None
+    status: int
 
 
 class TrackingTimeList(BaseModel):
@@ -383,7 +411,7 @@ class TrackingTimeList(BaseModel):
     """
 
     completed: float
-    trackingTimeList: Optional[List[Optional[JobTrackingTime]]] = None
+    trackingTimeList: Optional[List[JobTrackingTime]] = None
 
 
 class JobTrackingTimeIN(BaseModel):
@@ -405,7 +433,7 @@ class JobMetric(BaseModel):
         DataJob30
     """
 
-    amounts: Optional[List[Optional[Amount]]] = None
+    amounts: Optional[List[Amount]] = None
     totalPrice: float
     totalPriceJobCurrency: float
 
@@ -417,8 +445,8 @@ class JobRound(BaseModel):
     """
 
     assignmentLimitToFirstX: int
-    assignmentLimitType: JobRoundAssignmentLimitType
-    assignmentMethod: JobRoundAssignmentMethod
+    assignmentLimitType: int
+    assignmentMethod: int
     jobID: int
     jobRoundID: int
     jobRoundNumber: int
@@ -427,7 +455,7 @@ class JobRound(BaseModel):
     sendNotificationOnJobAccept: bool
     sendNotificationOnJobReject: bool
     startNextRoundAutomatically: bool
-    status: JobRoundStatus
+    status: int
 
 
 class JobRoundRankingMethod(BaseModel):
@@ -436,7 +464,7 @@ class JobRoundRankingMethod(BaseModel):
         DataJobRound30
     """
 
-    methodType: JobRequestRankingMethod
+    methodType: int
     priority: int
 
 
@@ -449,11 +477,11 @@ class JobRoundSearchCriteria(BaseModel):
     includeNonRespondingResources: bool
     includeNotRequestedResources: bool
     includeRejectingResources: bool
-    propertyList: Optional[List[Optional[Property]]] = None
-    resourceStatus: Optional[List[Optional[ResourceStatus]]] = None
+    propertyList: Optional[List[Property]] = None
+    resourceStatus: Optional[List[ResourceStatus]] = None
     roundId: int
     searchCriterionId: int
-    workingStatus: Optional[List[Optional[WorkingStatus]]] = None
+    workingStatus: Optional[List[WorkingStatus]] = None
 
 
 class Order(BaseModel):
@@ -462,19 +490,19 @@ class Order(BaseModel):
         DataOrder30
     """
 
-    currency: Optional[str]
+    currency: Optional[str] = None
     customerContactID: int
     customerID: int
-    deliveryDeadline: Optional[datetime]
-    orderClosingDate: Optional[datetime]
-    orderDate: Optional[datetime]
-    orderDisplayName: Optional[str]
+    deliveryDeadline: Optional[datetime] = None
+    orderClosingDate: Optional[datetime] = None
+    orderDate: Optional[datetime] = None
+    orderDisplayName: Optional[str] = None
     orderID: int
     projectManagerID: int
-    projectName: Optional[str]
+    projectName: Optional[str] = None
     rate: float
     requestID: int
-    subject: Optional[str]
+    subject: Optional[str] = None
 
 
 class Link(BaseModel):
@@ -484,7 +512,7 @@ class Link(BaseModel):
     """
 
     linkId: int
-    memo: Optional[str]
+    memo: Optional[str] = None
     projectType: ProjectType
     sourceOrderId: int
     targetOrderId: int
@@ -509,9 +537,9 @@ class Template(BaseModel):
     """
 
     customerID: int
-    templateDescription: Optional[str]
+    templateDescription: Optional[str] = None
     templateID: int
-    templateName: Optional[str]
+    templateName: Optional[str] = None
 
 
 class Quote(BaseModel):
@@ -520,16 +548,16 @@ class Quote(BaseModel):
         DataQuote30
     """
 
-    creationDate: Optional[datetime]
-    currency: Optional[str]
-    orderID: Optional[List[Optional[int]]] = None
-    projectName: Optional[str]
+    creationDate: Optional[datetime] = None
+    currency: Optional[str] = None
+    orderID: Optional[List[int]] = None
+    projectName: Optional[str] = None
     quoteID: int
-    quoteNumber: Optional[str]
+    quoteNumber: Optional[str] = None
     rate: float
     requestID: int
-    status: QuoteStatusType
-    subject: Optional[str]
+    status: int
+    subject: Optional[str] = None
 
 
 class SelectionEntry_Customer(BaseModel):
@@ -539,7 +567,7 @@ class SelectionEntry_Customer(BaseModel):
         DataRequest30
     """
 
-    customerEntryType: SearchSelection_Customer
+    customerEntryType: int
     mainID: int
 
 
@@ -550,7 +578,7 @@ class SelectionEntry_Resource(BaseModel):
     """
 
     mainID: int
-    resourceEntryType: SearchSelection_Resource
+    resourceEntryType: int
 
 
 class Request(BaseModel):
@@ -559,17 +587,17 @@ class Request(BaseModel):
         DataRequest30
     """
 
-    briefDescription: Optional[str]
-    creationDate: Optional[datetime]
-    deliveryDate: Optional[datetime]
+    briefDescription: Optional[str] = None
+    creationDate: Optional[datetime] = None
+    deliveryDate: Optional[datetime] = None
     orderID: int
-    orderIDList: Optional[List[Optional[int]]] = None
-    quotationDate: Optional[datetime]
+    orderIDList: Optional[List[int]] = None
+    quotationDate: Optional[datetime] = None
     quoteID: int
-    quoteIDList: Optional[List[Optional[int]]] = None
+    quoteIDList: Optional[List[int]] = None
     requestID: int
-    status: RequestStatusType
-    subject: Optional[str]
+    status: int
+    subject: Optional[str] = None
 
 
 class Item(BaseModel):
@@ -578,19 +606,20 @@ class Item(BaseModel):
         DataItem30
     """
 
-    briefDescription: Optional[str]
-    comment: Optional[str]
-    deliveryDeadline: Optional[datetime]
+    briefDescription: Optional[str] = None
+    comment: Optional[str] = None
+    deliveryDeadline: Optional[datetime] = None
     invoiceID: int
     itemID: int
-    jobIDList: Optional[List[Optional[int]]] = None
+    jobIDList: Optional[List[int]] = None
     orderID: int
     projectID: int
     projectType: ProjectType
-    reference: Optional[str]
-    sourceLanguage: Optional[str]
-    status: ItemStatus
-    targetLanguage: Optional[str]
+    reference: Optional[str] = None
+    sourceLanguage: Optional[str] = None
+    status: int
+    targetLanguage: Optional[str] = None
+    taxType: TaxType
     totalPrice: float
 
 
@@ -600,27 +629,27 @@ class Resource(BaseModel):
         DataResource30
     """
 
-    academicTitle: Optional[str]
-    costCenter: Optional[str]
-    currency: Optional[str]
-    email: Optional[str]
-    externalID: Optional[str]
-    fax: Optional[str]
-    formOfAddress: FormOfAddressType
-    fullName: Optional[str]
-    mobilePhone: Optional[str]
-    name1: Optional[str]
-    name2: Optional[str]
-    opening: Optional[str]
-    phone: Optional[str]
+    academicTitle: Optional[str] = None
+    costCenter: Optional[str] = None
+    currency: Optional[str] = None
+    email: Optional[str] = None
+    externalID: Optional[str] = None
+    fax: Optional[str] = None
+    formOfAddress: int
+    fullName: Optional[str] = None
+    mobilePhone: Optional[str] = None
+    name1: Optional[str] = None
+    name2: Optional[str] = None
+    opening: Optional[str] = None
+    phone: Optional[str] = None
     resourceID: int
     resourceType: ResourceType
-    skypeID: Optional[str]
-    status: ResourceStatus
-    supervisor1: Optional[str]
-    supervisor2: Optional[str]
+    skypeID: Optional[str] = None
+    status: int
+    supervisor1: Optional[str] = None
+    supervisor2: Optional[str] = None
     userId: int
-    website: Optional[str]
+    website: Optional[str] = None
     workingStatus: WorkingStatus
 
 
@@ -631,10 +660,10 @@ class Account(BaseModel):
         DataCustomer30
     """
 
-    accountDescription: Optional[str]
+    accountDescription: Optional[str] = None
     accountID: int
-    accountNumber: Optional[str]
-    accountType: int  # TODO: Ask Alex
+    accountNumber: Optional[str] = None
+    accountType: int
     active: bool
 
 
@@ -645,15 +674,15 @@ class PaymentInfo(BaseModel):
         DataCustomer30
     """
 
-    accountHolder: Optional[str]
+    accountHolder: Optional[str] = None
     accountID: int
-    BIC: Optional[str]
-    contractNumber: Optional[str]
-    debitAccount: Optional[str]
-    IBAN: Optional[str]
+    BIC: Optional[str] = None
+    contractNumber: Optional[str] = None
+    debitAccount: Optional[str] = None
+    IBAN: Optional[str] = None
     paymentMethodID: int
     preselectedTaxID: int
-    salesTaxID: Optional[str]
+    salesTaxID: Optional[str] = None
 
 
 class Customer(BaseModel):
@@ -662,37 +691,24 @@ class Customer(BaseModel):
         DataCustomer30
     """
 
-    academicTitle: Optional[str]
-    costCenter: Optional[str]
-    currency: Optional[str]
+    academicTitle: Optional[str] = None
+    costCenter: Optional[str] = None
+    currency: Optional[str] = None
     customerID: int
-    email: Optional[str]
-    externalID: Optional[str]
-    fax: Optional[str]
-    formOfAddress: FormOfAddressType
-    fullName: Optional[str]
-    mobilePhone: Optional[str]
-    name1: Optional[str]
-    name2: Optional[str]
-    opening: Optional[str]
-    phone: Optional[str]
-    skypeID: Optional[str]
-    status: CustomerStatus
+    email: Optional[str] = None
+    externalID: Optional[str] = None
+    fax: Optional[str] = None
+    formOfAddress: int
+    fullName: Optional[str] = None
+    mobilePhone: Optional[str] = None
+    name1: Optional[str] = None
+    name2: Optional[str] = None
+    opening: Optional[str] = None
+    phone: Optional[str] = None
+    skypeID: Optional[str] = None
+    status: int
     userId: int
-    website: Optional[str]
-
-
-class Workflow(BaseModel):
-    """
-    Used in:
-        DataCustomer30
-    """
-
-    description: Optional[str]
-    name: Optional[str]
-    status: WorkflowStatus
-    type: WorkflowType
-    workflowId: int
+    website: Optional[str] = None
 
 
 class CustomerContact(BaseModel):
@@ -702,19 +718,19 @@ class CustomerContact(BaseModel):
     """
 
     addressID: int
-    costCenter: Optional[str]
+    costCenter: Optional[str] = None
     customerContactID: int
     customerID: int
-    email: Optional[str]
-    externalID: Optional[str]
-    fax: Optional[str]
-    mobilePhone: Optional[str]
-    name1: Optional[str]
-    name2: Optional[str]
-    phone: Optional[str]
-    status: ContactPersonStatus
-    supervisor1: Optional[str]
-    supervisor2: Optional[str]
+    email: Optional[str] = None
+    externalID: Optional[str] = None
+    fax: Optional[str] = None
+    mobilePhone: Optional[str] = None
+    name1: Optional[str] = None
+    name2: Optional[str] = None
+    phone: Optional[str] = None
+    status: int
+    supervisor1: Optional[str] = None
+    supervisor2: Optional[str] = None
     userId: int
 
 
@@ -724,22 +740,22 @@ class ResourceContact(BaseModel):
         DataResourceContact30
     """
 
-    academicTitle: Optional[str]
+    academicTitle: Optional[str] = None
     addressID: int
-    costCenter: Optional[str]
-    email: Optional[str]
-    externalID: Optional[str]
-    fax: Optional[str]
-    formOfAddress: FormOfAddressType
-    mobilePhone: Optional[str]
-    name1: Optional[str]
-    name2: Optional[str]
-    opening: Optional[str]
-    phone: Optional[str]
+    costCenter: Optional[str] = None
+    email: Optional[str] = None
+    externalID: Optional[str] = None
+    fax: Optional[str] = None
+    formOfAddress: int
+    mobilePhone: Optional[str] = None
+    name1: Optional[str] = None
+    name2: Optional[str] = None
+    opening: Optional[str] = None
+    phone: Optional[str] = None
     resourceContactID: int
     resourceID: int
-    skypeID: Optional[str]
-    status: ContactPersonStatus
+    skypeID: Optional[str] = None
+    status: int
     userId: int
 
 
@@ -752,9 +768,9 @@ class User(BaseModel):
     contactID: int
     contactType: ContactType
     customerContactID: int
-    password: Optional[str]
+    password: Optional[str] = None
     userID: int
-    userName: Optional[str]
+    userName: Optional[str] = None
 
 
 class Result(BaseModel):
@@ -785,9 +801,38 @@ class Result(BaseModel):
     """
 
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
+
+
+class StringResult(BaseModel):
+    """
+    Used in:
+        DataPayable30,
+        DataOutgoingInvoice30,
+        DataCreditNote30,
+        DataAdmin30,
+        DataJob30,
+        DataOrder30,
+        DataQuote30,
+        DataRequest30,
+        DataItem30,
+        DataResource30,
+        DataCustomer30,
+        DataCustomerContact30,
+        DataResourceContact30,
+        DataCustomerAddress30,
+        DataResourceAddress30,
+        RequestDocText30,
+        DataCustomFields30
+    """
+
+    data: Optional[str] = None
+    statusCode: int
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class IntegerResult(BaseModel):
@@ -813,38 +858,9 @@ class IntegerResult(BaseModel):
 
     data: int
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
-
-
-class StringResult(BaseModel):
-    """
-    Used in:
-        DataPayable30,
-        DataOutgoingInvoice30,
-        DataCreditNote30,
-        DataAdmin30,
-        DataJob30,
-        DataOrder30,
-        DataQuote30,
-        DataRequest30,
-        DataItem30,
-        DataResource30,
-        DataCustomer30,
-        DataCustomerContact30,
-        DataResourceContact30,
-        DataCustomerAddress30,
-        DataResourceAddress30,
-        RequestDocText30,
-        DataCustomFields30
-    """
-
-    data: Optional[str]
-    statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class TaxListResult(BaseModel):
@@ -855,11 +871,11 @@ class TaxListResult(BaseModel):
         DataCreditNote30
     """
 
-    data: Optional[List[Optional[Tax]]] = None
+    data: Optional[List[Tax]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class DoubleResult(BaseModel):
@@ -876,9 +892,9 @@ class DoubleResult(BaseModel):
 
     data: float
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class DateResult(BaseModel):
@@ -895,11 +911,11 @@ class DateResult(BaseModel):
         DataCustomer30
     """
 
-    data: Optional[datetime]
+    data: Optional[datetime] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class PriceLineIN(BaseModel):
@@ -914,7 +930,7 @@ class PriceLineIN(BaseModel):
 
     amount: float
     amount_perUnit: float
-    memo: Optional[str]
+    memo: Optional[str] = None
     priceLineID: int
     priceUnitID: int
     taxType: TaxType
@@ -932,11 +948,11 @@ class PriceLineResult(BaseModel):
         DataItem30
     """
 
-    data: Optional[PriceLine]
+    data: Optional[PriceLine] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class PriceUnitListResult(BaseModel):
@@ -944,15 +960,16 @@ class PriceUnitListResult(BaseModel):
     Used in:
         DataPayable30,
         DataOutgoingInvoice30,
+        DataAdmin30,
         DataJob30,
         DataItem30
     """
 
-    data: Optional[List[Optional[PriceUnit]]] = None
+    data: Optional[List[PriceUnit]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class BooleanResult(BaseModel):
@@ -967,9 +984,9 @@ class BooleanResult(BaseModel):
 
     data: bool
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class PriceLineListResult(BaseModel):
@@ -981,11 +998,11 @@ class PriceLineListResult(BaseModel):
         DataItem30
     """
 
-    data: Optional[List[Optional[PriceLine]]] = None
+    data: Optional[List[PriceLine]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class PayableItemResultList(BaseModel):
@@ -994,11 +1011,11 @@ class PayableItemResultList(BaseModel):
         DataPayable30
     """
 
-    data: Optional[List[Optional[PayableItem]]] = None
+    data: Optional[List[PayableItem]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class PriceUnitResult(BaseModel):
@@ -1010,11 +1027,11 @@ class PriceUnitResult(BaseModel):
         DataItem30
     """
 
-    data: Optional[PriceUnit]
+    data: Optional[PriceUnit] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class PayableItemIN(BaseModel):
@@ -1023,13 +1040,14 @@ class PayableItemIN(BaseModel):
         DataPayable30
     """
 
-    briefDescription: Optional[str]
+    briefDescription: Optional[str] = None
     invoiceID: int
     itemNumber: int
-    jobDate: Optional[datetime]
+    jobDate: Optional[datetime] = None
     jobID: int
-    jobNo: Optional[str]
+    jobNo: Optional[str] = None
     jobStatus: JobStatus
+    taxType: TaxType
     totalprice: float
 
 
@@ -1040,11 +1058,11 @@ class SearchFilter_Payable(BaseModel):
     """
 
     exported: int
-    isoCodeCurrency: Optional[str]
-    languageCode: Optional[str]
+    isoCodeCurrency: Optional[str] = None
+    languageCode: Optional[str] = None
     resourceID: int
     payableStatus: PayableStatus
-    textmodulesList: Optional[List[Optional[Textmodule]]]
+    textmodulesList: Optional[List[Textmodule]] = None
     timeFrame: SelectionEntry_TimeFrame
 
 
@@ -1070,11 +1088,11 @@ class IntegerArrayResult(BaseModel):
         RequestDocText30
     """
 
-    data: Optional[List[Optional[int]]] = None
+    data: Optional[List[int]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class StringArrayResult(BaseModel):
@@ -1089,11 +1107,11 @@ class StringArrayResult(BaseModel):
         DataDocument30
     """
 
-    data: Optional[List[Optional[str]]] = None
+    data: Optional[List[str]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class InvoiceResult(BaseModel):
@@ -1102,11 +1120,11 @@ class InvoiceResult(BaseModel):
         DataOutgoingInvoice30
     """
 
-    data: Optional[Invoice]
+    data: Optional[Invoice] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class InvoiceItemIN(BaseModel):
@@ -1115,12 +1133,13 @@ class InvoiceItemIN(BaseModel):
         DataOutgoingInvoice30
     """
 
-    briefDescription: Optional[str]
-    comment: Optional[str]
+    briefDescription: Optional[str] = None
+    comment: Optional[str] = None
     invoiceID: int
     invoiceItemID: int
     languageCombinationID: int
     orderID: int
+    taxType: TaxType
     totalPrice: float
 
 
@@ -1130,11 +1149,11 @@ class InvoiceItemResult(BaseModel):
         DataOutgoingInvoice30
     """
 
-    data: Optional[List[Optional[InvoiceItem]]] = None
+    data: Optional[List[InvoiceItem]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class PricelistListResult(BaseModel):
@@ -1146,11 +1165,11 @@ class PricelistListResult(BaseModel):
         DataResource30
     """
 
-    data: Optional[List[Optional[Pricelist]]] = None
+    data: Optional[List[Pricelist]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class SearchFilter_Invoice(BaseModel):
@@ -1160,12 +1179,12 @@ class SearchFilter_Invoice(BaseModel):
     """
 
     customerID: int
+    exported: int
     languageCode: str
-    propertiesList: Optional[List[Optional[Property]]]
+    propertiesList: Optional[List[Property]] = None
     invoiceStatus: int
-    textmodulesList: Optional[List[Optional[Textmodule]]]
+    textmodulesList: Optional[List[Textmodule]] = None
     timeFrame: SelectionEntry_TimeFrame
-    exported: ExportedType
 
 
 class PricelistEntryList(BaseModel):
@@ -1176,11 +1195,11 @@ class PricelistEntryList(BaseModel):
         DataItem30
     """
 
-    data: Optional[List[Optional[PricelistEntry]]] = None
+    data: Optional[List[PricelistEntry]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class PricelistResult(BaseModel):
@@ -1191,11 +1210,11 @@ class PricelistResult(BaseModel):
         DataItem30
     """
 
-    data: Optional[Pricelist]
+    data: Optional[Pricelist] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class SearchFilter_CreditNote(BaseModel):
@@ -1205,12 +1224,12 @@ class SearchFilter_CreditNote(BaseModel):
     """
 
     customerID: int
+    exported: int
     languageCode: str
-    propertiesList: Optional[List[Optional[Property]]]
-    creditNoteStatus: Union[CreditNoteStatus, int]
-    textmodulesList: Optional[List[Optional[Textmodule]]]
+    propertiesList: Optional[List[Property]] = None
+    creditNoteStatus: CreditNoteStatus
+    textmodulesList: Optional[List[Textmodule]] = None
     timeFrame: SelectionEntry_TimeFrame
-    exported: ExportedType
 
 
 class CreditNoteItemIN(BaseModel):
@@ -1219,7 +1238,7 @@ class CreditNoteItemIN(BaseModel):
         DataCreditNote30
     """
 
-    briefDescription: Optional[str]
+    briefDescription: Optional[str] = None
     creditNoteID: int
     taxTypeID: int
     totalPrice: float
@@ -1231,24 +1250,24 @@ class CreditNoteListResult(BaseModel):
         DataCreditNote30
     """
 
-    data: Optional[List[Optional[CreditNoteItem]]] = None
+    data: Optional[List[CreditNoteItem]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
-class CurrencyList(BaseModel):
+class PropertyListResult(BaseModel):
     """
     Used in:
         DataAdmin30
     """
 
-    data: Optional[List[Optional[Currency]]] = None
+    m_Data: Optional[List[PropertyResult]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class LanguageListResult(BaseModel):
@@ -1257,37 +1276,50 @@ class LanguageListResult(BaseModel):
         DataAdmin30
     """
 
-    data: Optional[List[Optional[Language]]] = None
+    data: Optional[List[Language]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
-class CallbackListResult(BaseModel):
+class CurrencyList(BaseModel):
     """
     Used in:
         DataAdmin30
     """
 
-    data: Optional[List[Optional[Callback]]] = None
+    data: Optional[List[Currency]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
-class CompanyCodeListResult(BaseModel):
+class languageResult(BaseModel):
     """
     Used in:
         DataAdmin30
     """
 
-    data: Optional[List[Optional[CompanyCode]]] = None
+    data: Optional[Language] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
+
+
+class PropertyValueListResult(BaseModel):
+    """
+    Used in:
+        DataAdmin30
+    """
+
+    data: Optional[List[PropertyValue]] = None
+    statusCode: int
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class CountryListResult(BaseModel):
@@ -1296,11 +1328,64 @@ class CountryListResult(BaseModel):
         DataAdmin30
     """
 
-    data: Optional[List[Optional[Country]]] = None
+    data: Optional[List[Country]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
+
+
+class WorkflowListResult(BaseModel):
+    """
+    Used in:
+        DataAdmin30,
+        DataCustomer30
+    """
+
+    data: Optional[List[Workflow]] = None
+    statusCode: int
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
+
+
+class TextmoduleListResult(BaseModel):
+    """
+    Used in:
+        DataAdmin30
+    """
+
+    data: Optional[List[Textmodule]] = None
+    statusCode: int
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
+
+
+class CallbackListResult(BaseModel):
+    """
+    Used in:
+        DataAdmin30
+    """
+
+    data: Optional[List[Callback]] = None
+    statusCode: int
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
+
+
+class CompanyCodeListResult(BaseModel):
+    """
+    Used in:
+        DataAdmin30
+    """
+
+    data: Optional[List[CompanyCode]] = None
+    statusCode: int
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class ServiceListResult(BaseModel):
@@ -1309,11 +1394,11 @@ class ServiceListResult(BaseModel):
         DataAdmin30
     """
 
-    data: Optional[List[Optional[Service]]] = None
+    data: Optional[List[Service]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class JobResult(BaseModel):
@@ -1322,11 +1407,11 @@ class JobResult(BaseModel):
         DataJob30
     """
 
-    data: Optional[Job]
+    data: Optional[Job] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class JobListResult(BaseModel):
@@ -1335,11 +1420,11 @@ class JobListResult(BaseModel):
         DataJob30
     """
 
-    data: Optional[List[Optional[Job]]] = None
+    data: Optional[List[Job]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class JobIN(BaseModel):
@@ -1349,14 +1434,14 @@ class JobIN(BaseModel):
     """
 
     contactPersonID: int
-    dueDate: Optional[datetime]
+    dueDate: Optional[datetime] = None
     itemID: int
     jobID: int
     projectID: int
     projectType: ProjectType
     resourceID: int
-    startDate: Optional[datetime]
-    status: JobStatus
+    startDate: Optional[datetime] = None
+    status: int
 
 
 class JobTrackingTimeResult(BaseModel):
@@ -1365,11 +1450,23 @@ class JobTrackingTimeResult(BaseModel):
         DataJob30
     """
 
-    data: Optional[TrackingTimeList]
+    data: Optional[TrackingTimeList] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
+
+
+class JobTrackingTime(BaseModel):
+    """
+    Used in:
+        DataJob30
+    """
+
+    resourceID: int
+    comment: Optional[str] = None
+    dateFrom: Optional[datetime] = None
+    dateTo: Optional[datetime] = None
 
 
 class JobTrackingTimeListIN(BaseModel):
@@ -1387,11 +1484,11 @@ class JobMetricResult(BaseModel):
         DataJob30
     """
 
-    data: Optional[JobMetric]
+    data: Optional[JobMetric] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class JobRoundIN(BaseModel):
@@ -1401,8 +1498,8 @@ class JobRoundIN(BaseModel):
     """
 
     assignmentLimitToFirstX: int
-    assignmentLimitType: JobRoundAssignmentLimitType
-    assignmentMethod: JobRoundAssignmentMethod
+    assignmentLimitType: int
+    assignmentMethod: int
     jobID: int
     jobRoundID: int
     jobRoundNumber: int
@@ -1411,7 +1508,7 @@ class JobRoundIN(BaseModel):
     sendNotificationOnJobAccept: bool
     sendNotificationOnJobReject: bool
     startNextRoundAutomatically: bool
-    status: JobRoundStatus
+    status: int
 
 
 class JobRoundSearchCriteriaIN(BaseModel):
@@ -1423,11 +1520,11 @@ class JobRoundSearchCriteriaIN(BaseModel):
     includeNonRespondingResources: bool
     includeNotRequestedResources: bool
     includeRejectingResources: bool
-    propertyList: Optional[List[Optional[Property]]] = None
-    resourceStatus: Optional[List[Optional[ResourceStatus]]] = None
+    propertyList: Optional[List[Property]] = None
+    resourceStatus: Optional[List[ResourceStatus]] = None
     roundId: int
     searchCriterionId: int
-    workingStatus: Optional[List[Optional[WorkingStatus]]] = None
+    workingStatus: Optional[List[WorkingStatus]] = None
 
 
 class JobRoundResult(BaseModel):
@@ -1436,11 +1533,11 @@ class JobRoundResult(BaseModel):
         DataJobRound30
     """
 
-    data: Optional[JobRound]
+    data: Optional[JobRound] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class JobRoundRankingMethodList(BaseModel):
@@ -1449,7 +1546,7 @@ class JobRoundRankingMethodList(BaseModel):
         DataJobRound30
     """
 
-    data: Optional[List[Optional[JobRoundRankingMethod]]] = None
+    data: Optional[List[JobRoundRankingMethod]] = None
 
 
 class JobRoundRankingMethodListResult(BaseModel):
@@ -1458,11 +1555,11 @@ class JobRoundRankingMethodListResult(BaseModel):
         DataJobRound30
     """
 
-    data: Optional[List[Optional[JobRoundRankingMethod]]] = None
+    data: Optional[List[JobRoundRankingMethod]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class JobRoundSearchcriteriaResult(BaseModel):
@@ -1471,11 +1568,11 @@ class JobRoundSearchcriteriaResult(BaseModel):
         DataJobRound30
     """
 
-    data: Optional[JobRoundSearchCriteria]
+    data: Optional[JobRoundSearchCriteria] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class SearchFilter_Job(BaseModel):
@@ -1485,12 +1582,12 @@ class SearchFilter_Job(BaseModel):
     """
 
     customerID: int
-    item_Status: ItemStatus
-    job_CreationDate_from: Optional[datetime]
-    job_CreationDate_to: Optional[datetime]
-    job_SourceLanguage: Optional[str]
-    job_Status: JobStatus
-    job_TargetLanguage: Optional[str]
+    item_Status: int
+    job_CreationDate_from: Optional[datetime] = None
+    job_CreationDate_to: Optional[datetime] = None
+    job_SourceLanguage: Optional[str] = None
+    job_Status: int
+    job_TargetLanguage: Optional[str] = None
     job_resourceID: int
 
 
@@ -1500,11 +1597,11 @@ class OrderResult(BaseModel):
         DataOrder30
     """
 
-    data: Optional[Order]
+    data: Optional[Order] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class OrderIN(BaseModel):
@@ -1513,18 +1610,18 @@ class OrderIN(BaseModel):
         DataOrder30
     """
 
-    currency: Optional[str]
+    currency: Optional[str] = None
     customerContactID: int
     customerID: int
-    deliveryDeadline: Optional[datetime]
-    orderDate: Optional[datetime]
+    deliveryDeadline: Optional[datetime] = None
+    orderDate: Optional[datetime] = None
     orderID: int
     projectManagerID: int
-    projectManagerMemo: Optional[str]
-    projectName: Optional[str]
-    rate: Optional[float]
-    referenceNumber: Optional[str]
-    subject: Optional[str]
+    projectManagerMemo: Optional[str] = None
+    projectName: Optional[str] = None
+    rate: float
+    referenceNumber: Optional[str] = None
+    subject: Optional[str] = None
 
 
 class LinkListResult(BaseModel):
@@ -1533,11 +1630,11 @@ class LinkListResult(BaseModel):
         DataOrder30
     """
 
-    data: Optional[List[Optional[Link]]] = None
+    data: Optional[List[Link]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class SearchFilter_Order(BaseModel):
@@ -1547,19 +1644,19 @@ class SearchFilter_Order(BaseModel):
     """
 
     customerID: int
-    itemStatus: Optional[List[Optional[ItemStatus]]]
+    itemStatus: Optional[List[ItemStatus]] = None
     languageCode: str
-    orderStatus: ArchivStatus  # TODO: Ask Alex
-    projectDescription: Optional[str]
-    projectName: Optional[str]
+    orderStatus: int
+    projectDescription: Optional[str] = None
+    projectName: Optional[str] = None
     projectType: ProjectType
-    propertiesList: Optional[List[Optional[Property]]]
-    sourceLanguage: Optional[str]
-    statusProjectFileArchiving: ArchivStatus  # TODO: Ask Alex
-    targetLanguage: Optional[str]
-    teamMember: Optional[SelectionEntry_TeamMember]
-    textmodulesList: Optional[List[Optional[Textmodule]]]
-    timeFrame: Optional[SelectionEntry_TimeFrame]
+    propertiesList: Optional[List[Property]] = None
+    sourceLanguage: Optional[str] = None
+    statusProjectFileArchiving: int
+    targetLanguage: Optional[str] = None
+    teamMember: Optional[SelectionEntry_TeamMember] = None
+    textmodulesList: Optional[List[Textmodule]] = None
+    timeFrame: Optional[SelectionEntry_TimeFrame] = None
 
 
 class TemplateListResult(BaseModel):
@@ -1569,11 +1666,11 @@ class TemplateListResult(BaseModel):
         DataQuote30
     """
 
-    data: Optional[List[Optional[Template]]] = None
+    data: Optional[List[Template]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class IntegerList(BaseModel):
@@ -1587,7 +1684,7 @@ class IntegerList(BaseModel):
         DataCustomFields30
     """
 
-    integerList: Optional[List[Optional[int]]] = None
+    integerList: Optional[List[int]] = None
 
 
 class OrderListResult(BaseModel):
@@ -1596,11 +1693,11 @@ class OrderListResult(BaseModel):
         DataOrder30
     """
 
-    data: Optional[List[Optional[Order]]] = None
+    data: Optional[List[Order]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class QuoteResult(BaseModel):
@@ -1609,11 +1706,11 @@ class QuoteResult(BaseModel):
         DataQuote30
     """
 
-    data: Optional[Quote]
+    data: Optional[Quote] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class QuoteListResult(BaseModel):
@@ -1622,11 +1719,11 @@ class QuoteListResult(BaseModel):
         DataQuote30
     """
 
-    data: Optional[List[Optional[Quote]]] = None
+    data: Optional[List[Quote]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class QuoteIN(BaseModel):
@@ -1635,15 +1732,15 @@ class QuoteIN(BaseModel):
         DataQuote30
     """
 
-    creationDate: Optional[datetime]
-    currency: Optional[str]
+    creationDate: Optional[datetime] = None
+    currency: Optional[str] = None
     customerID: int
-    projectManagerMemo: Optional[str]
-    projectName: Optional[str]
+    projectManagerMemo: Optional[str] = None
+    projectName: Optional[str] = None
     quoteID: int
-    referenceNumber: Optional[str]
-    status: QuoteStatusType
-    subject: Optional[str]
+    referenceNumber: Optional[str] = None
+    status: int
+    subject: Optional[str] = None
 
 
 class SearchFilter_Quote(BaseModel):
@@ -1653,15 +1750,15 @@ class SearchFilter_Quote(BaseModel):
     """
 
     languageCode: str
-    propertiesList: Optional[List[Optional[Property]]]
-    selectionEntryCustomer: Optional[SelectionEntry_Customer]
-    SelectionEntry_Resource: Optional[SelectionEntry_Resource]
-    SelectionEntry_TeamMember: Optional[SelectionEntry_TeamMember]
-    sourceLanguage: Optional[str]
-    quoteStatus: QuoteStatusType
-    targetLanguage: Optional[str]
-    textmodulesList: Optional[List[Optional[Textmodule]]]
-    timeFrame: Optional[SelectionEntry_TimeFrame]
+    propertiesList: Optional[List[Property]] = None
+    selectionEntryCustomer: Optional[SelectionEntry_Customer] = None
+    SelectionEntry_Resource: Optional[SelectionEntry_Resource] = None
+    SelectionEntry_TeamMember: Optional[SelectionEntry_TeamMember] = None
+    sourceLanguage: Optional[str] = None
+    quoteStatus: int
+    targetLanguage: Optional[str] = None
+    textmodulesList: Optional[List[Textmodule]] = None
+    timeFrame: Optional[SelectionEntry_TimeFrame] = None
 
 
 class RequestIN(BaseModel):
@@ -1670,15 +1767,15 @@ class RequestIN(BaseModel):
         DataRequest30
     """
 
-    briefDescription: Optional[str]
-    creationDate: Optional[datetime]
-    deliveryDate: Optional[datetime]
+    briefDescription: Optional[str] = None
+    creationDate: Optional[datetime] = None
+    deliveryDate: Optional[datetime] = None
     orderID: int
-    quotationDate: Optional[datetime]
+    quotationDate: Optional[datetime] = None
     quoteID: int
     requestID: int
-    status: RequestStatusType
-    subject: Optional[str]
+    status: int
+    subject: Optional[str] = None
 
 
 class RequestResult(BaseModel):
@@ -1687,11 +1784,11 @@ class RequestResult(BaseModel):
         DataRequest30
     """
 
-    data: Optional[Request]
+    data: Optional[Request] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class RequestListResult(BaseModel):
@@ -1700,11 +1797,11 @@ class RequestListResult(BaseModel):
         DataRequest30
     """
 
-    data: Optional[List[Optional[Request]]] = None
+    data: Optional[List[Request]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class SearchFilter_Request(BaseModel):
@@ -1714,13 +1811,13 @@ class SearchFilter_Request(BaseModel):
     """
 
     languageCode: str
-    propertiesList: Optional[List[Optional[Property]]]
-    SelectionEntry_Customer: Optional[SelectionEntry_Customer]
-    sourceLanguage: Optional[str]
+    propertiesList: Optional[List[Property]] = None
+    SelectionEntry_Customer: Optional[SelectionEntry_Customer] = None
+    sourceLanguage: Optional[str] = None
     requestStatus: int
-    targetLanguage: Optional[str]
-    textmodulesList: Optional[List[Optional[Textmodule]]]
-    timeFrame: Optional[SelectionEntry_TimeFrame]
+    targetLanguage: Optional[str] = None
+    textmodulesList: Optional[List[Textmodule]] = None
+    timeFrame: Optional[SelectionEntry_TimeFrame] = None
 
 
 class ItemListResult(BaseModel):
@@ -1729,11 +1826,11 @@ class ItemListResult(BaseModel):
         DataItem30
     """
 
-    data: Optional[List[Optional[Item]]] = None
+    data: Optional[List[Item]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class ItemIN(BaseModel):
@@ -1742,14 +1839,15 @@ class ItemIN(BaseModel):
         DataItem30
     """
 
-    briefDescription: Optional[str]
-    comment: Optional[str]
-    deliveryDeadline: Optional[datetime]
+    briefDescription: Optional[str] = None
+    comment: Optional[str] = None
+    deliveryDeadline: Optional[datetime] = None
     itemID: int
     projectID: int
     projectType: ProjectType
-    reference: Optional[str]
-    status: ItemStatus
+    reference: Optional[str] = None
+    status: int
+    taxType: TaxType
     totalPrice: float
 
 
@@ -1759,11 +1857,11 @@ class ItemResult(BaseModel):
         DataItem30
     """
 
-    data: Optional[Item]
+    data: Optional[Item] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class ResourceListResult(BaseModel):
@@ -1772,11 +1870,11 @@ class ResourceListResult(BaseModel):
         DataResource30
     """
 
-    data: Optional[List[Optional[Resource]]] = None
+    data: Optional[List[Resource]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class ResourceResult(BaseModel):
@@ -1785,11 +1883,11 @@ class ResourceResult(BaseModel):
         DataResource30
     """
 
-    data: Optional[Resource]
+    data: Optional[Resource] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class SearchFilter_Resource(BaseModel):
@@ -1799,16 +1897,16 @@ class SearchFilter_Resource(BaseModel):
     """
 
     contact_resourceID: int
-    email: Optional[str]
+    email: Optional[str] = None
     languageCode: str
-    name1: Optional[str]
-    name2: Optional[str]
-    propertiesList: Optional[List[Optional[Property]]]
+    name1: Optional[str] = None
+    name2: Optional[str] = None
+    propertiesList: Optional[List[Property]] = None
     resourceType: ResourceType
     resourceStatus: ResourceStatus
-    sourceLanguageCode: Optional[str]
-    targetLanguageCode: Optional[str]
-    textmodulesList: Optional[List[Optional[Textmodule]]]
+    sourceLanguageCode: Optional[str] = None
+    targetLanguageCode: Optional[str] = None
+    textmodulesList: Optional[List[Textmodule]] = None
     workingStatus: WorkingStatus
 
 
@@ -1819,11 +1917,11 @@ class AccountResult(BaseModel):
         DataCustomer30
     """
 
-    data: Optional[Account]
+    data: Optional[Account] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class ResourceIN(BaseModel):
@@ -1832,27 +1930,27 @@ class ResourceIN(BaseModel):
         DataResource30
     """
 
-    academicTitle: Optional[str]
-    costCenter: Optional[str]
-    currency: Optional[str]
-    email: Optional[str]
-    externalID: Optional[str]
-    fax: Optional[str]
-    formOfAddress: FormOfAddressType
-    fullName: Optional[str]
-    mobilePhone: Optional[str]
-    name1: Optional[str]
-    name2: Optional[str]
-    opening: Optional[str]
-    phone: Optional[str]
+    academicTitle: Optional[str] = None
+    costCenter: Optional[str] = None
+    currency: Optional[str] = None
+    email: Optional[str] = None
+    externalID: Optional[str] = None
+    fax: Optional[str] = None
+    formOfAddress: int
+    fullName: Optional[str] = None
+    mobilePhone: Optional[str] = None
+    name1: Optional[str] = None
+    name2: Optional[str] = None
+    opening: Optional[str] = None
+    phone: Optional[str] = None
     resourceID: int
     resourceType: ResourceType
-    skypeID: Optional[str]
-    status: ResourceStatus
-    supervisor1: Optional[str]
-    supervisor2: Optional[str]
+    skypeID: Optional[str] = None
+    status: int
+    supervisor1: Optional[str] = None
+    supervisor2: Optional[str] = None
     userId: int
-    website: Optional[str]
+    website: Optional[str] = None
     workingStatus: WorkingStatus
 
 
@@ -1863,11 +1961,11 @@ class PaymentInfoResult(BaseModel):
         DataCustomer30
     """
 
-    data: Optional[PaymentInfo]
+    data: Optional[PaymentInfo] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class CustomerListResult(BaseModel):
@@ -1876,11 +1974,11 @@ class CustomerListResult(BaseModel):
         DataCustomer30
     """
 
-    data: Optional[List[Optional[Customer]]] = None
+    data: Optional[List[Customer]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class CustomerIN(BaseModel):
@@ -1889,24 +1987,24 @@ class CustomerIN(BaseModel):
         DataCustomer30
     """
 
-    academicTitle: Optional[str]
-    costCenter: Optional[str]
-    currency: Optional[str]
+    academicTitle: Optional[str] = None
+    costCenter: Optional[str] = None
+    currency: Optional[str] = None
     customerID: int
-    email: Optional[str]
-    externalID: Optional[str]
-    fax: Optional[str]
-    formOfAddress: FormOfAddressType
-    fullName: Optional[str]
-    mobilePhone: Optional[str]
-    name1: Optional[str]
-    name2: Optional[str]
-    opening: Optional[str]
-    phone: Optional[str]
-    skypeID: Optional[str]
-    status: CustomerStatus
+    email: Optional[str] = None
+    externalID: Optional[str] = None
+    fax: Optional[str] = None
+    formOfAddress: int
+    fullName: Optional[str] = None
+    mobilePhone: Optional[str] = None
+    name1: Optional[str] = None
+    name2: Optional[str] = None
+    opening: Optional[str] = None
+    phone: Optional[str] = None
+    skypeID: Optional[str] = None
+    status: int
     userId: int
-    website: Optional[str]
+    website: Optional[str] = None
 
 
 class CustomerResult(BaseModel):
@@ -1915,11 +2013,11 @@ class CustomerResult(BaseModel):
         DataCustomer30
     """
 
-    data: Optional[Customer]
+    data: Optional[Customer] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class SearchFilter_Customer(BaseModel):
@@ -1931,27 +2029,14 @@ class SearchFilter_Customer(BaseModel):
 
     contact_resourceID: int
     customerType: CustomerType
-    email: Optional[str]
+    email: Optional[str] = None
     languageCode: str
-    name1: Optional[str]
-    name2: Optional[str]
-    propertiesList: Optional[List[Optional[Property]]]
-    sourceLanguageCode: Optional[str]
+    name1: Optional[str] = None
+    name2: Optional[str] = None
+    propertiesList: Optional[List[Property]] = None
+    sourceLanguageCode: Optional[str] = None
     customerStatus: CustomerStatus
-    textmodulesList: Optional[List[Optional[Textmodule]]]
-
-
-class WorkflowListResult(BaseModel):
-    """
-    Used in:
-        DataCustomer30
-    """
-
-    data: Optional[List[Optional[Workflow]]] = None
-    statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    textmodulesList: Optional[List[Textmodule]] = None
 
 
 class CustomerContactListResult(BaseModel):
@@ -1960,11 +2045,11 @@ class CustomerContactListResult(BaseModel):
         DataCustomerContact30
     """
 
-    data: Optional[List[Optional[CustomerContact]]] = None
+    data: Optional[List[CustomerContact]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class CustomerContactIN(BaseModel):
@@ -1974,19 +2059,19 @@ class CustomerContactIN(BaseModel):
     """
 
     addressID: int
-    costCenter: Optional[str]
+    costCenter: Optional[str] = None
     customerContactID: int
     customerID: int
-    email: Optional[str]
-    externalID: Optional[str]
-    fax: Optional[str]
-    mobilePhone: Optional[str]
-    name1: Optional[str]
-    name2: Optional[str]
-    phone: Optional[str]
-    status: ContactPersonStatus
-    supervisor1: Optional[str]
-    supervisor2: Optional[str]
+    email: Optional[str] = None
+    externalID: Optional[str] = None
+    fax: Optional[str] = None
+    mobilePhone: Optional[str] = None
+    name1: Optional[str] = None
+    name2: Optional[str] = None
+    phone: Optional[str] = None
+    status: int
+    supervisor1: Optional[str] = None
+    supervisor2: Optional[str] = None
     userId: int
 
 
@@ -1996,11 +2081,11 @@ class CustomerContactResult(BaseModel):
         DataCustomerContact30
     """
 
-    data: Optional[CustomerContact]
+    data: Optional[CustomerContact] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class ResourceContactIN(BaseModel):
@@ -2009,21 +2094,21 @@ class ResourceContactIN(BaseModel):
         DataResourceContact30
     """
 
-    academicTitle: Optional[str]
+    academicTitle: Optional[str] = None
     addressID: int
-    email: Optional[str]
-    externalID: Optional[str]
-    fax: Optional[str]
-    formOfAddress: FormOfAddressType
-    mobilePhone: Optional[str]
-    name1: Optional[str]
-    name2: Optional[str]
-    opening: Optional[str]
-    phone: Optional[str]
+    email: Optional[str] = None
+    externalID: Optional[str] = None
+    fax: Optional[str] = None
+    formOfAddress: int
+    mobilePhone: Optional[str] = None
+    name1: Optional[str] = None
+    name2: Optional[str] = None
+    opening: Optional[str] = None
+    phone: Optional[str] = None
     resourceContactID: int
     resourceID: int
-    skypeID: Optional[str]
-    status: ContactPersonStatus
+    skypeID: Optional[str] = None
+    status: int
     userId: int
 
 
@@ -2033,11 +2118,23 @@ class ResourceContactResult(BaseModel):
         DataResourceContact30
     """
 
-    data: Optional[ResourceContact]
+    data: Optional[ResourceContact] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
+
+
+class PlunetApiException(BaseModel):
+    """
+    Used in:
+        DataResourceContact30
+    """
+
+    alphanumericErrorCode: Optional[str] = None
+    apiError: Optional[apiError] = None
+    errorCode: int
+    message: Optional[str] = None
 
 
 class ResourceContactListResult(BaseModel):
@@ -2046,11 +2143,11 @@ class ResourceContactListResult(BaseModel):
         DataResourceContact30
     """
 
-    data: Optional[List[Optional[ResourceContact]]] = None
+    data: Optional[List[ResourceContact]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class AddressIN(BaseModel):
@@ -2062,16 +2159,16 @@ class AddressIN(BaseModel):
 
     addressID: int
     addressType: AddressType
-    city: Optional[str]
-    country: Optional[str]
-    description: Optional[str]
-    name1: Optional[str]
-    name2: Optional[str]
-    office: Optional[str]
-    state: Optional[str]
-    street: Optional[str]
-    street2: Optional[str]
-    zip: Optional[str]
+    city: Optional[str] = None
+    country: Optional[str] = None
+    description: Optional[str] = None
+    name1: Optional[str] = None
+    name2: Optional[str] = None
+    office: Optional[str] = None
+    state: Optional[str] = None
+    street: Optional[str] = None
+    street2: Optional[str] = None
+    zip: Optional[str] = None
 
 
 class FileResult(BaseModel):
@@ -2080,13 +2177,13 @@ class FileResult(BaseModel):
         DataDocument30
     """
 
-    fileContent: Optional[bytes]
+    fileContent: Optional[bytes] = None
     fileSize: int
-    filename: Optional[str]
+    filename: Optional[str] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class UserResult(BaseModel):
@@ -2095,11 +2192,11 @@ class UserResult(BaseModel):
         DataUser30
     """
 
-    data: Optional[User]
+    data: Optional[User] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class UserListResult(BaseModel):
@@ -2108,11 +2205,11 @@ class UserListResult(BaseModel):
         DataUser30
     """
 
-    data: Optional[List[Optional[User]]] = None
+    data: Optional[List[User]] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None
 
 
 class TextmoduleIN(BaseModel):
@@ -2121,12 +2218,11 @@ class TextmoduleIN(BaseModel):
         DataCustomFields30
     """
 
-    dateValue: Optional[datetime]
-    flag: Optional[str]
-    selectedValues: Optional[List[Optional[str]]] = None
-    stringValue: Optional[str]
+    dateValue: Optional[datetime] = None
+    flag: Optional[str] = None
+    selectedValues: Optional[List[str]] = None
+    stringValue: Optional[str] = None
     textModuleUsageArea: TextModuleUsageArea
-    textModuleLabel: Optional[str]
 
 
 class TextmoduleResult(BaseModel):
@@ -2135,24 +2231,8 @@ class TextmoduleResult(BaseModel):
         DataCustomFields30
     """
 
-    data: Optional[Textmodule]
+    data: Optional[Textmodule] = None
     statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
-
-
-class PropertyResult(BaseModel):
-    """
-    Used in:
-        DataCustomFields30
-    """
-
-    data: Optional[Property]
-    statusCode: int
-    statusCodeAlphanumeric: Optional[str]
-    statusMessage: Optional[str]
-    warning_StatusCodeList: Optional[List[Optional[int]]] = None
-
-
-SearchFilter_CreditNote.update_forward_refs()
+    statusCodeAlphanumeric: Optional[str] = None
+    statusMessage: Optional[str] = None
+    warning_StatusCodeList: Optional[List[int]] = None

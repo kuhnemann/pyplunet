@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-from datetime import datetime
-from typing import TYPE_CHECKING, List, Union
+from typing import TYPE_CHECKING
 
-from ..models import UserListResult, UserResult
+
+from ..models import UserResult, UserListResult
+
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
@@ -12,26 +13,6 @@ if TYPE_CHECKING:
 class DataUser30:
     def __init__(self, client: PlunetClient):
         self.__client = client
-
-    def get_user_by_id(self, user_id: int) -> UserResult:
-        """
-        Returns a UserResult if a user can be found
-        depending on the transfered user id
-
-
-        :param user_id: int
-        :return: UserResult
-        """
-
-        proxy = self.__client.plunet_server.DataUser30.getUserByID
-        response_model = UserResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=user_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
 
     def get_user_list_by_resource_id(self, resource_id: int) -> UserListResult:
         """
@@ -68,6 +49,26 @@ class DataUser30:
         return self.__client.make_request(
             operation_proxy=proxy,
             argument=user_login_name,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_user_by_id(self, user_id: int) -> UserResult:
+        """
+        Returns a UserResult if a user can be found
+        depending on the transfered user id
+
+
+        :param user_id: int
+        :return: UserResult
+        """
+
+        proxy = self.__client.plunet_server.DataUser30.getUserByID
+        response_model = UserResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=user_id,
             response_model=response_model,
             unpack_dict=False,
         )

@@ -1,10 +1,12 @@
 from __future__ import annotations
 
-from datetime import datetime
-from typing import TYPE_CHECKING, List, Union
+from typing import TYPE_CHECKING, Union
+
+
+from ..models import Result, AddressIN, StringResult, IntegerArrayResult, IntegerResult
+
 
 from ..enums import AddressType
-from ..models import AddressIN, IntegerArrayResult, IntegerResult, Result, StringResult
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
@@ -31,7 +33,7 @@ class DataResourceAddress30:
         proxy = self.__client.plunet_server.DataResourceAddress30.update
         response_model = Result
 
-        if type(address_in) != AddressIN:
+        if type(address_in) is not AddressIN:
             address_in = AddressIN(**address_in).dict()
         else:
             address_in = address_in.dict()
@@ -46,6 +48,28 @@ class DataResourceAddress30:
             argument=arg,
             response_model=response_model,
             unpack_dict=True,
+        )
+
+    def insert(self, resource_id: int) -> IntegerResult:
+        """
+        Method to create a new, empty resource address dataset.
+
+        The method will return an instance of IntegerResult, which contains the identifier of the new
+        generated resource address.
+
+
+        :param resource_id: int
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataResourceAddress30.insert
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=resource_id,
+            response_model=response_model,
+            unpack_dict=False,
         )
 
     def delete(self, address_id: int) -> Result:
@@ -84,28 +108,6 @@ class DataResourceAddress30:
         return self.__client.make_request(
             operation_proxy=proxy,
             argument=address_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def insert(self, resource_id: int) -> IntegerResult:
-        """
-        Method to create a new, empty resource address dataset.
-
-        The method will return an instance of IntegerResult, which contains the identifier of the new
-        generated resource address.
-
-
-        :param resource_id: int
-        :return: IntegerResult
-        """
-
-        proxy = self.__client.plunet_server.DataResourceAddress30.insert
-        response_model = IntegerResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=resource_id,
             response_model=response_model,
             unpack_dict=False,
         )
@@ -151,6 +153,25 @@ class DataResourceAddress30:
             unpack_dict=True,
         )
 
+    def get_description(self, address_id: int) -> StringResult:
+        """
+        Returns an instance of StringResult, which contains the address description.
+
+
+        :param address_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataResourceAddress30.getDescription
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=address_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
     def set_description(self, description: str, address_id: int) -> Result:
         """
         Method to set the address description. Returns an instance of Result.
@@ -173,42 +194,33 @@ class DataResourceAddress30:
             unpack_dict=True,
         )
 
-    def get_description(self, address_id: int) -> StringResult:
+    def insert2(
+        self, resource_id: int, address_in: Union[AddressIN, dict]
+    ) -> IntegerResult:
         """
-        Returns an instance of StringResult, which contains the address description.
+        Method to create a new, address dataset depinding on the tansfered Object
 
 
-        :param address_id: int
-        :return: StringResult
+        :param resource_id: int
+        :param address_in: AddressIN
+        :return: IntegerResult
         """
 
-        proxy = self.__client.plunet_server.DataResourceAddress30.getDescription
-        response_model = StringResult
+        proxy = self.__client.plunet_server.DataResourceAddress30.insert2
+        response_model = IntegerResult
+
+        if type(address_in) is not AddressIN:
+            address_in = AddressIN(**address_in).dict()
+        else:
+            address_in = address_in.dict()
+
+        arg = {"ResourceID": resource_id, "AddressIN": address_in}
 
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=address_id,
+            argument=arg,
             response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def get_zip(self, address_id: int) -> StringResult:
-        """
-        Returns an instance of StringResult, which contains the zip code
-
-
-        :param address_id: int
-        :return: StringResult
-        """
-
-        proxy = self.__client.plunet_server.DataResourceAddress30.getZip
-        response_model = StringResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=address_id,
-            response_model=response_model,
-            unpack_dict=False,
+            unpack_dict=True,
         )
 
     def get_city(self, address_id: int) -> StringResult:
@@ -230,68 +242,42 @@ class DataResourceAddress30:
             unpack_dict=False,
         )
 
-    def set_country(self, country: str, address_id: int) -> Result:
+    def get_name1(self, address_id: int) -> StringResult:
         """
-        Method to set the country. Returns an instance of Result.
+        Returns an instance of StringResult, which contains the name1 / last name
 
 
-        :param country: str
         :param address_id: int
-        :return: Result
+        :return: StringResult
         """
 
-        proxy = self.__client.plunet_server.DataResourceAddress30.setCountry
-        response_model = Result
-
-        arg = {"Country": country, "AddressID": address_id}
+        proxy = self.__client.plunet_server.DataResourceAddress30.getName1
+        response_model = StringResult
 
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def get_all_addresses(self, resource_id: int) -> IntegerArrayResult:
-        """
-        Returns an instance of IntegerArrayResult, which contains a list of all available addressIDs
-        for this resource address
-
-
-        :param resource_id: int
-        :return: IntegerArrayResult
-        """
-
-        proxy = self.__client.plunet_server.DataResourceAddress30.getAllAddresses
-        response_model = IntegerArrayResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=resource_id,
+            argument=address_id,
             response_model=response_model,
             unpack_dict=False,
         )
 
-    def set_office(self, external_id: str, address_id: int) -> Result:
+    def get_name2(self, address_id: int) -> StringResult:
         """
-        Method to set the office name. Returns an instance of Result.
+        Returns an instance of StringResult, which contains the name2 / first name
 
 
-        :param external_id: str
         :param address_id: int
-        :return: Result
+        :return: StringResult
         """
 
-        proxy = self.__client.plunet_server.DataResourceAddress30.setOffice
-        response_model = Result
-
-        arg = {"ExternalID": external_id, "AddressID": address_id}
+        proxy = self.__client.plunet_server.DataResourceAddress30.getName2
+        response_model = StringResult
 
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=arg,
+            argument=address_id,
             response_model=response_model,
-            unpack_dict=True,
+            unpack_dict=False,
         )
 
     def get_street(self, address_id: int) -> StringResult:
@@ -311,6 +297,69 @@ class DataResourceAddress30:
             argument=address_id,
             response_model=response_model,
             unpack_dict=False,
+        )
+
+    def get_street2(self, address_id: int) -> StringResult:
+        """
+        Returns an instance of StringResult, which contains street 2
+
+
+        :param address_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataResourceAddress30.getStreet2
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=address_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_name1(self, name: str, address_id: int) -> Result:
+        """
+        Method to set the name1 / last name. Returns an instance of Result.
+
+
+        :param name: str
+        :param address_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataResourceAddress30.setName1
+        response_model = Result
+
+        arg = {"Name": name, "AddressID": address_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def set_name2(self, name: str, address_id: int) -> Result:
+        """
+        Method to set the name2 / first name. Returns an instance of Result.
+
+
+        :param name: str
+        :param address_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataResourceAddress30.setName2
+        response_model = Result
+
+        arg = {"Name": name, "AddressID": address_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
         )
 
     def set_city(self, city: str, address_id: int) -> Result:
@@ -335,45 +384,6 @@ class DataResourceAddress30:
             argument=arg,
             response_model=response_model,
             unpack_dict=True,
-        )
-
-    def get_address_id(self, address_id: int) -> IntegerResult:
-        """
-        Returns an instance of IntegerResult, which contains the addressID of the currently fetched
-        address.
-
-
-        :param address_id: int
-        :return: IntegerResult
-        """
-
-        proxy = self.__client.plunet_server.DataResourceAddress30.getAddressID
-        response_model = IntegerResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=address_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def get_office(self, address_id: int) -> StringResult:
-        """
-        Returns an instance of StringResult, which contains the office name
-
-
-        :param address_id: int
-        :return: StringResult
-        """
-
-        proxy = self.__client.plunet_server.DataResourceAddress30.getOffice
-        response_model = StringResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=address_id,
-            response_model=response_model,
-            unpack_dict=False,
         )
 
     def set_street(self, street: str, address_id: int) -> Result:
@@ -420,21 +430,44 @@ class DataResourceAddress30:
             unpack_dict=True,
         )
 
-    def get_street2(self, address_id: int) -> StringResult:
+    def set_country(self, country: str, address_id: int) -> Result:
         """
-        Returns an instance of StringResult, which contains street 2
+        Method to set the country. Returns an instance of Result.
 
 
+        :param country: str
         :param address_id: int
-        :return: StringResult
+        :return: Result
         """
 
-        proxy = self.__client.plunet_server.DataResourceAddress30.getStreet2
-        response_model = StringResult
+        proxy = self.__client.plunet_server.DataResourceAddress30.setCountry
+        response_model = Result
+
+        arg = {"Country": country, "AddressID": address_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=address_id,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_all_addresses(self, resource_id: int) -> IntegerArrayResult:
+        """
+        Returns an instance of IntegerArrayResult, which contains a list of all available addressIDs
+        for this resource address
+
+
+        :param resource_id: int
+        :return: IntegerArrayResult
+        """
+
+        proxy = self.__client.plunet_server.DataResourceAddress30.getAllAddresses
+        response_model = IntegerArrayResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=resource_id,
             response_model=response_model,
             unpack_dict=False,
         )
@@ -459,6 +492,86 @@ class DataResourceAddress30:
             argument=arg,
             response_model=response_model,
             unpack_dict=True,
+        )
+
+    def get_address_id(self, address_id: int) -> IntegerResult:
+        """
+        Returns an instance of IntegerResult, which contains the addressID of the currently fetched
+        address.
+
+
+        :param address_id: int
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataResourceAddress30.getAddressID
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=address_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_office(self, external_id: str, address_id: int) -> Result:
+        """
+        Method to set the office name. Returns an instance of Result.
+
+
+        :param external_id: str
+        :param address_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataResourceAddress30.setOffice
+        response_model = Result
+
+        arg = {"ExternalID": external_id, "AddressID": address_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_office(self, address_id: int) -> StringResult:
+        """
+        Returns an instance of StringResult, which contains the office name
+
+
+        :param address_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataResourceAddress30.getOffice
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=address_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_zip(self, address_id: int) -> StringResult:
+        """
+        Returns an instance of StringResult, which contains the zip code
+
+
+        :param address_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataResourceAddress30.getZip
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=address_id,
+            response_model=response_model,
+            unpack_dict=False,
         )
 
     def get_address_type(self, address_id: int) -> IntegerResult:
@@ -496,9 +609,9 @@ class DataResourceAddress30:
         proxy = self.__client.plunet_server.DataResourceAddress30.setAddressType
         response_model = Result
 
-        if type(address_type) == AddressType:
+        if type(address_type) is AddressType:
             address_type = address_type.value
-        elif type(address_type) == int:
+        elif type(address_type) is int:
             address_type = address_type
         else:
             address_type = int(address_type)
@@ -510,115 +623,4 @@ class DataResourceAddress30:
             argument=arg,
             response_model=response_model,
             unpack_dict=True,
-        )
-
-    def set_name1(self, name: str, address_id: int) -> Result:
-        """
-        Method to set the name1 / last name. Returns an instance of Result.
-
-
-        :param name: str
-        :param address_id: int
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.DataResourceAddress30.setName1
-        response_model = Result
-
-        arg = {"Name": name, "AddressID": address_id}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def get_name1(self, address_id: int) -> StringResult:
-        """
-        Returns an instance of StringResult, which contains the name1 / last name
-
-
-        :param address_id: int
-        :return: StringResult
-        """
-
-        proxy = self.__client.plunet_server.DataResourceAddress30.getName1
-        response_model = StringResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=address_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def insert2(
-        self, resource_id: int, address_in: Union[AddressIN, dict]
-    ) -> IntegerResult:
-        """
-        Method to create a new, address dataset depinding on the tansfered Object
-
-
-        :param resource_id: int
-        :param address_in: AddressIN
-        :return: IntegerResult
-        """
-
-        proxy = self.__client.plunet_server.DataResourceAddress30.insert2
-        response_model = IntegerResult
-
-        if type(address_in) != AddressIN:
-            address_in = AddressIN(**address_in).dict()
-        else:
-            address_in = address_in.dict()
-
-        arg = {"ResourceID": resource_id, "AddressIN": address_in}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def set_name2(self, name: str, address_id: int) -> Result:
-        """
-        Method to set the name2 / first name. Returns an instance of Result.
-
-
-        :param name: str
-        :param address_id: int
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.DataResourceAddress30.setName2
-        response_model = Result
-
-        arg = {"Name": name, "AddressID": address_id}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def get_name2(self, address_id: int) -> StringResult:
-        """
-        Returns an instance of StringResult, which contains the name2 / first name
-
-
-        :param address_id: int
-        :return: StringResult
-        """
-
-        proxy = self.__client.plunet_server.DataResourceAddress30.getName2
-        response_model = StringResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=address_id,
-            response_model=response_model,
-            unpack_dict=False,
         )

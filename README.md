@@ -1,4 +1,4 @@
-<div id="top"></div>
+<div id="top">
 
 
 <!-- PROJECT SHIELDS -->
@@ -18,13 +18,13 @@
 <h3 align="center">PyPlunet</h3>
 
   <p align="center">
-    Modern Python client for interacting with the Plunet SOAP 3.0 API.
+    Modern Python client for interacting with the Plunet SOAP 3.0 API, BM version 10.8.3.
     <br />
 
 
   </p>
-</div>
 
+</div>
 
 <!-- ABOUT THE PROJECT -->
 
@@ -41,9 +41,16 @@ Pip install, import and start working. It really is as easy as that!
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+### New in 0.9.0
+- Updated models to match BM 10.8.3 (latest BM version to implement changes in DTOs)
+- BREAKING: Dropped support for pydantic 1.10 - only 2.x 
+- Updated plunetapi/zeep to support python 3.12 and 3.13
+- Started prep for v1, which will support multiple BM/API versions.
+
 ### New in 0.8.0
 - Decided to remove the retrying client 
 - Improved flexibility for enums, which now accept both integers and strings that are possible to cast as ints
+
 
 ### Built With
 
@@ -195,7 +202,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Henrik Kühnemann - [@hkuhnemann](https://twitter.com/hkuhnemann) - [hello@yellownape.se](mailto:hello@yellownape.se)
+Henrik Kühnemann - [hello@yellownape.se](mailto:hello@yellownape.se)
 
 Project Link: [https://github.com/kuhnemann/pyplunet](https://github.com/kuhnemann/pyplunet)
 

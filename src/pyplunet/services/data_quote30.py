@@ -1,23 +1,26 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import TYPE_CHECKING, List, Union
+from typing import TYPE_CHECKING, Union
 
-from ..enums import EventType, ProjectClassType, ArchivStatus, QuoteStatusType
+
 from ..models import (
-    DateResult,
-    DoubleResult,
-    IntegerArrayResult,
-    IntegerList,
-    IntegerResult,
     QuoteIN,
-    QuoteListResult,
     QuoteResult,
     Result,
-    SearchFilter_Quote,
-    StringResult,
     TemplateListResult,
+    DoubleResult,
+    QuoteListResult,
+    DateResult,
+    StringResult,
+    IntegerArrayResult,
+    IntegerResult,
+    IntegerList,
+    SearchFilter_Quote,
 )
+
+
+from ..enums import ProjectClassType, EventType
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
@@ -26,47 +29,6 @@ if TYPE_CHECKING:
 class DataQuote30:
     def __init__(self, client: PlunetClient):
         self.__client = client
-
-    def get_projectmanager_id(self, quote_id: int) -> IntegerResult:
-        """
-        Returns an instance of IntegerResult, which contains the resource id.
-
-
-        :param quote_id: int
-        :return: IntegerResult
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.getProjectmanagerID
-        response_model = IntegerResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=quote_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def set_projectmanager_id(self, resource_id: int, quote_id: int) -> Result:
-        """
-        Sets the resourceID of the project manager to the given quote.
-
-
-        :param resource_id: int
-        :param quote_id: int
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.setProjectmanagerID
-        response_model = Result
-
-        arg = {"resourceID": resource_id, "quoteID": quote_id}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
 
     def update(
         self, quote_in: Union[QuoteIN, dict], enable_null_or_empty_values: bool
@@ -85,7 +47,7 @@ class DataQuote30:
         proxy = self.__client.plunet_server.DataQuote30.update
         response_model = Result
 
-        if type(quote_in) != QuoteIN:
+        if type(quote_in) is not QuoteIN:
             quote_in = QuoteIN(**quote_in).dict()
         else:
             quote_in = quote_in.dict()
@@ -100,25 +62,6 @@ class DataQuote30:
             argument=arg,
             response_model=response_model,
             unpack_dict=True,
-        )
-
-    def delete(self, quote_id: int) -> Result:
-        """
-        Method to delete an quote via ID
-
-
-        :param quote_id: int
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.delete
-        response_model = Result
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=quote_id,
-            response_model=response_model,
-            unpack_dict=False,
         )
 
     def insert(
@@ -146,6 +89,25 @@ class DataQuote30:
             unpack_dict=False,
         )
 
+    def delete(self, quote_id: int) -> Result:
+        """
+        Method to delete an quote via ID
+
+
+        :param quote_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.delete
+        response_model = Result
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=quote_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
     def search(
         self, search_filter: Union[SearchFilter_Quote, dict]
     ) -> IntegerArrayResult:
@@ -161,7 +123,7 @@ class DataQuote30:
         proxy = self.__client.plunet_server.DataQuote30.search
         response_model = IntegerArrayResult
 
-        if type(search_filter) != SearchFilter_Quote:
+        if type(search_filter) is not SearchFilter_Quote:
             search_filter = SearchFilter_Quote(**search_filter).dict()
         else:
             search_filter = search_filter.dict()
@@ -192,20 +154,20 @@ class DataQuote30:
             unpack_dict=False,
         )
 
-    def set_customer_id(self, customer_id: int, quote_id: int) -> Result:
+    def set_status(self, status: int, quote_id: int) -> Result:
         """
-        Sets the customerID
+        Sets the QuoteStatusType.
 
 
-        :param customer_id: int
+        :param status: int
         :param quote_id: int
         :return: Result
         """
 
-        proxy = self.__client.plunet_server.DataQuote30.setCustomerID
+        proxy = self.__client.plunet_server.DataQuote30.setStatus
         response_model = Result
 
-        arg = {"customerID": customer_id, "quoteID": quote_id}
+        arg = {"Status": status, "quoteID": quote_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -214,40 +176,35 @@ class DataQuote30:
             unpack_dict=True,
         )
 
-    def set_creation_date(self, date: datetime, quote_id: int) -> Result:
+    def get_request_id(self, quote_id: int) -> IntegerResult:
         """
-        Sets the creation date
+        Returns an instance of IntegerResult, which contains the requestId
 
 
-        :param date: datetime
         :param quote_id: int
-        :return: Result
+        :return: IntegerResult
         """
 
-        proxy = self.__client.plunet_server.DataQuote30.setCreationDate
-        response_model = Result
-
-        arg = {"date": date, "quoteID": quote_id}
+        proxy = self.__client.plunet_server.DataQuote30.getRequestId
+        response_model = IntegerResult
 
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=arg,
+            argument=quote_id,
             response_model=response_model,
-            unpack_dict=True,
+            unpack_dict=False,
         )
 
-    def get_quote_document(self, quote_id: int) -> StringResult:
+    def get_subject(self, quote_id: int) -> StringResult:
         """
-        Returns an instance of StringResult, which contains the relative network path to the quote document.
-        Files can also directly be downloaded as file content over
-        DataDocument30.download_Document(String, int, int, String)
+        Returns an instance of StringResult, which contains the subject.
 
 
         :param quote_id: int
         :return: StringResult
         """
 
-        proxy = self.__client.plunet_server.DataQuote30.getQuoteDocument
+        proxy = self.__client.plunet_server.DataQuote30.getSubject
         response_model = StringResult
 
         return self.__client.make_request(
@@ -255,6 +212,126 @@ class DataQuote30:
             argument=quote_id,
             response_model=response_model,
             unpack_dict=False,
+        )
+
+    def get_status(self, quote_id: int) -> IntegerResult:
+        """
+        Returns an instance of IntegerResult, which contains the QuoteStatusType.
+
+
+        :param quote_id: int
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.getStatus
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=quote_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_customer_id(self, quote_id: int) -> IntegerResult:
+        """
+        Returns an instance of customer id, which contains the customer id
+
+
+        :param quote_id: int
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.getCustomerID
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=quote_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_quote_id(self, display_no: str) -> IntegerResult:
+        """
+        Method returns an instance of IntegerResult, which contains the Quote ID.
+
+
+        :param display_no: str
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.getQuoteID
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=display_no,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_rate(self, quote_id: int) -> DoubleResult:
+        """
+        Returns an instance of DoubleResult, which contains the rate
+
+
+        :param quote_id: int
+        :return: DoubleResult
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.getRate
+        response_model = DoubleResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=quote_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_request_id(self, quote_id: int, request_id: int) -> Result:
+        """
+        Method to set the project related request ID.
+
+
+        :param quote_id: int
+        :param request_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.setRequestID
+        response_model = Result
+
+        arg = {"quoteID": quote_id, "requestID": request_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def set_reference_number(self, quote_id: int, reference: str) -> Result:
+        """
+        Method set reference number for quote by quoteID.
+
+
+        :param quote_id: int
+        :param reference: str
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.setReferenceNumber
+        response_model = Result
+
+        arg = {"quoteID": quote_id, "reference": reference}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
         )
 
     def get_template_list(
@@ -274,6 +351,27 @@ class DataQuote30:
         return self.__client.make_request(
             operation_proxy=proxy,
             argument=None,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_quote_document(self, quote_id: int) -> StringResult:
+        """
+        Returns an instance of StringResult, which contains the relative network path to the quote document.
+        Files can also directly be downloaded as file content over
+        DataDocument30.download_Document(String, int, int, String)
+
+
+        :param quote_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.getQuoteDocument
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=quote_id,
             response_model=response_model,
             unpack_dict=False,
         )
@@ -316,183 +414,26 @@ class DataQuote30:
             unpack_dict=False,
         )
 
-    def request_order(self, quote_id: int) -> Result:
+    def get_project_category(
+        self, system_language_code: str, quote_id: int
+    ) -> StringResult:
         """
-        Request and order to the provided quoteID
+        Get the name (in the language specified) of the project category of
+        the quote.
+
+        For a full list of your project categories, see Admin | Miscellaneous |
+        Project category.
 
 
+        :param system_language_code: str
         :param quote_id: int
-        :return: Result
+        :return: StringResult
         """
 
-        proxy = self.__client.plunet_server.DataQuote30.requestOrder
-        response_model = Result
+        proxy = self.__client.plunet_server.DataQuote30.getProjectCategory
+        response_model = StringResult
 
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=quote_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def request_quote(self, project_class_type: Union[ProjectClassType, int]) -> Result:
-        """
-        Request a new quote
-
-
-        :param project_class_type: ProjectClassType
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.requestQuote
-        response_model = Result
-
-        if type(project_class_type) == ProjectClassType:
-            project_class_type = project_class_type.value
-        elif type(project_class_type) == int:
-            project_class_type = project_class_type
-        else:
-            project_class_type = int(project_class_type)
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=project_class_type,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def set_project_status(self, quote_id: int, project_status: Union[ArchivStatus, int]) -> Result:
-        """
-        Method allows to set the ArchivStatus to ARCHIVED (3).
-        Other status changes are not supported due to underlying automated workflows.
-        Please note that the current status must be either COMPLETED(6) or COMPLETED_ARCHIVABLE(2).
-
-
-        :param quote_id: int
-        :param project_status: ArchivStatus
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.setProjectStatus
-        response_model = Result
-
-        if type(project_status) == ArchivStatus:
-            project_status = project_status.value
-        elif type(project_status) == int:
-            project_status = project_status
-        else:
-            project_status = int(project_status)
-
-        arg = {"quoteID": quote_id, "projectStatus": project_status}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def get_project_status(self, quote_id: int) -> IntegerResult:
-        """
-        Returns an instance of IntegerResult, which contains the
-        ArchivStatus.
-
-
-        :param quote_id: int
-        :return: IntegerResult
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.getProjectStatus
-        response_model = IntegerResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=quote_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def set_status(self, status: Union[QuoteStatusType, int], quote_id: int) -> Result:
-        """
-        Sets the QuoteStatusType.
-
-
-        :param status: QuoteStatusType
-        :param quote_id: int
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.setStatus
-        response_model = Result
-
-        if type(status) == QuoteStatusType:
-            status = status.value
-        elif type(status) == int:
-            status = status
-        else:
-            status = int(status)
-
-        arg = {"Status": status, "quoteID": quote_id}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def get_customer_id(self, quote_id: int) -> IntegerResult:
-        """
-        Returns an instance of customer id, which contains the customer id
-
-
-        :param quote_id: int
-        :return: IntegerResult
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.getCustomerID
-        response_model = IntegerResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=quote_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def get_quote_id(self, display_no: str) -> IntegerResult:
-        """
-        Method returns an instance of IntegerResult, which contains the Quote ID.
-
-
-        :param display_no: str
-        :return: IntegerResult
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.getQuoteID
-        response_model = IntegerResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=display_no,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def set_reference_number(self, quote_id: int, reference: str) -> Result:
-        """
-        Method set reference number for quote by quoteID.
-
-
-        :param quote_id: int
-        :param reference: str
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.setReferenceNumber
-        response_model = Result
-
-        arg = {"quoteID": quote_id, "reference": reference}
+        arg = {"systemLanguageCode": system_language_code, "quoteID": quote_id}
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -534,76 +475,6 @@ class DataQuote30:
             unpack_dict=True,
         )
 
-    def get_project_category(
-        self, system_language_code: str, quote_id: int
-    ) -> StringResult:
-        """
-        Get the name (in the language specified) of the project category of
-        the quote.
-
-        For a full list of your project categories, see Admin | Miscellaneous |
-        Project category.
-
-
-        :param system_language_code: str
-        :param quote_id: int
-        :return: StringResult
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.getProjectCategory
-        response_model = StringResult
-
-        arg = {"systemLanguageCode": system_language_code, "quoteID": quote_id}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def get_order_id_first_item(self, quote_id: int) -> IntegerResult:
-        """
-        If the currently selected quote is already changed to an order, this
-        method returns the order ID by checking the first quote item.
-
-        Returns an instance of IntegerResult.
-
-
-        :param quote_id: int
-        :return: IntegerResult
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.getOrderIDFirstItem
-        response_model = IntegerResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=quote_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def get_quote_no_for_view(self, quote_id: int) -> StringResult:
-        """
-        Returns an instance of StringResult, which contains the formatted quote number,
-        which appears in the forms used by BusinessManager.
-
-
-        :param quote_id: int
-        :return: StringResult
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.getQuoteNo_for_View
-        response_model = StringResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=quote_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
     def get_quote_object_list(
         self, quote_id_list: Union[IntegerList, dict]
     ) -> QuoteListResult:
@@ -618,7 +489,7 @@ class DataQuote30:
         proxy = self.__client.plunet_server.DataQuote30.getQuoteObjectList
         response_model = QuoteListResult
 
-        if type(quote_id_list) != IntegerList:
+        if type(quote_id_list) is not IntegerList:
             quote_id_list = IntegerList(**quote_id_list).dict()
         else:
             quote_id_list = quote_id_list.dict()
@@ -628,33 +499,6 @@ class DataQuote30:
             argument=quote_id_list,
             response_model=response_model,
             unpack_dict=False,
-        )
-
-    def create_quote_document(
-        self, template: str, format_id: int, quote_id: int
-    ) -> StringResult:
-        """
-        Method creates a quote document as rtf-file and returns the unc path where the file is located.
-        Files can also directly be uploaded as file content over
-        DataDocument30.upload_Document(String, int, int, byte[], String, long)
-
-
-        :param template: str
-        :param format_id: int
-        :param quote_id: int
-        :return: StringResult
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.createQuoteDocument
-        response_model = StringResult
-
-        arg = {"template": template, "formatId": format_id, "quoteID": quote_id}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
         )
 
     def insert_by_template(
@@ -675,7 +519,7 @@ class DataQuote30:
         proxy = self.__client.plunet_server.DataQuote30.insert_byTemplate
         response_model = IntegerResult
 
-        if type(quote_in) != QuoteIN:
+        if type(quote_in) is not QuoteIN:
             quote_in = QuoteIN(**quote_in).dict()
         else:
             quote_in = quote_in.dict()
@@ -689,142 +533,43 @@ class DataQuote30:
             unpack_dict=True,
         )
 
-    def get_project_manager_memo(self, quote_id: int) -> StringResult:
+    def request_quote(self, project_class_type: Union[ProjectClassType, int]) -> Result:
         """
-        Method returns project-manager memo for order by quoteID.
+        Request a new quote
 
 
-        :param quote_id: int
-        :return: StringResult
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.getProjectManagerMemo
-        response_model = StringResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=quote_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def set_project_manager_memo(self, quote_id: int, memo: str) -> Result:
-        """
-        Method set the project-manager Memo for order by quoteID.
-
-
-        :param quote_id: int
-        :param memo: str
+        :param project_class_type: ProjectClassType
         :return: Result
         """
 
-        proxy = self.__client.plunet_server.DataQuote30.setProjectManagerMemo
+        proxy = self.__client.plunet_server.DataQuote30.requestQuote
         response_model = Result
 
-        arg = {"quoteID": quote_id, "memo": memo}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def get_reference_number(self, quote_id: int) -> StringResult:
-        """
-        Method returns the reference number by quote ID.
-
-
-        :param quote_id: int
-        :return: StringResult
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.getReferenceNumber
-        response_model = StringResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=quote_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def get_status(self, quote_id: int) -> IntegerResult:
-        """
-        Returns an instance of IntegerResult, which contains the QuoteStatusType.
-
-
-        :param quote_id: int
-        :return: IntegerResult
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.getStatus
-        response_model = IntegerResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=quote_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def set_external_id(self, quote_id: int, external_id: str) -> Result:
-        """
-        Methode set External ID for Quote by quoteID
-
-
-        :param quote_id: int
-        :param external_id: str
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.setExternalID
-        response_model = Result
-
-        arg = {"quoteID": quote_id, "externalID": external_id}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def insert2(self, quote_in: Union[QuoteIN, dict]) -> IntegerResult:
-        """
-        Method to create a quote depending on the transfered object
-
-
-        :param quote_in: QuoteIN
-        :return: IntegerResult
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.insert2
-        response_model = IntegerResult
-
-        if type(quote_in) != QuoteIN:
-            quote_in = QuoteIN(**quote_in).dict()
+        if type(project_class_type) is ProjectClassType:
+            project_class_type = project_class_type.value
+        elif type(project_class_type) is int:
+            project_class_type = project_class_type
         else:
-            quote_in = quote_in.dict()
+            project_class_type = int(project_class_type)
 
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=quote_in,
+            argument=project_class_type,
             response_model=response_model,
             unpack_dict=False,
         )
 
-    def get_external_id(self, quote_id: int) -> StringResult:
+    def request_order(self, quote_id: int) -> Result:
         """
-        Method retuns ExternalID from Qute by quoteID
+        Request and order to the provided quoteID
 
 
         :param quote_id: int
-        :return: StringResult
+        :return: Result
         """
 
-        proxy = self.__client.plunet_server.DataQuote30.getExternalID
-        response_model = StringResult
+        proxy = self.__client.plunet_server.DataQuote30.requestOrder
+        response_model = Result
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -833,159 +578,18 @@ class DataQuote30:
             unpack_dict=False,
         )
 
-    def get_request_id(self, quote_id: int) -> IntegerResult:
+    def get_customer_contact_id(self, quote_id: int) -> IntegerResult:
         """
-        Returns an instance of IntegerResult, which contains the requestId
+        Returns an instance of IntegerResult, which contains the customer
+        contact id.
 
 
         :param quote_id: int
         :return: IntegerResult
         """
 
-        proxy = self.__client.plunet_server.DataQuote30.getRequestId
+        proxy = self.__client.plunet_server.DataQuote30.getCustomerContactID
         response_model = IntegerResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=quote_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def set_request_id(self, quote_id: int, request_id: int) -> Result:
-        """
-        Method to set the project related request ID.
-
-
-        :param quote_id: int
-        :param request_id: int
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.setRequestID
-        response_model = Result
-
-        arg = {"quoteID": quote_id, "requestID": request_id}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def set_project_name(self, project_name: str, quote_id: int) -> Result:
-        """
-        Sets the project name.
-
-
-        :param project_name: str
-        :param quote_id: int
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.setProjectName
-        response_model = Result
-
-        arg = {"ProjectName": project_name, "quoteID": quote_id}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def get_project_name(self, quote_id: int) -> StringResult:
-        """
-        Returns an instance of StringResult, which contains the project name
-
-
-        :param quote_id: int
-        :return: StringResult
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.getProjectName
-        response_model = StringResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=quote_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def get_subject(self, quote_id: int) -> StringResult:
-        """
-        Returns an instance of StringResult, which contains the subject.
-
-
-        :param quote_id: int
-        :return: StringResult
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.getSubject
-        response_model = StringResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=quote_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def set_subject(self, subject: str, quote_id: int) -> Result:
-        """
-        Sets the subject
-
-
-        :param subject: str
-        :param quote_id: int
-        :return: Result
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.setSubject
-        response_model = Result
-
-        arg = {"subject": subject, "quoteID": quote_id}
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=arg,
-            response_model=response_model,
-            unpack_dict=True,
-        )
-
-    def get_creation_date(self, quote_id: int) -> DateResult:
-        """
-        Returns an instance of DateResult, which contains the creation date
-
-
-        :param quote_id: int
-        :return: DateResult
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.getCreationDate
-        response_model = DateResult
-
-        return self.__client.make_request(
-            operation_proxy=proxy,
-            argument=quote_id,
-            response_model=response_model,
-            unpack_dict=False,
-        )
-
-    def get_rate(self, quote_id: int) -> DoubleResult:
-        """
-        Returns an instance of DoubleResult, which contains the rate
-
-
-        :param quote_id: int
-        :return: DoubleResult
-        """
-
-        proxy = self.__client.plunet_server.DataQuote30.getRate
-        response_model = DoubleResult
 
         return self.__client.make_request(
             operation_proxy=proxy,
@@ -1031,9 +635,9 @@ class DataQuote30:
         proxy = self.__client.plunet_server.DataQuote30.deregisterCallback_Notify
         response_model = Result
 
-        if type(event_type) == EventType:
+        if type(event_type) is EventType:
             event_type = event_type.value
-        elif type(event_type) == int:
+        elif type(event_type) is int:
             event_type = event_type
         else:
             event_type = int(event_type)
@@ -1045,62 +649,24 @@ class DataQuote30:
             unpack_dict=False,
         )
 
-    def register_callback_notify(
-        self,
-        server_authentication_string: str,
-        server_address: str,
-        event_type: Union[EventType, int],
-    ) -> Result:
+    def deregister_callback_observer(self, quote_id: int) -> Result:
         """
-        Register to get notified when the specified EventType occurs
-        for any quote.
-
-        If the EventType occurs PBM will call the callback web service,
-        which is hosted within your environment. Please check
-        CallbackQuote30 for the exact specification for this service.
-        (each user can only create one notifier per event)
+        Deletes a observer.
+        observer can only deleted by the user who has created them.
 
 
-        The  must match one of the following formats:
-
-        http://mypath
-        http://mypath/
-        http://mypath/subfolder?wsdl
-
-        In the first two cases, the address will be autocompleted by appending
-        the corresponding directory "CallbackQuote30?wsdl".
-
-        A list of all registered callbacks can be accessed with
-        DataAdmin30.getListOfRegisteredCallbacks(String)
-
-
-        :param server_authentication_string: str
-        :param server_address: str
-        :param event_type: EventType
+        :param quote_id: int
         :return: Result
         """
 
-        proxy = self.__client.plunet_server.DataQuote30.registerCallback_Notify
+        proxy = self.__client.plunet_server.DataQuote30.deregisterCallback_Observer
         response_model = Result
-
-        if type(event_type) == EventType:
-            event_type = event_type.value
-        elif type(event_type) == int:
-            event_type = event_type
-        else:
-            event_type = int(event_type)
-
-        arg = {
-            "ServerAuthenticationString": server_authentication_string,
-            "ServerAddress": server_address,
-            "EventType": event_type,
-        }
 
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=arg,
+            argument=quote_id,
             response_model=response_model,
-            unpack_dict=True,
+            unpack_dict=False,
         )
 
     def register_callback_observer(
@@ -1151,24 +717,62 @@ class DataQuote30:
             unpack_dict=True,
         )
 
-    def deregister_callback_observer(self, quote_id: int) -> Result:
+    def register_callback_notify(
+        self,
+        server_authentication_string: str,
+        server_address: str,
+        event_type: Union[EventType, int],
+    ) -> Result:
         """
-        Deletes a observer.
-        observer can only deleted by the user who has created them.
+        Register to get notified when the specified EventType occurs
+        for any quote.
+
+        If the EventType occurs PBM will call the callback web service,
+        which is hosted within your environment. Please check
+        CallbackQuote30 for the exact specification for this service.
+        (each user can only create one notifier per event)
 
 
-        :param quote_id: int
+        The  must match one of the following formats:
+
+        http://mypath
+        http://mypath/
+        http://mypath/subfolder?wsdl
+
+        In the first two cases, the address will be autocompleted by appending
+        the corresponding directory "CallbackQuote30?wsdl".
+
+        A list of all registered callbacks can be accessed with
+        DataAdmin30.getListOfRegisteredCallbacks(String)
+
+
+        :param server_authentication_string: str
+        :param server_address: str
+        :param event_type: EventType
         :return: Result
         """
 
-        proxy = self.__client.plunet_server.DataQuote30.deregisterCallback_Observer
+        proxy = self.__client.plunet_server.DataQuote30.registerCallback_Notify
         response_model = Result
+
+        if type(event_type) is EventType:
+            event_type = event_type.value
+        elif type(event_type) is int:
+            event_type = event_type
+        else:
+            event_type = int(event_type)
+
+        arg = {
+            "ServerAuthenticationString": server_authentication_string,
+            "ServerAddress": server_address,
+            "EventType": event_type,
+        }
 
         return self.__client.make_request(
             operation_proxy=proxy,
-            argument=quote_id,
+            argument=arg,
             response_model=response_model,
-            unpack_dict=False,
+            unpack_dict=True,
         )
 
     def add_language_combination(
@@ -1202,17 +806,16 @@ class DataQuote30:
             unpack_dict=True,
         )
 
-    def get_customer_contact_id(self, quote_id: int) -> IntegerResult:
+    def get_projectmanager_id(self, quote_id: int) -> IntegerResult:
         """
-        Returns an instance of IntegerResult, which contains the customer
-        contact id.
+        Returns an instance of IntegerResult, which contains the resource id.
 
 
         :param quote_id: int
         :return: IntegerResult
         """
 
-        proxy = self.__client.plunet_server.DataQuote30.getCustomerContactID
+        proxy = self.__client.plunet_server.DataQuote30.getProjectmanagerID
         response_model = IntegerResult
 
         return self.__client.make_request(
@@ -1220,4 +823,390 @@ class DataQuote30:
             argument=quote_id,
             response_model=response_model,
             unpack_dict=False,
+        )
+
+    def set_projectmanager_id(self, resource_id: int, quote_id: int) -> Result:
+        """
+        Sets the resourceID of the project manager to the given quote.
+
+
+        :param resource_id: int
+        :param quote_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.setProjectmanagerID
+        response_model = Result
+
+        arg = {"resourceID": resource_id, "quoteID": quote_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_order_id_first_item(self, quote_id: int) -> IntegerResult:
+        """
+        If the currently selected quote is already changed to an order, this
+        method returns the order ID by checking the first quote item.
+
+        Returns an instance of IntegerResult.
+
+
+        :param quote_id: int
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.getOrderIDFirstItem
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=quote_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_quote_no_for_view(self, quote_id: int) -> StringResult:
+        """
+        Returns an instance of StringResult, which contains the formatted quote number,
+        which appears in the forms used by BusinessManager.
+
+
+        :param quote_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.getQuoteNo_for_View
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=quote_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def create_quote_document(
+        self, template: str, format_id: int, quote_id: int
+    ) -> StringResult:
+        """
+        Method creates a quote document as rtf-file and returns the unc path where the file is located.
+        Files can also directly be uploaded as file content over
+        DataDocument30.upload_Document(String, int, int, byte[], String, long)
+
+
+        :param template: str
+        :param format_id: int
+        :param quote_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.createQuoteDocument
+        response_model = StringResult
+
+        arg = {"template": template, "formatId": format_id, "quoteID": quote_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def insert2(self, quote_in: Union[QuoteIN, dict]) -> IntegerResult:
+        """
+        Method to create a quote depending on the transfered object
+
+
+        :param quote_in: QuoteIN
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.insert2
+        response_model = IntegerResult
+
+        if type(quote_in) is not QuoteIN:
+            quote_in = QuoteIN(**quote_in).dict()
+        else:
+            quote_in = quote_in.dict()
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=quote_in,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_external_id(self, quote_id: int, external_id: str) -> Result:
+        """
+        Methode set External ID for Quote by quoteID
+
+
+        :param quote_id: int
+        :param external_id: str
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.setExternalID
+        response_model = Result
+
+        arg = {"quoteID": quote_id, "externalID": external_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_external_id(self, quote_id: int) -> StringResult:
+        """
+        Method retuns ExternalID from Qute by quoteID
+
+
+        :param quote_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.getExternalID
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=quote_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_subject(self, subject: str, quote_id: int) -> Result:
+        """
+        Sets the subject
+
+
+        :param subject: str
+        :param quote_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.setSubject
+        response_model = Result
+
+        arg = {"subject": subject, "quoteID": quote_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def set_creation_date(self, date: datetime, quote_id: int) -> Result:
+        """
+        Sets the creation date
+
+
+        :param date: datetime
+        :param quote_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.setCreationDate
+        response_model = Result
+
+        arg = {"date": date, "quoteID": quote_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_creation_date(self, quote_id: int) -> DateResult:
+        """
+        Returns an instance of DateResult, which contains the creation date
+
+
+        :param quote_id: int
+        :return: DateResult
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.getCreationDate
+        response_model = DateResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=quote_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_project_name(self, quote_id: int) -> StringResult:
+        """
+        Returns an instance of StringResult, which contains the project name
+
+
+        :param quote_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.getProjectName
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=quote_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_project_name(self, project_name: str, quote_id: int) -> Result:
+        """
+        Sets the project name.
+
+
+        :param project_name: str
+        :param quote_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.setProjectName
+        response_model = Result
+
+        arg = {"ProjectName": project_name, "quoteID": quote_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def set_customer_id(self, customer_id: int, quote_id: int) -> Result:
+        """
+        Sets the customerID
+
+
+        :param customer_id: int
+        :param quote_id: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.setCustomerID
+        response_model = Result
+
+        arg = {"customerID": customer_id, "quoteID": quote_id}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_reference_number(self, quote_id: int) -> StringResult:
+        """
+        Method returns the reference number by quote ID.
+
+
+        :param quote_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.getReferenceNumber
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=quote_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def get_project_manager_memo(self, quote_id: int) -> StringResult:
+        """
+        Method returns project-manager memo for order by quoteID.
+
+
+        :param quote_id: int
+        :return: StringResult
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.getProjectManagerMemo
+        response_model = StringResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=quote_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_project_manager_memo(self, quote_id: int, memo: str) -> Result:
+        """
+        Method set the project-manager Memo for order by quoteID.
+
+
+        :param quote_id: int
+        :param memo: str
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.setProjectManagerMemo
+        response_model = Result
+
+        arg = {"quoteID": quote_id, "memo": memo}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
+        )
+
+    def get_project_status(self, quote_id: int) -> IntegerResult:
+        """
+        Returns an instance of IntegerResult, which contains the
+        ArchivStatus.
+
+
+        :param quote_id: int
+        :return: IntegerResult
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.getProjectStatus
+        response_model = IntegerResult
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=quote_id,
+            response_model=response_model,
+            unpack_dict=False,
+        )
+
+    def set_project_status(self, quote_id: int, project_status: int) -> Result:
+        """
+        Method allows to set the ArchivStatus to ARCHIVED (3).
+        Other status changes are not supported due to underlying automated workflows.
+        Please note that the current status must be either COMPLETED(6) or COMPLETED_ARCHIVABLE(2).
+
+
+        :param quote_id: int
+        :param project_status: int
+        :return: Result
+        """
+
+        proxy = self.__client.plunet_server.DataQuote30.setProjectStatus
+        response_model = Result
+
+        arg = {"quoteID": quote_id, "projectStatus": project_status}
+
+        return self.__client.make_request(
+            operation_proxy=proxy,
+            argument=arg,
+            response_model=response_model,
+            unpack_dict=True,
         )

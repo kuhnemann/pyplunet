@@ -486,4 +486,3 @@ class ProjectClassType(StrIntEnum):
 class AccountType(StrIntEnum):
     REVENUE = 1
     EXPENSE = 2
-
