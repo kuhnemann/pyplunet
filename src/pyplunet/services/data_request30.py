@@ -20,7 +20,7 @@ from ..models import (
 )
 
 
-from ..enums import EventType
+from ..enums import EventType, RequestStatusType
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
@@ -212,18 +212,21 @@ class DataRequest30:
             unpack_dict=False,
         )
 
-    def set_status(self, status: int, request_id: int) -> Result:
+    def set_status(self, status: RequestStatusType | int, request_id: int) -> Result:
         """
         Sets the RequestStatusType. Returns an instance of Result.
 
 
-        :param status: int
+        :param status: RequestStatusType | int
         :param request_id: int
         :return: Result
         """
 
         proxy = self.__client.plunet_server.DataRequest30.setStatus
         response_model = Result
+
+        if type(status) is not int:
+            status = status.value
 
         arg = {"Status": status, "requestID": request_id}
 

@@ -1,4 +1,5 @@
 import logging
+import pprint
 from typing import Callable, Optional, Union
 
 from plunetapi import PlunetAPI
@@ -61,11 +62,14 @@ class PlunetClient:
         uuid: Optional[str] = None,
         cache_wsdl: bool = True,
         transport_options: Optional[dict] = None,
+        debug: bool = False
     ):
         self.plunet_server = PlunetAPI(
             base_url=base_url, cache_wsdl=cache_wsdl, options=transport_options
         )
         self.uuid = uuid
+        self.debug = debug
+        self.debug_info: Optional[dict] = None
         self.payable = DataPayable30(self)
         self.resource_contact = DataResourceContact30(self)
         self.customer_address = DataCustomerAddress30(self)
@@ -89,9 +93,14 @@ class PlunetClient:
         self.report_job = ReportJob30(self)
         self.request_doc_text = RequestDocText30(self)
 
+    def __repr__(self):
+        return f"PlunetBM: {self.plunet_server.base_url}"
+
     @property
     def plunet_version(self) -> str:
-        result = self.make_request(self.plunet_server.PlunetAPI.getPlunetVersion, None, StringResult)
+        result = self.make_request(
+            self.plunet_server.PlunetAPI.getPlunetVersion, None, StringResult
+        )
         return result.data
 
     @property
@@ -111,7 +120,6 @@ class PlunetClient:
             self.uuid = None
         return
 
-
     def validate(self, username: str, password: str) -> BooleanResult:
         """
         Will return BooleanResult if credentials validated are correct,
@@ -126,7 +134,6 @@ class PlunetClient:
         return self.make_request(
             operation_proxy, argument, response_model, unpack_dict=True
         )
-
 
     def make_request(
         self,
@@ -144,6 +151,14 @@ class PlunetClient:
             result = operation_proxy(self.uuid, argument)
         else:
             result = operation_proxy(self.uuid)
+
+        if self.debug is True:
+            self.debug_info = {}
+            self.debug_info["operation_proxy"] = f"{operation_proxy.__doc__}"
+            self.debug_info["argument"] = argument
+            self.debug_info["response_model"] = response_model.__name__
+            self.debug_info["unpack_dict"] = unpack_dict
+            self.debug_info["result"] = result
 
         if result.statusCode != 0:
             raise PLUNET_ERRORS.get(

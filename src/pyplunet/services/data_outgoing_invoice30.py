@@ -29,7 +29,7 @@ from ..models import (
 )
 
 
-from ..enums import CurrencyType, TaxType
+from ..enums import CurrencyType, TaxType, InvoiceStatusType
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
@@ -104,18 +104,20 @@ class DataOutgoingInvoice30:
             unpack_dict=False,
         )
 
-    def set_status(self, status: int, invoice_id: int) -> Result:
+    def set_status(self, status: InvoiceStatusType | int, invoice_id: int) -> Result:
         """
         Sets the status.
 
 
-        :param status: int
+        :param status: InvoiceStatusType | int
         :param invoice_id: int
         :return: Result
         """
 
         proxy = self.__client.plunet_server.DataOutgoingInvoice30.setStatus
         response_model = Result
+        if type(status) is not int:
+            status = status.value
 
         arg = {"Status": status, "invoiceID": invoice_id}
 
@@ -1252,7 +1254,9 @@ class DataOutgoingInvoice30:
         :return: DoubleResult
         """
 
-        proxy = self.__client.plunet_server.DataOutgoingInvoice30.getOutstandingByCurrencyType
+        proxy = (
+            self.__client.plunet_server.DataOutgoingInvoice30.getOutstandingByCurrencyType
+        )
         response_model = DoubleResult
 
         if type(currency_type) is CurrencyType:
@@ -1288,7 +1292,9 @@ class DataOutgoingInvoice30:
         :return: DoubleResult
         """
 
-        proxy = self.__client.plunet_server.DataOutgoingInvoice30.getTaxByTypeAndCurrencyType
+        proxy = (
+            self.__client.plunet_server.DataOutgoingInvoice30.getTaxByTypeAndCurrencyType
+        )
         response_model = DoubleResult
 
         if type(currency_type) is CurrencyType:

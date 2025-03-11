@@ -23,7 +23,7 @@ from ..models import (
 )
 
 
-from ..enums import EventType, ProjectType
+from ..enums import EventType, ProjectType, ArchivStatus
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
@@ -346,7 +346,9 @@ class DataOrder30:
         :return: StringArrayResult
         """
 
-        proxy = self.__client.plunet_server.DataOrder30.getDocuments_Within_ReferenceFolder_ByLanguage
+        proxy = (
+            self.__client.plunet_server.DataOrder30.getDocuments_Within_ReferenceFolder_ByLanguage
+        )
         response_model = StringArrayResult
 
         arg = {"language": language, "orderID": order_id}
@@ -375,7 +377,9 @@ class DataOrder30:
         :return: StringArrayResult
         """
 
-        proxy = self.__client.plunet_server.DataOrder30.getDocuments_Within_SourceFolder_ByLanguage
+        proxy = (
+            self.__client.plunet_server.DataOrder30.getDocuments_Within_SourceFolder_ByLanguage
+        )
         response_model = StringArrayResult
 
         arg = {"language": language, "orderID": order_id}
@@ -1667,7 +1671,9 @@ class DataOrder30:
             unpack_dict=False,
         )
 
-    def set_project_status(self, order_id: int, project_status: int) -> Result:
+    def set_project_status(
+        self, order_id: int, project_status: ArchivStatus | int
+    ) -> Result:
         """
         Method allows to set the ArchivStatus to ARCHIVED(3).
         Other status changes are not supported due to underlying automated workflows.
@@ -1675,12 +1681,15 @@ class DataOrder30:
 
 
         :param order_id: int
-        :param project_status: int
+        :param project_status: ArchivStatus | int
         :return: Result
         """
 
         proxy = self.__client.plunet_server.DataOrder30.setProjectStatus
         response_model = Result
+
+        if type(project_status) is not int:
+            project_status = project_status.value
 
         arg = {"orderID": order_id, "projectStatus": project_status}
 

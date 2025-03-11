@@ -20,7 +20,7 @@ from ..models import (
 )
 
 
-from ..enums import ProjectClassType, EventType
+from ..enums import ProjectClassType, EventType, QuoteStatusType, ArchivStatus
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
@@ -154,18 +154,21 @@ class DataQuote30:
             unpack_dict=False,
         )
 
-    def set_status(self, status: int, quote_id: int) -> Result:
+    def set_status(self, status: QuoteStatusType | int, quote_id: int) -> Result:
         """
         Sets the QuoteStatusType.
 
 
-        :param status: int
+        :param status: QuoteStatusType | int
         :param quote_id: int
         :return: Result
         """
 
         proxy = self.__client.plunet_server.DataQuote30.setStatus
         response_model = Result
+
+        if type(status) is not int:
+            status = status.value
 
         arg = {"Status": status, "quoteID": quote_id}
 
@@ -1187,7 +1190,9 @@ class DataQuote30:
             unpack_dict=False,
         )
 
-    def set_project_status(self, quote_id: int, project_status: int) -> Result:
+    def set_project_status(
+        self, quote_id: int, project_status: ArchivStatus | int
+    ) -> Result:
         """
         Method allows to set the ArchivStatus to ARCHIVED (3).
         Other status changes are not supported due to underlying automated workflows.
@@ -1195,12 +1200,15 @@ class DataQuote30:
 
 
         :param quote_id: int
-        :param project_status: int
+        :param project_status: ArchivStatus | int
         :return: Result
         """
 
         proxy = self.__client.plunet_server.DataQuote30.setProjectStatus
         response_model = Result
+
+        if type(project_status) is not int:
+            project_status = project_status.value
 
         arg = {"quoteID": quote_id, "projectStatus": project_status}
 

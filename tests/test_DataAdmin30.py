@@ -145,6 +145,7 @@ def test_DataAdmin30_get_available_languages(pc: PlunetClient, test_set: test_se
 if __name__ == '__main__':
     test_clients = [
         test_client_factory.get_test_client,
+        test_client_factory.get_debugging_test_client,
         test_client_factory.get_test_client_inmemory_cache,
         test_client_factory.get_test_configured_sql_cache,
         test_client_factory.get_test_client_no_caching,

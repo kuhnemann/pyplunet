@@ -20,7 +20,7 @@ keywords = ["plunet", "api", "translation", "localization", "tms"]
 dependencies = [
     "plunetapi>=0.4", "pydantic>=2.0.0,<3.0.0"
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 
 [project.optional-dependencies]
 dev = ["black", "bumpver", "isort", "pip-tools", "pytest"]

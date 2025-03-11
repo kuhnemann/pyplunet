@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Union
 
+from ..enums import ContactPersonStatus
 from ..models import (
     Result,
     ResourceContactIN,
@@ -76,7 +77,7 @@ class DataResourceContact30:
             unpack_dict=False,
         )
 
-    def set_status(self, status: int, contact_id: int) -> Result:
+    def set_status(self, status: ContactPersonStatus | int, contact_id: int) -> Result:
         """
         Method to set the status of the resource contact. Returns an instance of Result. Status
         codes:
@@ -85,10 +86,13 @@ class DataResourceContact30:
         1 = active
 
 
-        :param status: int
+        :param status: ContactPersonStatus | int
         :param contact_id: int
         :return: Result
         """
+
+        if type(status) is not int:
+            status = status.value
 
         proxy = self.__client.plunet_server.DataResourceContact30.setStatus
         response_model = Result

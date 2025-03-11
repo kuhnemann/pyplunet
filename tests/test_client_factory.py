@@ -11,6 +11,13 @@ def get_test_client(logged_in: bool = True) -> PlunetClient:
         pc.login(os.getenv("TEST_USER"), os.getenv("TEST_PW"))
     return pc
 
+def get_debugging_test_client(logged_in: bool = True) -> PlunetClient:
+    pc = PlunetClient(base_url=os.getenv("TEST_URL"), debug=True)
+    if logged_in:
+        pc.login(os.getenv("TEST_USER"), os.getenv("TEST_PW"))
+    return pc
+
+
 def get_test_client_no_caching(logged_in: bool = True) -> PlunetClient:
     pc = PlunetClient(base_url=os.getenv("TEST_URL"), cache_wsdl=False)
     if logged_in:

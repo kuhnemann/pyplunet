@@ -28,7 +28,7 @@ from ..models import (
 )
 
 
-from ..enums import EventType, ProjectType, CurrencyType, CatType
+from ..enums import EventType, ProjectType, CurrencyType, CatType, JobStatus
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
@@ -1432,7 +1432,10 @@ class DataJob30:
         )
 
     def set_job_status(
-        self, project_type: Union[ProjectType, int], job_id: int, status: int
+        self,
+        project_type: Union[ProjectType, int],
+        job_id: int,
+        status: JobStatus | int,
     ) -> Result:
         """
         Method to set the status for the specified job.
@@ -1440,12 +1443,15 @@ class DataJob30:
 
         :param project_type: ProjectType
         :param job_id: int
-        :param status: int
+        :param status: JobStatus | int
         :return: Result
         """
 
         proxy = self.__client.plunet_server.DataJob30.setJobStatus
         response_model = Result
+
+        if type(status) is not int:
+            status = status.value
 
         if type(project_type) is ProjectType:
             project_type = project_type.value

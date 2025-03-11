@@ -20,7 +20,7 @@ from ..models import (
 )
 
 
-from ..enums import ResourceType, EventType, WorkingStatus
+from ..enums import ResourceType, EventType, WorkingStatus, ResourceStatus
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
@@ -210,19 +210,22 @@ class DataResource30:
             unpack_dict=False,
         )
 
-    def set_status(self, status: int, resource_id: int) -> Result:
+    def set_status(self, status: ResourceStatus | int, resource_id: int) -> Result:
         """
         Method to set the ResourceStatus of the resource. Returns an
         instance of Result.
 
 
-        :param status: int
+        :param status: ResourceStatus | int
         :param resource_id: int
         :return: Result
         """
 
         proxy = self.__client.plunet_server.DataResource30.setStatus
         response_model = Result
+
+        if type(status) is not int:
+            status = status.value
 
         arg = {"Status": status, "resourceID": resource_id}
 
@@ -321,7 +324,7 @@ class DataResource30:
         )
 
     def get_all_resource_objects(
-        self, working_status: Union[WorkingStatus, int], status: int
+        self, working_status: Union[WorkingStatus, int], status: ResourceStatus | int
     ) -> ResourceListResult:
         """
         Returns an instance of ResourceListResult, which contains a list
@@ -329,8 +332,8 @@ class DataResource30:
         WorkingStatus.
 
 
-        :param working_status: WorkingStatus
-        :param status: int
+        :param working_status: WorkingStatus | int
+        :param status: ResourceStatus | int
         :return: ResourceListResult
         """
 

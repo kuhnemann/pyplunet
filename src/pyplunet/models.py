@@ -23,6 +23,12 @@ from .enums import (
     EventType,
     PayableStatus,
     PropertyType,
+    JobRoundStatus,
+    QuoteStatusType,
+    RequestStatusType,
+    ContactPersonStatus,
+    InvoiceStatusType,
+    ArchivStatus,
 )
 
 
@@ -175,7 +181,7 @@ class Invoice(BaseModel):
     orderIDs: Optional[List[int]] = None
     outgoing: float
     paid: float
-    status: int
+    status: InvoiceStatusType | int
     subject: Optional[str] = None
     tax: float
     valueDate: Optional[datetime] = None
@@ -339,7 +345,7 @@ class Workflow(BaseModel):
 
     description: Optional[str] = None
     name: Optional[str] = None
-    status: int
+    status: WorkingStatus | int
     type: int
     workflowId: int
 
@@ -401,7 +407,7 @@ class Job(BaseModel):
     projectType: ProjectType
     resourceID: int
     startDate: Optional[datetime] = None
-    status: int
+    status: JobStatus | int
 
 
 class TrackingTimeList(BaseModel):
@@ -455,7 +461,7 @@ class JobRound(BaseModel):
     sendNotificationOnJobAccept: bool
     sendNotificationOnJobReject: bool
     startNextRoundAutomatically: bool
-    status: int
+    status: JobRoundStatus | int
 
 
 class JobRoundRankingMethod(BaseModel):
@@ -556,7 +562,7 @@ class Quote(BaseModel):
     quoteNumber: Optional[str] = None
     rate: float
     requestID: int
-    status: int
+    status: QuoteStatusType | int
     subject: Optional[str] = None
 
 
@@ -596,7 +602,7 @@ class Request(BaseModel):
     quoteID: int
     quoteIDList: Optional[List[int]] = None
     requestID: int
-    status: int
+    status: RequestStatusType | int
     subject: Optional[str] = None
 
 
@@ -617,7 +623,7 @@ class Item(BaseModel):
     projectType: ProjectType
     reference: Optional[str] = None
     sourceLanguage: Optional[str] = None
-    status: int
+    status: ItemStatus | int
     targetLanguage: Optional[str] = None
     taxType: TaxType
     totalPrice: float
@@ -645,7 +651,7 @@ class Resource(BaseModel):
     resourceID: int
     resourceType: ResourceType
     skypeID: Optional[str] = None
-    status: int
+    status: ResourceStatus | int
     supervisor1: Optional[str] = None
     supervisor2: Optional[str] = None
     userId: int
@@ -706,7 +712,7 @@ class Customer(BaseModel):
     opening: Optional[str] = None
     phone: Optional[str] = None
     skypeID: Optional[str] = None
-    status: int
+    status: CustomerStatus | int
     userId: int
     website: Optional[str] = None
 
@@ -728,7 +734,7 @@ class CustomerContact(BaseModel):
     name1: Optional[str] = None
     name2: Optional[str] = None
     phone: Optional[str] = None
-    status: int
+    status: ContactPersonStatus | int
     supervisor1: Optional[str] = None
     supervisor2: Optional[str] = None
     userId: int
@@ -755,7 +761,7 @@ class ResourceContact(BaseModel):
     resourceContactID: int
     resourceID: int
     skypeID: Optional[str] = None
-    status: int
+    status: ContactPersonStatus | int
     userId: int
 
 
@@ -1182,7 +1188,7 @@ class SearchFilter_Invoice(BaseModel):
     exported: int
     languageCode: str
     propertiesList: Optional[List[Property]] = None
-    invoiceStatus: int
+    invoiceStatus: InvoiceStatusType | int
     textmodulesList: Optional[List[Textmodule]] = None
     timeFrame: SelectionEntry_TimeFrame
 
@@ -1441,7 +1447,7 @@ class JobIN(BaseModel):
     projectType: ProjectType
     resourceID: int
     startDate: Optional[datetime] = None
-    status: int
+    status: JobStatus | int
 
 
 class JobTrackingTimeResult(BaseModel):
@@ -1508,7 +1514,7 @@ class JobRoundIN(BaseModel):
     sendNotificationOnJobAccept: bool
     sendNotificationOnJobReject: bool
     startNextRoundAutomatically: bool
-    status: int
+    status: JobRoundStatus | int
 
 
 class JobRoundSearchCriteriaIN(BaseModel):
@@ -1582,11 +1588,11 @@ class SearchFilter_Job(BaseModel):
     """
 
     customerID: int
-    item_Status: int
+    item_Status: ItemStatus | int
     job_CreationDate_from: Optional[datetime] = None
     job_CreationDate_to: Optional[datetime] = None
     job_SourceLanguage: Optional[str] = None
-    job_Status: int
+    job_Status: JobStatus | int
     job_TargetLanguage: Optional[str] = None
     job_resourceID: int
 
@@ -1646,7 +1652,7 @@ class SearchFilter_Order(BaseModel):
     customerID: int
     itemStatus: Optional[List[ItemStatus]] = None
     languageCode: str
-    orderStatus: int
+    orderStatus: ArchivStatus | int
     projectDescription: Optional[str] = None
     projectName: Optional[str] = None
     projectType: ProjectType
@@ -1739,7 +1745,7 @@ class QuoteIN(BaseModel):
     projectName: Optional[str] = None
     quoteID: int
     referenceNumber: Optional[str] = None
-    status: int
+    status: QuoteStatusType | int
     subject: Optional[str] = None
 
 
@@ -1755,7 +1761,7 @@ class SearchFilter_Quote(BaseModel):
     SelectionEntry_Resource: Optional[SelectionEntry_Resource] = None
     SelectionEntry_TeamMember: Optional[SelectionEntry_TeamMember] = None
     sourceLanguage: Optional[str] = None
-    quoteStatus: int
+    quoteStatus: QuoteStatusType | int
     targetLanguage: Optional[str] = None
     textmodulesList: Optional[List[Textmodule]] = None
     timeFrame: Optional[SelectionEntry_TimeFrame] = None
@@ -1774,7 +1780,7 @@ class RequestIN(BaseModel):
     quotationDate: Optional[datetime] = None
     quoteID: int
     requestID: int
-    status: int
+    status: RequestStatusType | int
     subject: Optional[str] = None
 
 
@@ -1814,7 +1820,7 @@ class SearchFilter_Request(BaseModel):
     propertiesList: Optional[List[Property]] = None
     SelectionEntry_Customer: Optional[SelectionEntry_Customer] = None
     sourceLanguage: Optional[str] = None
-    requestStatus: int
+    requestStatus: RequestStatusType | int
     targetLanguage: Optional[str] = None
     textmodulesList: Optional[List[Textmodule]] = None
     timeFrame: Optional[SelectionEntry_TimeFrame] = None
@@ -1846,7 +1852,7 @@ class ItemIN(BaseModel):
     projectID: int
     projectType: ProjectType
     reference: Optional[str] = None
-    status: int
+    status: ItemStatus | int
     taxType: TaxType
     totalPrice: float
 
@@ -1946,7 +1952,7 @@ class ResourceIN(BaseModel):
     resourceID: int
     resourceType: ResourceType
     skypeID: Optional[str] = None
-    status: int
+    status: ResourceStatus | int
     supervisor1: Optional[str] = None
     supervisor2: Optional[str] = None
     userId: int
@@ -2002,7 +2008,7 @@ class CustomerIN(BaseModel):
     opening: Optional[str] = None
     phone: Optional[str] = None
     skypeID: Optional[str] = None
-    status: int
+    status: CustomerStatus | int
     userId: int
     website: Optional[str] = None
 
@@ -2069,7 +2075,7 @@ class CustomerContactIN(BaseModel):
     name1: Optional[str] = None
     name2: Optional[str] = None
     phone: Optional[str] = None
-    status: int
+    status: ContactPersonStatus | int
     supervisor1: Optional[str] = None
     supervisor2: Optional[str] = None
     userId: int
@@ -2108,7 +2114,7 @@ class ResourceContactIN(BaseModel):
     resourceContactID: int
     resourceID: int
     skypeID: Optional[str] = None
-    status: int
+    status: ContactPersonStatus | int
     userId: int
 
 
@@ -2123,18 +2129,6 @@ class ResourceContactResult(BaseModel):
     statusCodeAlphanumeric: Optional[str] = None
     statusMessage: Optional[str] = None
     warning_StatusCodeList: Optional[List[int]] = None
-
-
-class PlunetApiException(BaseModel):
-    """
-    Used in:
-        DataResourceContact30
-    """
-
-    alphanumericErrorCode: Optional[str] = None
-    apiError: Optional[apiError] = None
-    errorCode: int
-    message: Optional[str] = None
 
 
 class ResourceContactListResult(BaseModel):

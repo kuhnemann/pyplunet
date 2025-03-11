@@ -23,10 +23,7 @@
 
 
   </p>
-<<<<<<< HEAD
-=======
 
->>>>>>> db75cf5562c1151f691718fe07d9ac7fda97f2c9
 
 </div>
 
@@ -39,11 +36,16 @@ Ready to use out of the box, you can jump directly into the business logic.
 
 Pip install, import and start working. It really is as easy as that! 
 
-- Implements all services and methods as per BM 10.8.3 (the latest version of ApiDocs available)
+- Implements all services and methods as per BM 10.8.3
 - Fully typed for validation and code completion support
 - Fully documented methods with complete content of the Plunet JavaDocs.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+### New in 0.11.0
+- Breaking: Dropped support for Python 3.9
+- Added debug mode for the client
+- Fixed type handling of status Enums, which had reverted to plain INTs. Methods taking status arguments now normalize input. 
 
 ### New in 0.10.0
 - Updated models to match BM 10.8.3 (latest BM version to implement changes in DTOs)

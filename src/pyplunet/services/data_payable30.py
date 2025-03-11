@@ -25,7 +25,7 @@ from ..models import (
 )
 
 
-from ..enums import TaxType
+from ..enums import TaxType, PayableStatus
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
@@ -80,15 +80,17 @@ class DataPayable30:
             unpack_dict=False,
         )
 
-    def set_status(self, status: int, payables_id: int) -> Result:
+    def set_status(self, status: PayableStatus | int, payables_id: int) -> Result:
         """
         Defines the PayableStatus.
 
 
-        :param status: int
+        :param status: PayableStatus | int
         :param payables_id: int
         :return: Result
         """
+        if type(status) is not int:
+            status = status.value
 
         proxy = self.__client.plunet_server.DataPayable30.setStatus
         response_model = Result

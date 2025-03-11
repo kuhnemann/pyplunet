@@ -26,7 +26,15 @@ from ..models import (
 )
 
 
-from ..enums import EventType, CurrencyType, ProjectType, CatType, DocumentStatus
+from ..enums import (
+    EventType,
+    CurrencyType,
+    ProjectType,
+    CatType,
+    DocumentStatus,
+    ItemStatus,
+    JobStatus,
+)
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
@@ -194,17 +202,23 @@ class DataItem30:
         )
 
     def set_status(
-        self, status: int, project_type: Union[ProjectType, int], item_id: int
+        self,
+        status: ItemStatus | int,
+        project_type: Union[ProjectType, int],
+        item_id: int,
     ) -> Result:
         """
         Method to set the ItemStatus for the specified item.
 
 
-        :param status: int
+        :param status: ItemStatus | int
         :param project_type: ProjectType
         :param item_id: int
         :return: Result
         """
+
+        if type(status) is not int:
+            status = status.value
 
         proxy = self.__client.plunet_server.DataItem30.setStatus
         response_model = Result
@@ -1499,7 +1513,7 @@ class DataItem30:
         self,
         project_id: int,
         project_type: Union[ProjectType, int],
-        status: int,
+        status: ItemStatus | int,
         document_status: Union[DocumentStatus, int],
         current_type: Union[CurrencyType, int],
     ) -> ItemListResult:
@@ -1513,7 +1527,7 @@ class DataItem30:
 
         :param project_id: int
         :param project_type: ProjectType
-        :param status: int
+        :param status: ItemStatus | int
         :param document_status: DocumentStatus
         :param current_type: CurrencyType
         :return: ItemListResult
@@ -1521,6 +1535,9 @@ class DataItem30:
 
         proxy = self.__client.plunet_server.DataItem30.getItemsByStatus4ByCurrencyType
         response_model = ItemListResult
+
+        if type(status) is not int:
+            status = status.value
 
         if type(project_type) is ProjectType:
             project_type = project_type.value
@@ -1561,7 +1578,7 @@ class DataItem30:
     def get_items_by_status3_by_currency_type(
         self,
         project_type: Union[ProjectType, int],
-        status: int,
+        status: ItemStatus | int,
         document_status: Union[DocumentStatus, int],
         currency_type: Union[CurrencyType, int],
     ) -> ItemListResult:
@@ -1573,7 +1590,7 @@ class DataItem30:
 
 
         :param project_type: ProjectType
-        :param status: int
+        :param status: ItemStatus | int
         :param document_status: DocumentStatus
         :param currency_type: CurrencyType
         :return: ItemListResult
@@ -1581,6 +1598,9 @@ class DataItem30:
 
         proxy = self.__client.plunet_server.DataItem30.getItemsByStatus3ByCurrencyType
         response_model = ItemListResult
+
+        if type(status) is not int:
+            status = status.value
 
         if type(project_type) is ProjectType:
             project_type = project_type.value
@@ -2198,7 +2218,10 @@ class DataItem30:
         )
 
     def get_items_by_status2(
-        self, project_id: int, project_type: Union[ProjectType, int], status: int
+        self,
+        project_id: int,
+        project_type: Union[ProjectType, int],
+        status: ItemStatus | int,
     ) -> ItemListResult:
         """
         Method returns an instance of ItemListResult, which contains a list of item objects for a
@@ -2209,12 +2232,15 @@ class DataItem30:
 
         :param project_id: int
         :param project_type: ProjectType
-        :param status: int
+        :param status: ItemStatus | int
         :return: ItemListResult
         """
 
         proxy = self.__client.plunet_server.DataItem30.getItemsByStatus2
         response_model = ItemListResult
+
+        if type(status) is not int:
+            status = status.value
 
         if type(project_type) is ProjectType:
             project_type = project_type.value
@@ -2233,14 +2259,17 @@ class DataItem30:
         )
 
     def get_jobs_with_status(
-        self, status: int, project_type: Union[ProjectType, int], item_id: int
+        self,
+        status: JobStatus | int,
+        project_type: Union[ProjectType, int],
+        item_id: int,
     ) -> IntegerArrayResult:
         """
         Method returns an instance of IntegerArrayResult, which contains a list of IDs of job, which
         were linked to the currently selected item and have a specific status.
 
 
-        :param status: int
+        :param status: JobStatus | int
         :param project_type: ProjectType
         :param item_id: int
         :return: IntegerArrayResult
@@ -2248,6 +2277,9 @@ class DataItem30:
 
         proxy = self.__client.plunet_server.DataItem30.getJobsWithStatus
         response_model = IntegerArrayResult
+
+        if type(status) is not int:
+            status = status.value
 
         if type(project_type) is ProjectType:
             project_type = project_type.value
@@ -2302,7 +2334,7 @@ class DataItem30:
         )
 
     def get_items_by_status1(
-        self, project_type: Union[ProjectType, int], status: int
+        self, project_type: Union[ProjectType, int], status: ItemStatus | int
     ) -> ItemListResult:
         """
         Method returns an instance of ItemListResult, which contains a list of item objects. Items are
@@ -2310,12 +2342,15 @@ class DataItem30:
 
 
         :param project_type: ProjectType
-        :param status: int
+        :param status: ItemStatus | int
         :return: ItemListResult
         """
 
         proxy = self.__client.plunet_server.DataItem30.getItemsByStatus1
         response_model = ItemListResult
+
+        if type(status) is not int:
+            status = status.value
 
         if type(project_type) is ProjectType:
             project_type = project_type.value
@@ -2368,7 +2403,7 @@ class DataItem30:
         self,
         project_id: int,
         project_type: Union[ProjectType, int],
-        status: int,
+        status: ItemStatus | int,
         document_status: Union[DocumentStatus, int],
     ) -> ItemListResult:
         """
@@ -2380,13 +2415,16 @@ class DataItem30:
 
         :param project_id: int
         :param project_type: ProjectType
-        :param status: int
+        :param status: ItemStatus | int
         :param document_status: DocumentStatus
         :return: ItemListResult
         """
 
         proxy = self.__client.plunet_server.DataItem30.getItemsByStatus4
         response_model = ItemListResult
+
+        if type(status) is not int:
+            status = status.value
 
         if type(project_type) is ProjectType:
             project_type = project_type.value
@@ -2419,7 +2457,7 @@ class DataItem30:
     def get_items_by_status3(
         self,
         project_type: Union[ProjectType, int],
-        status: int,
+        status: ItemStatus | int,
         document_status: Union[DocumentStatus, int],
     ) -> ItemListResult:
         """
@@ -2429,13 +2467,16 @@ class DataItem30:
 
 
         :param project_type: ProjectType
-        :param status: int
+        :param status: ItemStatus | int
         :param document_status: DocumentStatus
         :return: ItemListResult
         """
 
         proxy = self.__client.plunet_server.DataItem30.getItemsByStatus3
         response_model = ItemListResult
+
+        if type(status) is not int:
+            status = status.value
 
         if type(project_type) is ProjectType:
             project_type = project_type.value

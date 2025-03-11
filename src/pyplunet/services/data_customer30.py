@@ -22,7 +22,7 @@ from ..models import (
 )
 
 
-from ..enums import EventType
+from ..enums import EventType, CustomerStatus
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
@@ -174,18 +174,21 @@ class DataCustomer30:
             unpack_dict=False,
         )
 
-    def set_status(self, status: int, customer_id: int) -> Result:
+    def set_status(self, status: CustomerStatus | int, customer_id: int) -> Result:
         """
         Method to set the CustomerStatus. Returns an instance of Result.
 
 
-        :param status: int
+        :param status: CustomerStatus | int
         :param customer_id: int
         :return: Result
         """
 
         proxy = self.__client.plunet_server.DataCustomer30.setStatus
         response_model = Result
+
+        if type(status) is not int:
+            status = status.value
 
         arg = {"Status": status, "customerID": customer_id}
 
@@ -216,18 +219,23 @@ class DataCustomer30:
             unpack_dict=False,
         )
 
-    def get_all_customer_objects(self, status: int) -> CustomerListResult:
+    def get_all_customer_objects(
+        self, status: CustomerStatus | int
+    ) -> CustomerListResult:
         """
         Returns an instance of CustomerListResult, which contains a list of
         customers, which are filtered by the CustomerStatus.
 
 
-        :param status: int
+        :param status: CustomerStatus | int
         :return: CustomerListResult
         """
 
         proxy = self.__client.plunet_server.DataCustomer30.getAllCustomerObjects
         response_model = CustomerListResult
+
+        if type(status) is not int:
+            status = status.value
 
         return self.__client.make_request(
             operation_proxy=proxy,

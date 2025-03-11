@@ -21,7 +21,7 @@ from ..models import (
 )
 
 
-from ..enums import CurrencyType, TaxType
+from ..enums import CurrencyType, TaxType, CreditNoteStatus
 
 if TYPE_CHECKING:
     from ..client import PlunetClient
@@ -78,18 +78,21 @@ class DataCreditNote30:
             unpack_dict=False,
         )
 
-    def set_status(self, status: int, credit_note_id: int) -> Result:
+    def set_status(self, status: CreditNoteStatus | int, credit_note_id: int) -> Result:
         """
         Defines the CreditNoteStatus.
 
 
-        :param status: int
+        :param status: CreditNoteStatus | int
         :param credit_note_id: int
         :return: Result
         """
 
         proxy = self.__client.plunet_server.DataCreditNote30.setStatus
         response_model = Result
+
+        if type(status) is not int:
+            status = status.value
 
         arg = {"Status": status, "creditNoteID": credit_note_id}
 
