@@ -137,11 +137,11 @@ class Textmodule(BaseModel):
         DataCustomFields30
     """
 
-    availableValues: Optional[List[str]] = None
+    availableValues: Optional[List[str | None]] = None
     dateValue: Optional[datetime] = None
     flag: Optional[str] = None
     flag_MainTextModule: Optional[str] = None
-    selectedValues: Optional[List[str]] = None
+    selectedValues: Optional[List[str | None]] = None
     stringValue: Optional[str] = None
     textModuleLabel: Optional[str] = None
     textModuleType: TextModuleType
@@ -240,12 +240,12 @@ class Property(BaseModel):
         DataCustomFields30
     """
 
-    avaliablePropertyValueIDList: Optional[List[int]] = None
+    avaliablePropertyValueIDList: Optional[List[int | None]] = None
     mainPropertyNameEnglish: Optional[str] = None
     propertyNameEnglish: Optional[str] = None
     propertyType: PropertyType
     selectedPropertyValueID: int
-    selectedPropertyValueList: Optional[List[int]] = None
+    selectedPropertyValueList: Optional[List[int | None]] = None
 
 
 class PricelistEntry(BaseModel):
